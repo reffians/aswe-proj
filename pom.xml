@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.reffians</groupId>
-	<artifactId>C2</artifactId>
+	<artifactId>c2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>C2</name>
 	<description>C2 Project</description>
