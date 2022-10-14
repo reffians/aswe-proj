@@ -7,7 +7,6 @@
 MYSQL_HOST=mysql
 MYSQL_USER=root
 MYSQL_PASSWORD=secret
-MYSQL_DB=appdb
 MYSQL_ROOT_PASSWORD=secret
 MYSQL_DATABASE=appdb
 ```
