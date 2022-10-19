@@ -14,9 +14,9 @@ services:
 
     environment:
       - MYSQL_HOST
+      - MYSQL_DATABASE
       - MYSQL_USER
       - MYSQL_PASSWORD
-      - MYSQL_DATABASE
 
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally. 
     # (Adding the "ports" property to this file will not forward from a Codespace.)
@@ -29,6 +29,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD
       - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
 
     # Add "forwardPorts": ["27017"] to **devcontainer.json** to forward MongoDB locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
