@@ -16,10 +16,31 @@ public class C2ControllerTest {
   private MockMvc mockMvc;
 
   @Test
-  public void testGetCommandBeacon() throws Exception {
+  public void testGetCommandBeaconValidBeaconIDNoStatus() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+    .queryParam("beaconid", "123456789"))
+    .andExpect(status().isOk());
+  }
+
+  @Test
+  public void testGetCommandBeaconValidBeaconIDValidStatus() throws Exception {
     mockMvc.perform(get("/beacon/command")
     .queryParam("beaconid", "123456789")
-    .queryParam("all", "false"))
+    .queryParam("status", "pending"))
     .andExpect(status().isOk());
+  }
+
+  @Test
+  public void testGetCommandBeaconValidBeaconIDInvalidStatus() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+    .queryParam("beaconid", "123456789")
+    .queryParam("status", "foo"))
+    .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconNoParams() throws Exception {
+    mockMvc.perform(get("/beacon/command"))
+    .andExpect(status().isBadRequest());
   }
 }
