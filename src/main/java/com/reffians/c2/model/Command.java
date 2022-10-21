@@ -1,16 +1,15 @@
 package com.reffians.c2.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 import org.apache.commons.lang3.EnumUtils;
 
-import lombok.Getter;
-
+/** Command Data Model. **/
 @Entity
 @Table(name = "command")
 public class Command {
@@ -29,9 +28,16 @@ public class Command {
 
   @JsonProperty("status")
   private String status;
-  
-  public static enum Status {pending, sent, executed, finished};
+ 
+  /** Valid Command Status. **/
+  public static enum Status {
+    pending,
+    sent,
+    executed,
+    finished;
+  }
 
+  /** Command model. **/
   public Command(Integer beaconid, String content) {
     this.id = null;
     this.beaconid = beaconid;

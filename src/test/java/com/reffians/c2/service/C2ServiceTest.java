@@ -1,10 +1,11 @@
 package com.reffians.c2.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import java.io.IOException;
-import java.lang.module.ResolutionException;
+import com.reffians.c2.model.Command;
+import com.reffians.c2.model.Command.Status;
+import com.reffians.c2.repository.CommandRepository;
+
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -14,10 +15,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.reffians.c2.model.Command;
-import com.reffians.c2.model.Command.Status;
-import com.reffians.c2.repository.CommandRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class C2ServiceTest {
@@ -42,7 +39,8 @@ public class C2ServiceTest {
     int beaconid = 0;
     Command command = new Command(beaconid, "foo");
     List<Command> commands = List.of(command);
-    Mockito.when(commandRepository.findByBeaconidStatus(beaconid, Status.pending.name())).thenReturn(commands);
+    Mockito.when(commandRepository.findByBeaconidStatus(beaconid, Status.pending.name()))
+      .thenReturn(commands);
     assertEquals(commands, c2Service.getCommands(beaconid, Status.pending));
   }
 }
