@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,14 +28,24 @@ public class C2Controller {
       @RequestParam Optional<String> status) {
     logger.info("GET new commands from beacon with beaconid: {}, status: {}",
         beaconid, status.orElse("NULL"));
+
     if (!status.isPresent()) {
-      return new ResponseEntity<>(c2Service.getCommands(beaconid), HttpStatus.OK);
+      return responseOK(c2Service.getCommands(beaconid));
     }
+
     if (!Command.isValidStatus(status.get())) {
       logger.info("GET new commands from beacon with invalid status {}", status);
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      return responseBadRequest();
     }
-    return new ResponseEntity<>(
-      c2Service.getCommands(beaconid, Status.valueOf(status.get())), HttpStatus.OK);
+
+    return responseOK(c2Service.getCommands(beaconid, Status.valueOf(status.get())));
+  }
+
+  private static <T> ResponseEntity<?> responseOK(@Nullable T body) {
+    return new ResponseEntity<>(body, HttpStatus.OK);
+  }
+
+  private static <T> ResponseEntity<?> responseBadRequest() {
+    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
   }
 }
