@@ -30,42 +30,42 @@ public class CommandTest {
   }
 
   @Test
-  public void testGetBeaconidBeaconidNegativeContentNotEmpty() {
+  public void testGetBeaconidBeaconidNegContentNotEmpty() {
     int beaconid = -10;
     Command command = new Command(beaconid, "foo");
     assertEquals(beaconid, command.getBeaconid());
   }
 
   @Test
-  public void testGetBeaconidBeaconidNegativeContentEmpty() {
+  public void testGetBeaconidBeaconidNegContentEmpty() {
     int beaconid = -10;
     Command command = new Command(beaconid, "");
     assertEquals(beaconid, command.getBeaconid());
   }
 
   @Test
-  public void testGetBeaconidBeaconidNegativeContentNull() {
+  public void testGetBeaconidBeaconidNegContentNull() {
     int beaconid = -10;
     Command command = new Command(beaconid, null);
     assertEquals(beaconid, command.getBeaconid());
   }
 
   @Test
-  public void testGetBeaconidBeaconidPositiveContentNotEmpty() {
+  public void testGetBeaconidBeaconidPosContentNotEmpty() {
     int beaconid = 5;
     Command command = new Command(beaconid, "foo");
     assertEquals(beaconid, command.getBeaconid());
   }
 
   @Test
-  public void testGetBeaconidBeaconidPositiveContentEmpty() {
+  public void testGetBeaconidBeaconidPosContentEmpty() {
     int beaconid = 5;
     Command command = new Command(beaconid, "");
     assertEquals(beaconid, command.getBeaconid());
   }
 
   @Test
-  public void testGetBeaconidBeaconidPositiveContentNull() {
+  public void testGetBeaconidBeaconidPosContentNull() {
     int beaconid = 5;
     Command command = new Command(beaconid, null);
     assertEquals(beaconid, command.getBeaconid());
@@ -93,42 +93,42 @@ public class CommandTest {
   }
 
   @Test
-  public void testGetBeaconidBeaconidMaxPositiveContentNonEmpty() {
+  public void testGetBeaconidBeaconidMaxPosContentNonEmpty() {
     String content = "foo";
     Command command = new Command(Integer.MAX_VALUE, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetBeaconidBeaconidMaxPositiveContentEmpty() {
+  public void testGetBeaconidBeaconidMaxPosContentEmpty() {
     String content = "";
     Command command = new Command(Integer.MAX_VALUE, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetBeaconidBeaconidMaxPositiveContentNull() {
+  public void testGetBeaconidBeaconidMaxPosContentNull() {
     String content = null;
     Command command = new Command(Integer.MAX_VALUE, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetBeaconidBeaconidMinNegativeContentNonEmpty() {
+  public void testGetBeaconidBeaconidMinNegContentNonEmpty() {
     String content = "foo";
     Command command = new Command(Integer.MIN_VALUE, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetBeaconidBeaconidMinNegativeContentEmpty() {
+  public void testGetBeaconidBeaconidMinNegContentEmpty() {
     String content = "";
     Command command = new Command(Integer.MIN_VALUE, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetBeaconidBeaconidMinNegativeContentNull() {
+  public void testGetBeaconidBeaconidMinNegContentNull() {
     String content = null;
     Command command = new Command(Integer.MIN_VALUE, content);
     assertEquals(content, command.getContent());
@@ -157,42 +157,42 @@ public class CommandTest {
   }
 
   @Test
-  public void testGetContentBeaconidNegativeContentNonEmpty() {
+  public void testGetContentBeaconidNegContentNonEmpty() {
     String content = "foo";
     Command command = new Command(-5, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetContentBeaconidNegativeContentEmpty() {
+  public void testGetContentBeaconidNegContentEmpty() {
     String content = "";
     Command command = new Command(-5, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetContentBeaconidNegativeContentNull() {
+  public void testGetContentBeaconidNegContentNull() {
     String content = null;
     Command command = new Command(-5, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetContentBeaconidPositiveContentNonEmpty() {
+  public void testGetContentBeaconidPosContentNonEmpty() {
     String content = "foo";
     Command command = new Command(5, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetContentBeaconidPositiveContentEmpty() {
+  public void testGetContentBeaconidPosContentEmpty() {
     String content = "";
     Command command = new Command(5, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetContentBeaconidPositiveContentNull() {
+  public void testGetContentBeaconidPosContentNull() {
     String content = null;
     Command command = new Command(5, content);
     assertEquals(content, command.getContent());
@@ -220,42 +220,42 @@ public class CommandTest {
   }
 
   @Test
-  public void testGetContentBeaconidMaxPositiveContentNonEmpty() {
+  public void testGetContentBeaconidMaxPosContentNonEmpty() {
     String content = "foo";
     Command command = new Command(Integer.MAX_VALUE, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetContentBeaconidMaxPositiveContentEmpty() {
+  public void testGetContentBeaconidMaxPosContentEmpty() {
     String content = "";
     Command command = new Command(Integer.MAX_VALUE, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetContentBeaconidMaxPositiveContentNull() {
+  public void testGetContentBeaconidMaxPosContentNull() {
     String content = null;
     Command command = new Command(Integer.MAX_VALUE, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetContentBeaconidMinNegativeContentNonEmpty() {
+  public void testGetContentBeaconidMinNegContentNonEmpty() {
     String content = "foo";
     Command command = new Command(Integer.MIN_VALUE, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetContentBeaconidMinNegativeContentEmpty() {
+  public void testGetContentBeaconidMinNegContentEmpty() {
     String content = "";
     Command command = new Command(Integer.MIN_VALUE, content);
     assertEquals(content, command.getContent());
   }
 
   @Test
-  public void testGetContentBeaconidMinNegativeContentNull() {
+  public void testGetContentBeaconidMinNegContentNull() {
     String content = null;
     Command command = new Command(Integer.MIN_VALUE, content);
     assertEquals(content, command.getContent());
@@ -274,25 +274,25 @@ public class CommandTest {
   }
 
   @Test
-  public void testNewCommandStatusBeaconidPositiveContentNotEmpty() {
+  public void testNewCommandStatusBeaconidPosContentNotEmpty() {
     Command command = new Command(5, "foo");
     assertEquals(Status.pending, command.getStatus());
   }
 
   @Test
-  public void testNewCommandStatusBeaconidNegativeContentNotEmpty() {
+  public void testNewCommandStatusBeaconidNegContentNotEmpty() {
     Command command = new Command(-5, "foo");
     assertEquals(Status.pending, command.getStatus());
   }
 
   @Test
-  public void testNewCommandStatusBeaconidMaxPositiveContentNotEmpty() {
+  public void testNewCommandStatusBeaconidMaxPosContentNotEmpty() {
     Command command = new Command(Integer.MAX_VALUE, "foo");
     assertEquals(Status.pending, command.getStatus());
   }
 
   @Test
-  public void testNewCommandStatusBeaconidMinNegativeContentNotEmpty() {
+  public void testNewCommandStatusBeaconidMinNegContentNotEmpty() {
     Command command = new Command(Integer.MIN_VALUE, "foo");
     assertEquals(Status.pending, command.getStatus());
   }
@@ -310,25 +310,25 @@ public class CommandTest {
   }
 
   @Test
-  public void testNewCommandStatusBeaconidPositiveContentEmpty() {
+  public void testNewCommandStatusBeaconidPosContentEmpty() {
     Command command = new Command(5, "");
     assertEquals(Status.pending, command.getStatus());
   }
 
   @Test
-  public void testNewCommandStatusBeaconidNegativeContentEmpty() {
+  public void testNewCommandStatusBeaconidNegContentEmpty() {
     Command command = new Command(-5, "");
     assertEquals(Status.pending, command.getStatus());
   }
 
   @Test
-  public void testNewCommandStatusBeaconidMaxPositiveContentEmpty() {
+  public void testNewCommandStatusBeaconidMaxPosContentEmpty() {
     Command command = new Command(Integer.MAX_VALUE, "");
     assertEquals(Status.pending, command.getStatus());
   }
 
   @Test
-  public void testNewCommandStatusBeaconidMinNegativeContentEmpty() {
+  public void testNewCommandStatusBeaconidMinNegContentEmpty() {
     Command command = new Command(Integer.MIN_VALUE, "");
     assertEquals(Status.pending, command.getStatus());
   }
@@ -346,25 +346,25 @@ public class CommandTest {
   }
 
   @Test
-  public void testNewCommandStatusBeaconidPositiveContentNull() {
+  public void testNewCommandStatusBeaconidPosContentNull() {
     Command command = new Command(5, "");
     assertEquals(Status.pending, command.getStatus());
   }
 
   @Test
-  public void testNewCommandStatusBeaconidNegativeContentNull() {
+  public void testNewCommandStatusBeaconidNegContentNull() {
     Command command = new Command(-5, "");
     assertEquals(Status.pending, command.getStatus());
   }
 
   @Test
-  public void testNewCommandStatusBeaconidMaxPositiveContentNull() {
+  public void testNewCommandStatusBeaconidMaxPosContentNull() {
     Command command = new Command(Integer.MAX_VALUE, "");
     assertEquals(Status.pending, command.getStatus());
   }
 
   @Test
-  public void testNewCommandStatusBeaconidMinNegativeContentNull() {
+  public void testNewCommandStatusBeaconidMinNegContentNull() {
     Command command = new Command(Integer.MIN_VALUE, "");
     assertEquals(Status.pending, command.getStatus());
   }
@@ -384,28 +384,28 @@ public class CommandTest {
   }
 
   @Test
-  public void testSetStatusBeaconidPositiveContentNotEmpty() {
+  public void testSetStatusBeaconidPosContentNotEmpty() {
     Command command = new Command(5, "foo");
     command.setStatus(Status.sent);
     assertEquals(Status.sent, command.getStatus());
   }
 
   @Test
-  public void testSetStatusBeaconidNegativeContentNotEmpty() {
+  public void testSetStatusBeaconidNegContentNotEmpty() {
     Command command = new Command(-5, "foo");
     command.setStatus(Status.sent);
     assertEquals(Status.sent, command.getStatus());
   }
 
   @Test
-  public void testSetStatusBeaconidMaxPositiveContentNotEmpty() {
+  public void testSetStatusBeaconidMaxPosContentNotEmpty() {
     Command command = new Command(Integer.MAX_VALUE, "foo");
     command.setStatus(Status.sent);
     assertEquals(Status.sent, command.getStatus());
   }
 
   @Test
-  public void testSetStatusBeaconidMinNegativeContentNotEmpty() {
+  public void testSetStatusBeaconidMinNegContentNotEmpty() {
     Command command = new Command(Integer.MIN_VALUE, "foo");
     command.setStatus(Status.sent);
     assertEquals(Status.sent, command.getStatus());
@@ -426,28 +426,28 @@ public class CommandTest {
   }
 
   @Test
-  public void testSetStatusBeaconidPositiveContentEmpty() {
+  public void testSetStatusBeaconidPosContentEmpty() {
     Command command = new Command(5, "");
     command.setStatus(Status.sent);
     assertEquals(Status.sent, command.getStatus());
   }
 
   @Test
-  public void testSetStatusBeaconidNegativeContentEmpty() {
+  public void testSetStatusBeaconidNegContentEmpty() {
     Command command = new Command(-5, "");
     command.setStatus(Status.sent);
     assertEquals(Status.sent, command.getStatus());
   }
 
   @Test
-  public void testSetStatusBeaconidMaxPositiveContentEmpty() {
+  public void testSetStatusBeaconidMaxPosContentEmpty() {
     Command command = new Command(Integer.MAX_VALUE, "");
     command.setStatus(Status.sent);
     assertEquals(Status.sent, command.getStatus());
   }
 
   @Test
-  public void testSetStatusBeaconidMinNegativeContentEmpty() {
+  public void testSetStatusBeaconidMinNegContentEmpty() {
     Command command = new Command(Integer.MIN_VALUE, "");
     command.setStatus(Status.sent);
     assertEquals(Status.sent, command.getStatus());
@@ -468,28 +468,28 @@ public class CommandTest {
   }
 
   @Test
-  public void testSetStatusBeaconidPositiveContentNull() {
+  public void testSetStatusBeaconidPosContentNull() {
     Command command = new Command(5, "");
     command.setStatus(Status.sent);
     assertEquals(Status.sent, command.getStatus());
   }
 
   @Test
-  public void testSetStatusBeaconidNegativeContentNull() {
+  public void testSetStatusBeaconidNegContentNull() {
     Command command = new Command(-5, "");
     command.setStatus(Status.sent);
     assertEquals(Status.sent, command.getStatus());
   }
 
   @Test
-  public void testSetStatusBeaconidMaxPositiveContentNull() {
+  public void testSetStatusBeaconidMaxPosContentNull() {
     Command command = new Command(Integer.MAX_VALUE, "");
     command.setStatus(Status.sent);
     assertEquals(Status.sent, command.getStatus());
   }
 
   @Test
-  public void testSetStatusBeaconidMinNegativeContentNull() {
+  public void testSetStatusBeaconidMinNegContentNull() {
     Command command = new Command(Integer.MIN_VALUE, "");
     command.setStatus(Status.sent);
     assertEquals(Status.sent, command.getStatus());

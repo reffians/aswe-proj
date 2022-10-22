@@ -29,18 +29,13 @@ public class C2Controller {
     logger.info("GET new commands from beacon with beaconid: {}, status: {}",
         beaconid, status.orElse("NULL"));
 
-    if (beaconid == null) {
-      logger.info("GET new commands from beacon with null beaconid.");
-      return responseBadRequest();
-    }
-
     if (beaconid < 0) {
       logger.info("GET new commands from beacon with negative beaconid.");
       return responseBadRequest();
     }
 
     if (!status.isPresent()) {
-      return responseOK(c2Service.getCommands(beaconid));
+      return responseOk(c2Service.getCommands(beaconid));
     }
 
     if (!Command.isValidStatus(status.get())) {
@@ -48,10 +43,10 @@ public class C2Controller {
       return responseBadRequest();
     }
 
-    return responseOK(c2Service.getCommands(beaconid, Status.valueOf(status.get())));
+    return responseOk(c2Service.getCommands(beaconid, Status.valueOf(status.get())));
   }
 
-  private static <T> ResponseEntity<?> responseOK(@Nullable T body) {
+  private static <T> ResponseEntity<?> responseOk(@Nullable T body) {
     return new ResponseEntity<>(body, HttpStatus.OK);
   }
 
