@@ -3,6 +3,8 @@ package com.reffians.c2.service;
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.repository.CommandRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,12 +29,16 @@ public class C2Service {
     return commands;
   }
 
-  private void updateCommandStatus(List<Command> commands, Status oldStatus, Status newStatus) {
+  /** Update the status of a list of commands, returns updated commands. **/
+  public List<Command> updateCommandStatus(List<Command> commands, Status oldStatus,
+      Status newStatus) {
+    ArrayList<Command> updatedCommands = new ArrayList<Command>();
     for (Command command : commands) {
       if (command.getStatus() == oldStatus) {
         command.setStatus(newStatus);
-        commandRepository.save(command);
+        updatedCommands.add(commandRepository.save(command));
       }
     }
+    return updatedCommands;
   }
 }
