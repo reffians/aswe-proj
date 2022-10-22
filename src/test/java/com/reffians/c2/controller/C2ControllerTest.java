@@ -17,14 +17,14 @@ public class C2ControllerTest {
   private MockMvc mockMvc;
 
   @Test
-  public void testGetCommandBeaconBeaconidPositiveNoStatus() throws Exception {
+  public void testGetCommandBeaconBeaconidPosNoStatus() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", "5"))
         .andExpect(status().isOk());
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidPositiveStatusNonEmptyValid() throws Exception {
+  public void testGetCommandBeaconBeaconidPosStatusNonEmptyValid() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", "5")
         .queryParam("status", "pending"))
@@ -32,7 +32,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidPositiveStatusEmptyInvalid() throws Exception {
+  public void testGetCommandBeaconBeaconidPosStatusEmptyInvalid() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", "5")
         .queryParam("status", ""))
@@ -40,7 +40,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconValidBeaconidStatusNonEmptyInvalid() throws Exception {
+  public void testGetCommandBeaconBeaconidPosStatusNonEmptyInvalid() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", "5")
         .queryParam("status", "foo"))
@@ -71,7 +71,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconValidBeaconidZeroStatusNonEmptyInvalid() throws Exception {
+  public void testGetCommandBeaconBeaconidZeroStatusNonEmptyInvalid() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", "0")
         .queryParam("status", "foo"))
@@ -79,14 +79,14 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidNegativeNoStatus() throws Exception {
+  public void testGetCommandBeaconBeaconidNegNoStatus() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", "-5"))
         .andExpect(status().isBadRequest());
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidNegativeStatusNonEmptyValid() throws Exception {
+  public void testGetCommandBeaconBeaconidNegStatusNonEmptyValid() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", "-5")
         .queryParam("status", "pending"))
@@ -94,7 +94,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidNegativeStatusEmptyInvalid() throws Exception {
+  public void testGetCommandBeaconBeaconidNegStatusEmptyInvalid() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", "-5")
         .queryParam("status", ""))
@@ -102,7 +102,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconValidBeaconidNegativeStatusNonEmptyInvalid() throws Exception {
+  public void testGetCommandBeaconBeaconidNegStatusNonEmptyInvalid() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", "-5")
         .queryParam("status", "foo"))
@@ -133,7 +133,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconValidBeaconidEmptyStatusNonEmptyInvalid() throws Exception {
+  public void testGetCommandBeaconBeaconidEmptyStatusNonEmptyInvalid() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", "")
         .queryParam("status", "foo"))
@@ -141,14 +141,14 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidMaxPositiveNoStatus() throws Exception {
+  public void testGetCommandBeaconBeaconidMaxPosNoStatus() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", Integer.toString(Integer.MAX_VALUE)))
         .andExpect(status().isOk());
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidMaxPositiveStatusNonEmptyValid() throws Exception {
+  public void testGetCommandBeaconBeaconidMaxPosStatusNonEmptyValid() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", Integer.toString(Integer.MAX_VALUE))
         .queryParam("status", "pending"))
@@ -156,7 +156,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidMaxPositiveStatusEmptyInvalid() throws Exception {
+  public void testGetCommandBeaconBeaconidMaxPosStatusEmptyInvalid() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", Integer.toString(Integer.MAX_VALUE))
         .queryParam("status", ""))
@@ -164,7 +164,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconValidBeaconidMaxPositiveStatusNonEmptyInvalid() throws Exception {
+  public void testGetCommandBeaconBeaconidMaxPosStatusNonEmptyInvalid() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", Integer.toString(Integer.MAX_VALUE))
         .queryParam("status", "foo"))
@@ -172,14 +172,14 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidMinNegativeNoStatus() throws Exception {
+  public void testGetCommandBeaconBeaconidMinNegNoStatus() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", Integer.toString(Integer.MIN_VALUE)))
         .andExpect(status().isBadRequest());
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidMinNegativeStatusNonEmptyValid() throws Exception {
+  public void testGetCommandBeaconBeaconidMinNegStatusNonEmptyValid() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", Integer.toString(Integer.MIN_VALUE))
         .queryParam("status", "pending"))
@@ -187,7 +187,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidMinNegativeStatusEmptyInvalid() throws Exception {
+  public void testGetCommandBeaconBeaconidMinNegStatusEmptyInvalid() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", Integer.toString(Integer.MIN_VALUE))
         .queryParam("status", ""))
@@ -195,7 +195,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconValidBeaconidMinNegativeStatusNonEmptyInvalid() throws Exception {
+  public void testGetCommandBeaconBeaconidMinNegStatusNonEmptyInvalid() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("beaconid", Integer.toString(Integer.MIN_VALUE))
         .queryParam("status", "foo"))
@@ -203,7 +203,100 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidPositiveStatusNonEmptyValidOutOfOrder() throws Exception {
+  public void testGetCommandBeaconBeaconidAlphNoStatus() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "abcd"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphStatusNonEmptyValid() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "abcd")
+        .queryParam("status", "pending"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphStatusEmptyInvalid() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "abcd")
+        .queryParam("status", ""))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphStatusNonEmptyInvalid() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "abcd")
+        .queryParam("status", "foo"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphNumNoStatus() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "123abcd"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphNumStatusNonEmptyValid() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "123abcd")
+        .queryParam("status", "pending"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphNumStatusEmptyInvalid() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "123abcd")
+        .queryParam("status", ""))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphNumStatusNonEmptyInvalid() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "123abcd")
+        .queryParam("status", "foo"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidHexNoStatus() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "0xdeadbeef"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidHexStatusNonEmptyValid() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "0xdeadbeef")
+        .queryParam("status", "pending"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidHexStatusEmptyInvalid() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "0xdeadbeef")
+        .queryParam("status", ""))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidHexStatusNonEmptyInvalid() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "0xdeadbeef")
+        .queryParam("status", "foo"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidPosStatusNonEmptyValidOutOfOrder() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("status", "pending")
         .queryParam("beaconid", "5"))
@@ -211,7 +304,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidPositiveStatusEmptyInvalidOutOfOrder() throws Exception {
+  public void testGetCommandBeaconBeaconidPosStatusEmptyInvalidOutOfOrder() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("status", "")
         .queryParam("beaconid", "5"))
@@ -219,7 +312,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconValidBeaconidStatusNonEmptyInvalidOutOfOrder() throws Exception {
+  public void testGetCommandBeaconBeaconidStatusNonEmptyInvalidOutOfOrder() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("status", "foo")
         .queryParam("beaconid", "5"))
@@ -243,7 +336,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconValidBeaconidZeroStatusNonEmptyInvalidOutOfOrder() throws Exception {
+  public void testGetCommandBeaconBeaconidZeroStatusNonEmptyInvalidOutOfOrder() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("status", "foo")
         .queryParam("beaconid", "0"))
@@ -251,7 +344,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidNegativeStatusNonEmptyValidOutOfOrder() throws Exception {
+  public void testGetCommandBeaconBeaconidNegStatusNonEmptyValidOutOfOrder() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("status", "pending")
         .queryParam("beaconid", "-5"))
@@ -259,7 +352,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidNegativeStatusEmptyInvalidOutOfOrder() throws Exception {
+  public void testGetCommandBeaconBeaconidNegStatusEmptyInvalidOutOfOrder() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("status", "")
         .queryParam("beaconid", "-5"))
@@ -267,7 +360,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconValidBeaconidNegativeStatusNonEmptyInvalidOutOfOrder() throws Exception {
+  public void testGetCommandBeaconBeaconidNegStatusNonEmptyInvalidOutOfOrder() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("status", "foo")
         .queryParam("beaconid", "-5"))
@@ -291,7 +384,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconValidBeaconidEmptyStatusNonEmptyInvalidOutOfOrder() throws Exception {
+  public void testGetCommandBeaconBeaconidEmptyStatusNonEmptyInvalidOutOfOrder() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("status", "foo")
         .queryParam("beaconid", ""))
@@ -299,7 +392,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidMaxPositiveStatusNonEmptyValidOutOfOrder() throws Exception {
+  public void testGetCommandBeaconBeaconidMaxPosStatusNonEmptyValidOutOfOrder() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("status", "pending")
         .queryParam("beaconid", Integer.toString(Integer.MAX_VALUE)))
@@ -307,7 +400,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidMaxPositiveStatusEmptyInvalidOutOfOrder() throws Exception {
+  public void testGetCommandBeaconBeaconidMaxPosStatusEmptyInvalidOutOfOrder() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("status", "")
         .queryParam("beaconid", Integer.toString(Integer.MAX_VALUE)))
@@ -315,7 +408,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconValidBeaconidMaxPositiveStatusNonEmptyInvalidOutOfOrder() throws Exception {
+  public void testGetCommandBeaconBeaconidMaxPosStatusNonEmptyInvalidOutOfOrder() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("status", "foo")
         .queryParam("beaconid", Integer.toString(Integer.MAX_VALUE)))
@@ -323,7 +416,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidMinNegativeStatusNonEmptyValidOutOfOrder() throws Exception {
+  public void testGetCommandBeaconBeaconidMinNegStatusNonEmptyValidOutOfOrder() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("status", "pending")
         .queryParam("beaconid", Integer.toString(Integer.MIN_VALUE)))
@@ -331,7 +424,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconBeaconidMinNegativeStatusEmptyInvalidOutOfOrder() throws Exception {
+  public void testGetCommandBeaconBeaconidMinNegStatusEmptyInvalidOutOfOrder() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("status", "")
         .queryParam("beaconid", Integer.toString(Integer.MIN_VALUE)))
@@ -339,10 +432,103 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testGetCommandBeaconValidBeaconidMinNegativeStatusNonEmptyInvalidOutOfOrder() throws Exception {
+  public void testGetCommandBeaconBeaconidMinNegStatusNonEmptyInvalidOutOfOrder() throws Exception {
     mockMvc.perform(get("/beacon/command")
         .queryParam("status", "foo")
         .queryParam("beaconid", Integer.toString(Integer.MIN_VALUE)))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphNoStatusOutOfOrder() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "abcd"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphStatusNonEmptyValidOutOfOrder() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "abcd")
+        .queryParam("status", "pending"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphStatusEmptyInvalidOutOfOrder() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "abcd")
+        .queryParam("status", ""))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphStatusNonEmptyInvalidOutOfOrder() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "abcd")
+        .queryParam("status", "foo"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphNumNoStatusOutOfOrder() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "123abcd"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphNumStatusNonEmptyValidOutOfOrder() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "123abcd")
+        .queryParam("status", "pending"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphNumStatusEmptyInvalidOutOfOrder() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "123abcd")
+        .queryParam("status", ""))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidAlphNumStatusNEmptyInvalidOutOfOrder() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "123abcd")
+        .queryParam("status", "foo"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidHexNoStatusOutOfOrder() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "0xdeadbeef"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidHexStatusNonEmptyValidOutOfOrder() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "0xdeadbeef")
+        .queryParam("status", "pending"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidHexStatusEmptyInvalidOutOfOrder() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "0xdeadbeef")
+        .queryParam("status", ""))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconBeaconidHexStatusNonEmptyInvalidOutOfOrder() throws Exception {
+    mockMvc.perform(get("/beacon/command")
+        .queryParam("beaconid", "0xdeadbeef")
+        .queryParam("status", "foo"))
         .andExpect(status().isBadRequest());
   }
 
