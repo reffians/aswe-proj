@@ -26,11 +26,11 @@ public class C2Controller {
   @GetMapping("/beacon/command")
   public ResponseEntity<?> getCommandBeacon(@RequestParam Integer beaconid,
       @RequestParam Optional<String> status) {
-    logger.info("GET new commands from beacon with beaconid: {}, status: {}",
+    logger.info("GET commands from beacon with beaconid: {}, status: {}",
         beaconid, status.orElse("NULL"));
 
     if (beaconid < 0) {
-      logger.info("GET new commands from beacon with negative beaconid.");
+      logger.info("GET commands from beacon with negative beaconid: {}", beaconid);
       return responseBadRequest();
     }
 
@@ -39,7 +39,7 @@ public class C2Controller {
     }
 
     if (!Command.isValidStatus(status.get())) {
-      logger.info("GET new commands from beacon with invalid status {}", status);
+      logger.info("GET commands from beacon with invalid status: {}", status);
       return responseBadRequest();
     }
 
