@@ -1,5 +1,7 @@
 package com.reffians.c2.model;
 
+import static org.apache.commons.lang3.EnumUtils.isValidEnum;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Getter;
-import org.apache.commons.lang3.EnumUtils;
 
 /** Command Data Model. **/
 @Entity
@@ -37,7 +38,7 @@ public class Command {
     finished;
   }
 
-  /** Command model. **/
+  /** Command Constructor. **/
   public Command(Integer beaconid, String content) {
     this.id = null;
     this.beaconid = beaconid;
@@ -46,7 +47,7 @@ public class Command {
   }
 
   public static boolean isValidStatus(String status) {
-    return EnumUtils.isValidEnum(Status.class, status);
+    return isValidEnum(Status.class, status);
   }
 
   public Status getStatus() {

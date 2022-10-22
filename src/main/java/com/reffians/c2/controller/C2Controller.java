@@ -29,6 +29,16 @@ public class C2Controller {
     logger.info("GET new commands from beacon with beaconid: {}, status: {}",
         beaconid, status.orElse("NULL"));
 
+    if (beaconid == null) {
+      logger.info("GET new commands from beacon with null beaconid.");
+      return responseBadRequest();
+    }
+
+    if (beaconid < 0) {
+      logger.info("GET new commands from beacon with negative beaconid.");
+      return responseBadRequest();
+    }
+
     if (!status.isPresent()) {
       return responseOK(c2Service.getCommands(beaconid));
     }
