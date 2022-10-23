@@ -13,6 +13,7 @@ import com.reffians.c2.repository.CommandRepository;
 public class C2Service {
   @Autowired
   private CommandRepository commandRepository;
+  private UserRepository userRepository;
 
   public List<Command> getCommands(Integer beaconid) {
     List<Command> commands = commandRepository.findByBeaconid(beaconid);
@@ -26,6 +27,18 @@ public class C2Service {
     return commands;
   }
 
+  public List<User> getUsers(String username) {
+	List<User> users = userRepository.findByUsername(username);
+  }
+
+  public List<User> getUsers(String username, String password) {
+	List<User> users = userRepository.findByUnamePword(username, password);
+  }
+
+  public void addUser(String username, String password){
+	userRepository.insertUser(username, password);
+  }
+
   private void updateCommandStatus(List<Command> commands, Status oldStatus, Status newStatus) {
     for (Command command : commands) {
       if (command.getStatus() == oldStatus) {
@@ -34,4 +47,5 @@ public class C2Service {
       }
     }
   }
+  // bcrypt
 }

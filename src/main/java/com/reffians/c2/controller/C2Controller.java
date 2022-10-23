@@ -19,6 +19,7 @@ import com.reffians.c2.service.C2Service;
 public class C2Controller {
   @Autowired
   private C2Service c2Service;
+  
 
   private static final Logger logger = LoggerFactory.getLogger(C2Controller.class);
 
@@ -34,4 +35,31 @@ public class C2Controller {
     }
     return new ResponseEntity<>(c2Service.getCommands(beaconid, Status.valueOf(status.get())), HttpStatus.OK);
   }
+
+  @PostMapping(path = "/register", 
+  			   consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> registerUser(@RequestParam String username, @RequestParam String password) {
+	List<User> thisUser = c2Service.getUsers(username);
+	if (thisUser.size() == 0) //kinda jank 
+	{
+		c2Service.addUser(username, password);
+		return new ResponseEntity<>("Registered", HttpStatus.OK);
+	}
+	else {
+		return new ResponseEntity<>("User Already Exists", HttpStatus.OK);
+	}
+  }
+
+  @PostMapping(path = "/login",
+  				consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> login(@RequestParam String username, RequestParam String password) {
+	List<User> thisUser = c2Service.getUsers(username, password);
+	if (thisUser.size() == 0) //kinda jank 
+	{
+		return new ResponseEntity<>("logged in", HttpStatus.OK);
+  	}
+	else{
+		return new ResponseEntity<>("user does not exist", HttpStatus.OK);
+	}
+
 }
