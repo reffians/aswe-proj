@@ -15,6 +15,7 @@ import com.reffians.c2.repository.UserRepository;
 public class C2Service {
   @Autowired
   private CommandRepository commandRepository;
+  @Autowired
   private UserRepository userRepository;
 
   public List<Command> getCommands(Integer beaconid) {
@@ -29,11 +30,11 @@ public class C2Service {
     return commands;
   }
   // submit command batch methods
-
+  /* 
   public List<Command> checkCommand(Integer beaconid, Integer commandid) {
 	List<Command> thiscommand = commandRepository.findCommandByid(beaconid, commandid);
 	return thiscommand;
-  }
+  } */
   /*
   public void updateCommand(Integer beaconid, Integer commandid) {
 	commandRepository.updateCommand(Status.executed, beaconid, commandid );

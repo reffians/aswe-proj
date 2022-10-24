@@ -13,9 +13,18 @@ import lombok.Getter;
 public class User {
 	@Id //denotes primary key
 	@JsonProperty("username")
-	private String username;
+	public String username;
 
 	@Getter //do we need this? unsure about what @Getter does
 	@JsonProperty("password")
-	private String password;
+	public String password;
+
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+	public User() {
+		this.username = null;
+		this.password = null;
+	}
 }

@@ -2,6 +2,7 @@ package com.reffians.c2.controller;
 
 import java.util.Optional;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reffians.c2.model.Command;
@@ -54,9 +57,12 @@ public class C2Controller {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
   }*/
+  
   //register and login
   @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> registerUser(@RequestParam String username, @RequestParam String password) {
+  public ResponseEntity<?> registerUser(@RequestBody User user) {
+	String username = user.username;
+	String password = user.password;
 	List<User> thisUser = c2Service.getUsers(username);
 	if (thisUser.size() == 0) //kinda jank 
 	{
@@ -68,17 +74,18 @@ public class C2Controller {
 	}
   }
 
-  @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
+   @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
+   public ResponseEntity<?> login(@RequestBody User user) {
+	String username = user.username;
+	String password = user.password;
 	List<User> thisUser = c2Service.getUsers(username, password);
-	if (thisUser.size() == 0) //kinda jank 
+	if (thisUser.size() != 0) //kinda jank 
 	{
 		return new ResponseEntity<>("logged in", HttpStatus.OK);
   	}
 	else{
-		return new ResponseEntity<>("user does not exist", HttpStatus.OK);
+		return new ResponseEntity<>("user does not exist or password incorrect", HttpStatus.OK);
 	}
-
 
   }
 }
