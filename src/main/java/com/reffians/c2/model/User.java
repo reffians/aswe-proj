@@ -1,13 +1,10 @@
 package com.reffians.c2.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.EnumUtils;
 
 import lombok.Getter;
 

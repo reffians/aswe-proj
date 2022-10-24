@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.repository.CommandRepository;
+import com.reffians.c2.model.User;
+import com.reffians.c2.repository.UserRepository;
 
 @Service
 public class C2Service {
@@ -29,13 +31,13 @@ public class C2Service {
   // submit command batch methods
 
   public List<Command> checkCommand(Integer beaconid, Integer commandid) {
-	List<Command> thiscommand = commandRepository.findCommandByid(beaconid, commandid)
+	List<Command> thiscommand = commandRepository.findCommandByid(beaconid, commandid);
 	return thiscommand;
   }
-
+  /*
   public void updateCommand(Integer beaconid, Integer commandid) {
-	commandRepository.updateCommand(Status.executed, beaconid, commandid /*result*/)
-  }
+	commandRepository.updateCommand(Status.executed, beaconid, commandid );
+  } */
   // registration and login methods
 
   public List<User> getUsers(String username) {
