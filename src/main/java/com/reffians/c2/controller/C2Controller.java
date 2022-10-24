@@ -35,7 +35,23 @@ public class C2Controller {
     }
     return new ResponseEntity<>(c2Service.getCommands(beaconid, Status.valueOf(status.get())), HttpStatus.OK);
   }
-
+  //send command batch
+  @PostMapping(path = "/beacon/command",
+  			   consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> getCommandBatchBeacon(@RequestParam Integer beaconid, @RequestParam String commandid, @RequestParam String result)
+  {
+	//need to do something with the result
+	List<Command> thisCommand = c2service.getCommand(beaconid, commandid)
+	if (thisCommand != null && thisCommand.size() != 0) {
+		c2Service.updateCommand(beaconid, commandid);
+		return new ResponseEntity<>("Registered", HttpStatus.OK);
+	}
+	else {
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	return;
+  }
+  //register and login
   @PostMapping(path = "/register", 
   			   consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> registerUser(@RequestParam String username, @RequestParam String password) {
@@ -51,7 +67,7 @@ public class C2Controller {
   }
 
   @PostMapping(path = "/login",
-  				consumes = MediaType.APPLICATION_JSON_VALUE)
+  			   consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> login(@RequestParam String username, RequestParam String password) {
 	List<User> thisUser = c2Service.getUsers(username, password);
 	if (thisUser.size() == 0) //kinda jank 

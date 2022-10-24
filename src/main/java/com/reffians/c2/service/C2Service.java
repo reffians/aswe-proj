@@ -26,13 +26,26 @@ public class C2Service {
     this.updateCommandStatus(commands, Status.pending, Status.sent);
     return commands;
   }
+  // submit command batch methods
+
+  public List<Command> checkCommand(Integer beaconid, Integer commandid) {
+	List<Command> thiscommand = commandRepository.findCommandByid(beaconid, commandid)
+	return thiscommand;
+  }
+
+  public void updateCommand(Integer beaconid, Integer commandid) {
+	commandRepository.updateCommand(Status.executed, beaconid, commandid /*result*/)
+  }
+  // registration and login methods
 
   public List<User> getUsers(String username) {
 	List<User> users = userRepository.findByUsername(username);
+	return users;
   }
 
   public List<User> getUsers(String username, String password) {
 	List<User> users = userRepository.findByUnamePword(username, password);
+	return users;
   }
 
   public void addUser(String username, String password){
