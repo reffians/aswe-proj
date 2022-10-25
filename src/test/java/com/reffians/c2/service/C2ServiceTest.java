@@ -6,8 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.User;
-import com.reffians.c2.repository.CommandRepository;
-import com.reffians.c2.repository.UserRepository;
+import com.reffians.c2.repository.*;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -26,9 +25,10 @@ public class C2ServiceTest {
   private CommandRepository commandRepository;
   @MockBean
   private UserRepository userRepository;
-
+  @MockBean
   private BeaconRepository beaconRepository;
 
+  static final int beaconid = 0;
   static Command command0;
   static Command command1;
   static Command command2;
@@ -47,7 +47,6 @@ public class C2ServiceTest {
     oneCommandPending = List.of(command0);
     threeCommandsAllPending = List.of(command0, command1, command2);
     threeCommandsOneExecuted = List.of(command0, command3, command1);
-
   }
 
   @AfterEach
@@ -60,7 +59,6 @@ public class C2ServiceTest {
 
   @Test
   public void getCommandsBeaconIdTest() {
-    int beaconid = 0;
     Command command = new Command(beaconid, "foo");
     List<Command> commands = List.of(command);
     Mockito.when(commandRepository.findByBeaconid(beaconid)).thenReturn(commands);
@@ -147,11 +145,11 @@ public class C2ServiceTest {
     Mockito.when(userRepository.findByUnamePword(username, password)).thenReturn(users);
     assertEquals(users, c2Service.getUsers(username, password)); 
   }
-  public void testInsertBeacons() {
-    Mockito.when(beaconRepository.insertBeacon(userid)).thenReturn(userid);
-    Mockito.when(beaconRepository.insertBeacon(userid1)).thenReturn(userid1);
-    assertEquals(1, userid);
-    assertEquals(2, userid1);
+  public void testInsertBeacons() { // TODO
+    // Integer userid = 1
+    // Mockito.when(beaconRepository.insertBeacon(userid)).thenReturn(userid);
+    // Mockito.when(beaconRepository.insertBeacon(userid1)).thenReturn(userid1);
+
   }
 
 }

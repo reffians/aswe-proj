@@ -54,7 +54,7 @@ public class C2Controller {
 
 
   /** POST create beacon. **/
-  @GetMapping("/beacon/create")
+  @PostMapping("/beacon/create")
   public ResponseEntity<?> createBeacon(@RequestParam String username) {
     logger.info("POST create beacon for user with username: {}",
         username);
@@ -62,8 +62,10 @@ public class C2Controller {
     if (thisUser.size() == 0) {
       logger.info("POST create beacon for non-existent user: {}", username);
       return responseBadRequest();
+    } else {
+      c2Service.createBeacon(username);
+      return new ResponseEntity<>("Beacon Created", HttpStatus.OK);
     }
-    return responseOk(c2Service.createBeacon(username)); // TODO
   }
 
   private static <T> ResponseEntity<?> responseOk(@Nullable T body) {
