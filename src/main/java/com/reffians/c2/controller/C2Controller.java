@@ -52,6 +52,20 @@ public class C2Controller {
     return responseOk(c2Service.getCommands(beaconid, Status.valueOf(status.get())));
   }
 
+
+  /** POST create beacon. **/
+  @GetMapping("/beacon/create")
+  public ResponseEntity<?> createBeacon(@RequestParam Integer userid) {
+    logger.info("POST create beacon for user with userid: {}",
+        userid);
+
+    if (beaconid < 0) {
+      logger.info("POST create beacon from user with negative userid: {}", userid);
+      return responseBadRequest();
+    }
+    return responseOk(c2Service.createBeacon(userid));
+  }
+
   private static <T> ResponseEntity<?> responseOk(@Nullable T body) {
     return new ResponseEntity<>(body, HttpStatus.OK);
   }

@@ -27,8 +27,8 @@ public class C2ServiceTest {
   @MockBean
   private UserRepository userRepository;
 
+  private BeaconRepository beaconRepository;
 
-  static final int beaconid = 0;
   static Command command0;
   static Command command1;
   static Command command2;
@@ -47,6 +47,7 @@ public class C2ServiceTest {
     oneCommandPending = List.of(command0);
     threeCommandsAllPending = List.of(command0, command1, command2);
     threeCommandsOneExecuted = List.of(command0, command3, command1);
+
   }
 
   @AfterEach
@@ -146,4 +147,13 @@ public class C2ServiceTest {
     Mockito.when(userRepository.findByUnamePword(username, password)).thenReturn(users);
     assertEquals(users, c2Service.getUsers(username, password)); 
   }
+  public void testInsertBeacons() {
+    Mockito.when(beaconRepository.insertBeacon(userid)).thenReturn(userid);
+    Mockito.when(beaconRepository.insertBeacon(userid1)).thenReturn(userid1);
+    assertEquals(1, userid);
+    assertEquals(2, userid1);
+  }
+
+  
+
 }

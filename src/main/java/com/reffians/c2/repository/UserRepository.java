@@ -1,5 +1,4 @@
 package com.reffians.c2.repository;
-
 import java.util.List;
 
 import com.reffians.c2.model.User;
@@ -24,4 +23,15 @@ public interface UserRepository extends CrudRepository<User, String>{
   @Transactional
   @Query(value = "insert into users (username, password) values (:username, :password)", nativeQuery = true)
   void insertUser(@Param("username") String username, @Param("password") String password);
+  @Modifying
+  @Transactional
+  @Query(value = "select beacons from users where username = :username", nativeQuery = true)
+  void findBeaconsByUsername(@Param("username") String username);
+
+
+  @Modifying
+  @Transactional
+  @Query(value = "update User u set u.beacons = :beacons where u.username = :username", nativeQuery = true)
+  void addBeaconToUser(@Param("username") String username, @Param("beacons") List<Beacons> beacons);
+
 }
