@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.repository.CommandRepository;
+import com.reffians.c2.repository.UserRepository;
+import com.reffians.c2.model.User;
 
 @ExtendWith(MockitoExtension.class)
 public class C2ServiceTest {
@@ -27,6 +29,9 @@ public class C2ServiceTest {
 
   @Mock
   private CommandRepository commandRepository;
+
+  @Mock
+  private UserRepository userRepository;
 
   @Test
   public void getCommandsBeaconIdTest() {
@@ -44,5 +49,25 @@ public class C2ServiceTest {
     List<Command> commands = List.of(command);
     Mockito.when(commandRepository.findByBeaconidStatus(beaconid, Status.pending.name())).thenReturn(commands);
     assertEquals(commands, c2Service.getCommands(beaconid, Status.pending));
+  }
+
+  @Test
+  public void getUsersTest()  {
+    String username = "Nikhil";
+    String password = "pword";
+    User user = new User(username, password);
+    List<User> users = List.of(user);
+    Mockito.when(userRepository.findByUsername(username)).thenReturn(users);
+    assertEquals(users, c2Service.getUsers(username)); 
+  }
+
+  @Test
+  public void getUsersByBothTest()  {
+    String username = "Nikhil";
+	String password = "pword";
+	User user = new User(username, password);
+	List<User> users = List.of(user);
+	Mockito.when(userRepository.findByUnamePword(username, password)).thenReturn(users);
+	assertEquals(users, c2Service.getUsers(username, password)); 
   }
 }
