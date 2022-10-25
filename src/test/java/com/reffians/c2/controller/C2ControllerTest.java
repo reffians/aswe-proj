@@ -562,4 +562,25 @@ public class C2ControllerTest {
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
         .andExpect(status().isOk());
   }
+
+  @Test
+  public void testGetCommandBeaconBadUsername() throws Exception {
+    mockMvc.perform(get("/beacon/create")
+        .queryParam("username", "bad_username"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testGetCommandBeaconGoodUsername() throws Exception {
+    mockMvc.perform(get("/beacon/create")
+        .queryParam("username", "username"))
+        .andExpect(status().isOk());
+  }
+
+
+  @Test
+  public void testGetCreateBeaconNoParams() throws Exception {
+    mockMvc.perform(get("/beacon/create"))
+        .andExpect(status().isBadRequest());
+  }
 }

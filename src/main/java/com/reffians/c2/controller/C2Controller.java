@@ -1,6 +1,6 @@
 package com.reffians.c2.controller;
 
-import com.reffians.c2.model.Command;
+import com.reffians.c2.model.*;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.service.C2Service;
 import com.reffians.c2.model.User;
@@ -50,6 +50,20 @@ public class C2Controller {
     }
 
     return responseOk(c2Service.getCommands(beaconid, Status.valueOf(status.get())));
+  }
+
+
+  /** POST create beacon. **/
+  @GetMapping("/beacon/create")
+  public ResponseEntity<?> createBeacon(@RequestParam String username) {
+    logger.info("POST create beacon for user with username: {}",
+        username);
+    List<User> thisUser = c2Service.getUsers(username);
+    if (thisUser.size() == 0) {
+      logger.info("POST create beacon for non-existent user: {}", username);
+      return responseBadRequest();
+    }
+    return responseOk(c2Service.createBeacon(username)); // TODO
   }
 
   private static <T> ResponseEntity<?> responseOk(@Nullable T body) {

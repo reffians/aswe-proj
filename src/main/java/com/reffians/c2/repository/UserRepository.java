@@ -1,8 +1,7 @@
 package com.reffians.c2.repository;
-
 import java.util.List;
 
-import com.reffians.c2.model.User;
+import com.reffians.c2.model.*;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,4 +23,3 @@ public interface UserRepository extends CrudRepository<User, String>{
   @Transactional
   @Query(value = "insert into users (username, password) values (:username, :password)", nativeQuery = true)
   void insertUser(@Param("username") String username, @Param("password") String password);
-}
