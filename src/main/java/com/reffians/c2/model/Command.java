@@ -14,21 +14,22 @@ import lombok.Getter;
 @Entity
 @Table(name = "command")
 public class Command {
+  
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @JsonProperty("id")
-  private Integer id;
+  public Integer id;
 
   @Getter
   @JsonProperty("beaconid")
-  private Integer beaconid;
+  public Integer beaconid;
 
   @Getter
   @JsonProperty("content")
-  private String content;
+  public String content;
 
   @JsonProperty("status")
-  private String status;
+  public String status;
  
   /** Valid Command Status. **/
   public static enum Status {
@@ -40,7 +41,7 @@ public class Command {
 
   /** Command Constructor. **/
   public Command(Integer beaconid, String content) {
-    this.id = null;
+    //this.id = 0; // change to auto gen
     this.beaconid = beaconid;
     this.content = content;
     this.status = Status.pending.name();

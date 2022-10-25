@@ -1,6 +1,7 @@
 package com.reffians.c2.controller;
 
 import com.reffians.c2.model.Command;
+import com.reffians.c2.model.CommandList;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.service.C2Service;
 import com.reffians.c2.model.User;
@@ -86,4 +87,22 @@ public class C2Controller {
       return new ResponseEntity<>("user does not exist or password incorrect", HttpStatus.OK);
     }
   }
+
+  /* POST Beacon Commands (one user submits batch commands to one beacon) */
+  @PostMapping(path="/beacon/command", consumes = MediaType.APPLICATION_JSON_VALUE) // , @RequestBody User user
+  public ResponseEntity<?> submitCommands(@RequestBody CommandList commands) {
+    // user is needed to insert into beacons table (col1: beaconid, col2: userid)
+  //  Integer id = null;
+    Integer beaconid = null;
+    String content = "";
+
+    for (Command c: commands.getCommands())
+    {
+    //  id = c.id;
+      beaconid = c.beaconid;
+      content = c.content;
+      c2Service.addCommand(beaconid, content);
+    }
+    return new ResponseEntity<>("added commands", HttpStatus.OK); 
+   }
 }

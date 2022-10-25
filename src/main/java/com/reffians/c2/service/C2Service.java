@@ -57,4 +57,10 @@ public class C2Service {
     }
     return updatedCommands;
   }
+
+  /** Post to commands table: */
+  public void addCommand(Integer beaconid, String content){
+    commandRepository.insertCommand(beaconid, content);
+  }
+  
 }
