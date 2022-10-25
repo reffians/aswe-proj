@@ -55,15 +55,15 @@ public class C2Controller {
 
   /** POST create beacon. **/
   @GetMapping("/beacon/create")
-  public ResponseEntity<?> createBeacon(@RequestParam Integer userid) {
-    logger.info("POST create beacon for user with userid: {}",
-        userid);
-
-    if (beaconid < 0) {
-      logger.info("POST create beacon from user with negative userid: {}", userid);
+  public ResponseEntity<?> createBeacon(@RequestParam String username) {
+    logger.info("POST create beacon for user with username: {}",
+        username);
+    List<User> thisUser = c2Service.getUsers(username);
+    if (thisUser.size() == 0) {
+      logger.info("POST create beacon for non-existent user: {}", username);
       return responseBadRequest();
     }
-    return responseOk(c2Service.createBeacon(userid));
+    return responseOk(c2Service.createBeacon(username)); // TODO
   }
 
   private static <T> ResponseEntity<?> responseOk(@Nullable T body) {

@@ -60,13 +60,8 @@ public class C2Service {
 
 
   // beacon methods
-  public List<User> getBeacons(String username) {
-	  List<User> beacons = userRepository.findBeaconsByUsername(username);
-    return beacons;
-  }
-  public void addBeacon(String username){
-	  beaconRepository.addBeacon(username);
-    userRepository.addBeaconToUser(username);
+  public void createBeacon(String username){
+	  beaconRepository.createBeacon(username);
   }
 
 }

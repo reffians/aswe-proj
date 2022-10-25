@@ -20,12 +20,12 @@ public class Beacon {
   private Integer id;
 
   @Getter
-  @JsonProperty("userid")
-  private Integer userid;
+  @JsonProperty("username")
+  private String username;
  
   /** Beacon Constructor. **/
-  public Beacon(Integer userid) {
+  public Beacon(String username) {
     this.id = null;
-    this.userid = userid;
+    this.username = username;
   }
 }

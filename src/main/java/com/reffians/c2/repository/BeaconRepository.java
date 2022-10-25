@@ -9,11 +9,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-
-
-public interface BeaconRepository extends CrudRepository<Beacon, String>{
+public interface BeaconRepository extends CrudRepository<Beacon, Integer>{
   @Modifying
   @Transactional
   @Query(value = "insert into beacons (username) values (:username)", nativeQuery = true)
-  void addBeacon(@Param("username") String username);
+  void createBeacon(@Param("username") String username);
 }
