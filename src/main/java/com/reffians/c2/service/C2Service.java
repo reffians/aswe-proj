@@ -53,6 +53,24 @@ public class C2Service {
     return userRepository.findByUnamePword(username, password);
   }
 
+  /** checkUser. Checks if user exists in the database given a username **/
+  public boolean checkUser(String username) {
+    List<User> users =  getUsers(username);
+    if (users.size() == 0){
+      return true;
+    }
+    return false;
+  }
+
+  /** login. Attempts to login user. Checks if username and password pair exist in the database **/
+  public boolean login(String username, String password) {
+    List<User> users = getUsers(username, password);
+    if (users.size() != 0) {
+      return true;
+    }
+    return false;
+  }
+
   public void addUser(String username, String password) {
     userRepository.insertUser(username, password);
   }

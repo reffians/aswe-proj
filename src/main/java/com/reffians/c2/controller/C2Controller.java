@@ -4,8 +4,8 @@ import com.reffians.c2.model.Command;
 import com.reffians.c2.model.User;
 import com.reffians.c2.model.Beacon;
 import com.reffians.c2.model.Command.Status;
-import com.reffians.c2.service.C2Service;
 import com.reffians.c2.model.User;
+import com.reffians.c2.service.C2Service;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -91,31 +91,35 @@ public class C2Controller {
   private static <T> ResponseEntity<?> responseBadRequest(@Nullable T body) {
     return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
   }
+
+  private static <T> ResponseEntity<?> responseCreated(@Nullable T body) {
+    return new ResponseEntity<>(body, HttpStatus.CREATED);
+  }
   
-  /* POST Register User. */
+  /** POST Register User. **/
   @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> registerUser(@RequestBody User user) {
     String username = user.username;
     String password = user.password;
-    List<User> thisUser = c2Service.getUsers(username);
-    if (thisUser.size() == 0) {
+    if (c2Service.checkUser(username)) {
       c2Service.addUser(username, password);
-      return new ResponseEntity<>("Registered", HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>("User Already Exists", HttpStatus.OK);
+      //return new ResponseEntity<>("Registered", HttpStatus.OK);
+      return responseCreated("User created");
     }
-   }   
+    logger.info("Attempted registration for existing user with username: {}", username);
+    //return new ResponseEntity<>("User Already Exists", HttpStatus.OK);
+    return responseBadRequest();
+  }   
 
-  /* POST Login User. */
+  /** POST Login User. **/
   @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> login(@RequestBody User user) {
     String username = user.username;
     String password = user.password;
-    List<User> thisUser = c2Service.getUsers(username, password);
-    if (thisUser.size() != 0) {
-      return new ResponseEntity<>("logged in", HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>("user does not exist or password incorrect", HttpStatus.OK);
-    }
+    if (c2Service.login(username, password)) {
+      return responseOk("logged in");
+    } 
+    logger.info("Incorrect login information attempt for user: {}", username);
+    return responseBadRequest();
   }
 }
