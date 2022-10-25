@@ -5,9 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
+import com.reffians.c2.model.User;
 import com.reffians.c2.repository.CommandRepository;
+import com.reffians.c2.repository.UserRepository;
 import java.util.List;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,9 @@ public class C2ServiceTest {
 
   @MockBean
   private CommandRepository commandRepository;
+  @MockBean
+  private UserRepository userRepository;
+
 
   static final int beaconid = 0;
   static Command command0;
@@ -51,6 +55,15 @@ public class C2ServiceTest {
     command1.setStatus(Status.pending);
     command2.setStatus(Status.pending);
     command3.setStatus(Status.executed);
+  }
+
+  @Test
+  public void getCommandsBeaconIdTest() {
+    int beaconid = 0;
+    Command command = new Command(beaconid, "foo");
+    List<Command> commands = List.of(command);
+    Mockito.when(commandRepository.findByBeaconid(beaconid)).thenReturn(commands);
+    assertEquals(commands, c2Service.getCommands(beaconid));
   }
 
   @Test
@@ -112,5 +125,25 @@ public class C2ServiceTest {
     for (Command updatedCommand : updatedCommands) {
       assertEquals(Status.finished, updatedCommand.getStatus());
     }
+  }
+
+  @Test
+  public void getUsersTest()  {
+    String username = "Nikhil";
+    String password = "pword";
+    User user = new User(username, password);
+    List<User> users = List.of(user);
+    Mockito.when(userRepository.findByUsername(username)).thenReturn(users);
+    assertEquals(users, c2Service.getUsers(username)); 
+  }
+
+  @Test
+  public void getUsersByBothTest()  {
+    String username = "Nikhil";
+    String password = "pword";
+    User user = new User(username, password);
+    List<User> users = List.of(user);
+    Mockito.when(userRepository.findByUnamePword(username, password)).thenReturn(users);
+    assertEquals(users, c2Service.getUsers(username, password)); 
   }
 }
