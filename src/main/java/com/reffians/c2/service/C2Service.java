@@ -3,8 +3,7 @@ package com.reffians.c2.service;
 import com.reffians.c2.model.*;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.User;
-import com.reffians.c2.repository.CommandRepository;
-import com.reffians.c2.repository.UserRepository;
+import com.reffians.c2.repository.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,8 @@ public class C2Service {
   private CommandRepository commandRepository;
   @Autowired
   private UserRepository userRepository;
+  @Autowired
+  private BeaconRepository beaconRepository;
 
   /** Get a list of commands by beaconid, updating status from pending to sent. */
   public List<Command> getCommands(Integer beaconid) {
