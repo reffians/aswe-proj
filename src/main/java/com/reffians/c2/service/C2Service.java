@@ -1,6 +1,6 @@
 package com.reffians.c2.service;
 
-import com.reffians.c2.model.Command;
+import com.reffians.c2.model.*;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.User;
 import com.reffians.c2.repository.CommandRepository;

@@ -1,7 +1,7 @@
 package com.reffians.c2.repository;
 import java.util.List;
 
-import com.reffians.c2.model.User;
+import com.reffians.c2.model.*;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 
-public interface BeaconRepository extends CrudRepository<Beacon, Username>{
+public interface BeaconRepository extends CrudRepository<Beacon, String>{
   @Modifying
   @Transactional
   @Query(value = "insert into beacons (username) values (:username)", nativeQuery = true)

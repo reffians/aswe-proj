@@ -1,7 +1,7 @@
 package com.reffians.c2.repository;
 import java.util.List;
 
-import com.reffians.c2.model.User;
+import com.reffians.c2.model.*;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.Modifying;
@@ -32,6 +32,6 @@ public interface UserRepository extends CrudRepository<User, String>{
   @Modifying
   @Transactional
   @Query(value = "update User u set u.beacons = :beacons where u.username = :username", nativeQuery = true)
-  void addBeaconToUser(@Param("username") String username, @Param("beacons") List<Beacons> beacons);
+  void addBeaconToUser(@Param("username") String username, @Param("beacons") List<Beacon> beacons);
 
 }
