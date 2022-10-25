@@ -154,6 +154,4 @@ public class C2ServiceTest {
     assertEquals(2, userid1);
   }
 
-  
-
 }
