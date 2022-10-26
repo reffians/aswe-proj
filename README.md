@@ -26,10 +26,13 @@
 - Test
     - To run our unit tests use the command:
         - `./mvnw test`
- - Style checker
-    - We used the Checkstyle style checker with the google coding style specifications for Java.
-    - To run our style checker, run:
-        - `./mvnw checkstyle:check`
+        
+### Style Checker:
+- We used the Checkstyle style checker with the google coding style specifications for Java.
+- To run our style checker, run:
+    - `./mvnw checkstyle:check`
+- Our code is Checkstyle clean. Refer to below:
+    - checkstyle-output-10/26/2022
 
 ### API DOCUMENTATION
 - /login
