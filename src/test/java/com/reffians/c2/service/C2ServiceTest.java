@@ -153,6 +153,8 @@ public class C2ServiceTest {
     // Mockito.when(beaconRepository.insertBeacon(userid)).thenReturn(userid);
     // Mockito.when(beaconRepository.insertBeacon(userid1)).thenReturn(userid1);
 
+    // TODO get beacons in userRepository
+
   }
 
 }
