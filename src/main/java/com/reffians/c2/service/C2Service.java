@@ -23,7 +23,9 @@ public class C2Service {
   private BeaconRepository beaconRepository;
 
   /** Get a list of commands by beaconid, updating status from pending to sent.
+
    * @param beaconid an integer used to identify a beacon.
+
    * @return list of command objects associated with the specified beaconid.
   */
   public List<Command> getCommands(Integer beaconid) {
@@ -34,10 +36,11 @@ public class C2Service {
 
   /** Get a list of commands by beaconid and status, updating status from pending
    * to sent.
+
    * @param beaconid an integer used to identify a beacon.
-   * @return list of command objects associated with the specified beaconid and
-   * status.
-   */
+
+   * @return list of command objects associated with the specified beaconid and status
+  */
   public List<Command> getCommands(Integer beaconid, Status status) {
     List<Command> commands = commandRepository.findByBeaconidStatus(beaconid, status.name());
     this.updateCommandStatus(commands, Status.pending, Status.sent);
@@ -53,18 +56,38 @@ public class C2Service {
     return userRepository.findByUnamePword(username, password);
   }
 
+  /** checkUser. Checks if user exists in the database given a username **/
+  public boolean checkUser(String username) {
+    List<User> users =  getUsers(username);
+    if (users.size() == 0) {
+      return true;
+    }
+    return false;
+  }
+
+  /** login. Attempts to login user. Checks if username and password pair exist in the database **/
+  public boolean login(String username, String password) {
+    List<User> users = getUsers(username, password);
+    if (users.size() != 0) {
+      return true;
+    }
+    return false;
+  }
+
   public void addUser(String username, String password) {
     userRepository.insertUser(username, password);
   }
 
   /** Update the status of commands which have oldStatus to newStatus, returning
    * a list of updated commands.
-   * @param commands a list of commands to be updated to newStatus should they be
-   * of oldStatus.
+
+   * @param commands a list of commands to be updated to newStatus should they be of oldStatus.
+
    * @param oldStatus the status that commands should have to be updated.
+
    * @param newStatus the status that the commands will be updated to.
    * @return a list of command objects that have been updated.
-   */
+  */
   public List<Command> updateCommandStatus(List<Command> commands, Status oldStatus,
       Status newStatus) {
     ArrayList<Command> updatedCommands = new ArrayList<Command>();
@@ -79,9 +102,10 @@ public class C2Service {
 
 
   /**
-	 * Method to create beacon.
-	 * @param username username of the user that 'owns' this beacon
-	 */
+   * Method to create beacon.
+
+   * @param username username of the user that 'owns' this beacon
+   */
   public void createBeacon(String username) {
     beaconRepository.createBeacon(username);
   }

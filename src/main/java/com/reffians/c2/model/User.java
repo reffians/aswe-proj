@@ -1,11 +1,12 @@
 package com.reffians.c2.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
+/** User table. **/
 @Entity
 @Table(name = "users") //double check what adam named the table for real 
 public class User {
@@ -13,7 +14,7 @@ public class User {
   @JsonProperty("username")
   public String username;
 
-  @Getter //do we need this? unsure about what @Getter does
+  @Getter
   @JsonProperty("password")
   public String password;
 
@@ -21,6 +22,8 @@ public class User {
     this.username = username;
     this.password = password;
   }
+
+  /** User constructor. */
   public User() {
 
     this.username = null;

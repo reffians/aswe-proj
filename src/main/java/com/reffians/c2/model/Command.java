@@ -40,9 +40,11 @@ public class Command {
   }
 
   /** A constructor for the command data model.
+
    * @param beaconid an integer representing the associated beacon.
+
    * @param content a user-defined string containing the command content to be
-   * executed by the beacon. **/
+    executed by the beacon. **/
   public Command(Integer beaconid, String content) {
     this.id = null;
     this.beaconid = beaconid;
@@ -51,24 +53,28 @@ public class Command {
   }
 
   /** Checks whether the provided string represents a valid command status.
+
    * @param status the status string under question.
+
    * @return a boolean indicating whether the provided string represents a valid
-   * command status.
+    command status.
    */
   public static boolean isValidStatus(String status) {
     return isValidEnum(Status.class, status);
   }
 
   /** Retrieves command status.
+
    * @return an enum representing a valid status.
   */
   public Status getStatus() {
     return Status.valueOf(this.status);
   }
 
-  /** Sets command status
+  /** Sets command status.
+
    * @param status an enum representing a valid status.
-  */
+   **/
   public void setStatus(Status status) {
     this.status = status.name();
   }

@@ -542,6 +542,7 @@ public class C2ControllerTest {
         .andExpect(status().isBadRequest());
   }
 
+  //Test registration
   @Test
   public void testRegister() throws Exception {
     JSONObject obj = new JSONObject();
@@ -550,9 +551,10 @@ public class C2ControllerTest {
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
-        .andExpect(status().isOk());
+        .andExpect(status().isCreated());
   }
 
+  //login tests
   @Test
   public void testLogin() throws Exception {
     JSONObject obj = new JSONObject();
@@ -561,7 +563,7 @@ public class C2ControllerTest {
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
-        .andExpect(status().isOk());
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -571,13 +573,6 @@ public class C2ControllerTest {
 
   @Test
   public void testGetCommandBeaconGoodUsername() throws Exception {
-    JSONObject obj = new JSONObject();
-    obj.put("username", "Nikhil1");
-    obj.put("password", "pword");
-    String testUser = obj.toString();
-    mockMvc.perform(MockMvcRequestBuilders.post("/register")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser))
-        .andExpect(status().isOk());
     mockMvc.perform(post("/beacon/create?username=Nikhil1")).andExpect(status().isOk());
   }
 

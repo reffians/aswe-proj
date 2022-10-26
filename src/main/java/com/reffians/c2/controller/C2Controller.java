@@ -1,11 +1,10 @@
 package com.reffians.c2.controller;
 
-import com.reffians.c2.model.Command;
-import com.reffians.c2.model.User;
 import com.reffians.c2.model.Beacon;
+import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
-import com.reffians.c2.service.C2Service;
 import com.reffians.c2.model.User;
+import com.reffians.c2.service.C2Service;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -32,16 +31,19 @@ public class C2Controller {
   private static final Logger logger = LoggerFactory.getLogger(C2Controller.class);
 
   /** GET commands for a beacon. Returns 200 OK and an array of command Command
-   * objects on success, 400 Bad Request with an error message on failure.
-   * @param beaconid A non-negative integer used to identify the beacon.
-   * @param status An optional argument specifying the status of the command.
-   * Can be one of "pending", "sent", "executed", or "finished". If no status
-   * is supplied, commands of any status are retrieved.
-   * @return A list of command objects. A command object is contains integer
-   * identifier "id", integer "beaconid" of the corresponding beacon, user-defined
-   * string "content", and string "status" that is one of "pending", "sent",
-   * "executed", or "finished".
-   */
+  * objects on success, 400 Bad Request with an error message on failure.
+
+  * @param beaconid A non-negative integer used to identify the beacon.
+
+  * @param status An optional argument specifying the status of the command.
+   Can be one of "pending", "sent", "executed", or "finished". If no status is supplied, 
+   commands of any status are retrieved.
+
+  * @return A list of command objects. A command object is contains integer
+   identifier "id", integer "beaconid" of the corresponding beacon, user-defined
+   string "content", and string "status" that is one of "pending", "sent",
+   "executed", or "finished".
+  **/
   @GetMapping("/beacon/command")
   public ResponseEntity<?> getCommandBeacon(@RequestParam Integer beaconid,
       @RequestParam Optional<String> status) {
@@ -66,10 +68,11 @@ public class C2Controller {
   }
 
 
-   /**
-	 * POST mapping for the create beacon endpoint.
-	 * @param username username of the user that 'owns' this beacon
-	 */
+  /**
+   * POST mapping for the create beacon endpoint.
+
+   * @param username username of the user that 'owns' this beacon
+   */
   @PostMapping("/beacon/create")
   public ResponseEntity<?> createBeacon(@RequestParam String username) {
     logger.info("POST create beacon for user with username: {}",
@@ -91,31 +94,35 @@ public class C2Controller {
   private static <T> ResponseEntity<?> responseBadRequest(@Nullable T body) {
     return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
   }
+
+  private static <T> ResponseEntity<?> responseCreated(@Nullable T body) {
+    return new ResponseEntity<>(body, HttpStatus.CREATED);
+  }
   
-  /* POST Register User. */
+  /** POST Register User. **/
   @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> registerUser(@RequestBody User user) {
     String username = user.username;
     String password = user.password;
-    List<User> thisUser = c2Service.getUsers(username);
-    if (thisUser.size() == 0) {
+    if (c2Service.checkUser(username)) {
       c2Service.addUser(username, password);
-      return new ResponseEntity<>("Registered", HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>("User Already Exists", HttpStatus.OK);
+      //return new ResponseEntity<>("Registered", HttpStatus.OK);
+      return responseCreated("User created");
     }
-   }   
+    logger.info("Attempted registration for existing user with username: {}", username);
+    //return new ResponseEntity<>("User Already Exists", HttpStatus.OK);
+    return responseBadRequest("");
+  }   
 
-  /* POST Login User. */
+  /** POST Login User. **/
   @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> login(@RequestBody User user) {
     String username = user.username;
     String password = user.password;
-    List<User> thisUser = c2Service.getUsers(username, password);
-    if (thisUser.size() != 0) {
-      return new ResponseEntity<>("logged in", HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>("user does not exist or password incorrect", HttpStatus.OK);
-    }
+    if (c2Service.login(username, password)) {
+      return responseOk("logged in");
+    } 
+    logger.info("Incorrect login information attempt for user: {}", username);
+    return responseBadRequest("");
   }
 }
