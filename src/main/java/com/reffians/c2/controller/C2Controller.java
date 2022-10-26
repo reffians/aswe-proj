@@ -127,7 +127,7 @@ public class C2Controller {
     return responseBadRequest("");
   }
 
-  /* POST Beacon Commands (one user submits batch commands to one beacon) */
+  /* POST Beacon Commands. */
   @PostMapping(path="/beacon/command", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> submitCommands(@RequestBody CommandList commands) {
     Integer beaconid = null;
