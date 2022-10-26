@@ -586,6 +586,7 @@ public class C2ControllerTest {
   public void testGetCreateBeaconNoParams() throws Exception {
     mockMvc.perform(post("/beacon/create"))
         .andExpect(status().isBadRequest());
+  }
 
   @Test
   public void testSubmitCommands() throws Exception {

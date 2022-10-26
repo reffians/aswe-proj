@@ -19,7 +19,6 @@ public class Command {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty("id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   public Integer id;
 
   @Getter
