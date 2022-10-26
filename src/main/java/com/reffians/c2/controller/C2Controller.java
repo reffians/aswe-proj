@@ -38,6 +38,7 @@ public class C2Controller {
   * @param status An optional argument specifying the status of the command.
    Can be one of "pending", "sent", "executed", or "finished". If no status is supplied, 
    commands of any status are retrieved.
+
   * @return A list of command objects. A command object is contains integer
    identifier "id", integer "beaconid" of the corresponding beacon, user-defined
    string "content", and string "status" that is one of "pending", "sent",
