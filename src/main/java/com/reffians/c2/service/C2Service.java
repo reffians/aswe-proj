@@ -1,9 +1,12 @@
 package com.reffians.c2.service;
 
-import com.reffians.c2.model.*;
+import com.reffians.c2.model.Beacon;
+import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.User;
-import com.reffians.c2.repository.*;
+import com.reffians.c2.repository.BeaconRepository;
+import com.reffians.c2.repository.CommandRepository;
+import com.reffians.c2.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +53,7 @@ public class C2Service {
     return userRepository.findByUnamePword(username, password);
   }
 
-  public void addUser(String username, String password){
+  public void addUser(String username, String password) {
     userRepository.insertUser(username, password);
   }
 
@@ -75,9 +78,12 @@ public class C2Service {
   }
 
 
-  // beacon methods
-  public void createBeacon(String username){
-	  beaconRepository.createBeacon(username);
+  /**
+	 * Method to create beacon.
+	 * @param username username of the user that 'owns' this beacon
+	 */
+  public void createBeacon(String username) {
+    beaconRepository.createBeacon(username);
   }
 
 }

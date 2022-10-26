@@ -3,9 +3,7 @@ package com.reffians.c2.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.Getter;
 
 @Entity
@@ -24,6 +22,7 @@ public class User {
     this.password = password;
   }
   public User() {
+
     this.username = null;
     this.password = null;
   }
