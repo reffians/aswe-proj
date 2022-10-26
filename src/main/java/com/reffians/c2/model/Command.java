@@ -16,8 +16,8 @@ import lombok.Getter;
 public class Command {
   
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   @JsonProperty("id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   public Integer id;
 
   @Getter
