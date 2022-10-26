@@ -541,6 +541,7 @@ public class C2ControllerTest {
         .andExpect(status().isBadRequest());
   }
 
+  //Test registration
   @Test
   public void testRegister() throws Exception {
     JSONObject obj = new JSONObject();
@@ -549,9 +550,10 @@ public class C2ControllerTest {
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
-        .andExpect(status().isOk());
+        .andExpect(status().isCreated());
   }
 
+  //login tests
   @Test
   public void testLogin() throws Exception {
     JSONObject obj = new JSONObject();
@@ -560,7 +562,7 @@ public class C2ControllerTest {
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
-        .andExpect(status().isOk());
+        .andExpect(status().isBadRequest());
   }
 
   @Test
