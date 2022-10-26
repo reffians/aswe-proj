@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-/** Command Repository. **/
+/** A Command Repository representing the table of commands. **/
 public interface CommandRepository extends CrudRepository<Command, Integer> {
   @Query(value = "select * from command where beaconid = :beaconid", nativeQuery = true)
   List<Command> findByBeaconid(@Param("beaconid") Integer beaconid);

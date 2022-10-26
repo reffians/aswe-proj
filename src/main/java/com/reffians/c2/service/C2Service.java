@@ -14,21 +14,36 @@ public class C2Service {
   @Autowired
   private CommandRepository commandRepository;
 
-  /** Get a list of commands by beaconid, updating status from pending to sent. */
+  /** Get a list of commands by beaconid, updating status from pending to sent.
+   * @param beaconid an integer used to identify a beacon.
+   * @return list of command objects associated with the specified beaconid.
+  */
   public List<Command> getCommands(Integer beaconid) {
     List<Command> commands = commandRepository.findByBeaconid(beaconid);
     this.updateCommandStatus(commands, Status.pending, Status.sent);
     return commands;
   }
 
-  /** Get a list of commands by beaconid and status, updating status from pending to sent. */
+  /** Get a list of commands by beaconid and status, updating status from pending
+   * to sent.
+   * @param beaconid an integer used to identify a beacon.
+   * @return list of command objects associated with the specified beaconid and
+   * status.
+   */
   public List<Command> getCommands(Integer beaconid, Status status) {
     List<Command> commands = commandRepository.findByBeaconidStatus(beaconid, status.name());
     this.updateCommandStatus(commands, Status.pending, Status.sent);
     return commands;
   }
 
-  /** Update the status of a list of commands, returns updated commands. **/
+  /** Update the status of commands which have oldStatus to newStatus, returning
+   * a list of updated commands.
+   * @param commands a list of commands to be updated to newStatus should they be
+   * of oldStatus.
+   * @param oldStatus the status that commands should have to be updated.
+   * @param newStatus the status that the commands will be updated to.
+   * @return a list of command objects that have been updated.
+   */
   public List<Command> updateCommandStatus(List<Command> commands, Status oldStatus,
       Status newStatus) {
     ArrayList<Command> updatedCommands = new ArrayList<Command>();
