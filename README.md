@@ -70,15 +70,6 @@
         - localhost:8080/beacon/command?beaconid=123456789
         - localhost:8080/beacon/command?beaconid=123456789&status=pending
 
-- /beacon/command
-    - POST
-    - Description: send a list of command objects to a beacon
-    - Returns an error message (string) and a 200 OK on invalid input, 200 OK and validation message on valid input. On correct input, we also insert the commands received into the “commands” database, with the relevant fields
-    - Fields
-        - commands: a CommandList, which is a class used to represent a list of command objects; contains all the commands we want to send. We retrieve this CommandList from the body of the POST mapping, which is in JSON form
-    - Example:
-        - Sample body request: { {"beaconid":123456789, “content”: “do nothing”}, {"beaconid":1234, “content”: “do something”}}
-
 ### COMMON ISSUES
 
 If you get a JAVA_HOME error, it’s likely that the JAVA_HOME was auto set incorrectly. To fix, run 
