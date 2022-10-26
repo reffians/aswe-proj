@@ -72,7 +72,7 @@ public class C2Controller {
     List<User> thisUser = c2Service.getUsers(username);
     if (thisUser.size() == 0) {
       logger.info("POST create beacon for non-existent user: {}", username);
-      return responseBadRequest();
+      return responseBadRequest("Invalid username: the user does not exist.");
     } else {
       c2Service.createBeacon(username);
       return new ResponseEntity<>("Beacon Created", HttpStatus.OK);
