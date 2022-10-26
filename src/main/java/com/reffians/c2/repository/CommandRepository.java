@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 
 /** A Command Repository representing the table of commands. **/
 public interface CommandRepository extends CrudRepository<Command, Integer> {
@@ -15,4 +17,11 @@ public interface CommandRepository extends CrudRepository<Command, Integer> {
       nativeQuery = true)
   List<Command> findByBeaconidStatus(@Param("beaconid") Integer beaconid,
       @Param("status") String status);
+
+  @Modifying
+  @Transactional
+  @Query(value = "insert into command (beaconid, content) values (:beaconid, :content)", nativeQuery = true)
+  void insertCommand(@Param("beaconid") Integer beaconid, @Param("content") String content);
+  // deleted id as im not sure if autogen handles
 }
+
