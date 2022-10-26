@@ -3,6 +3,12 @@ package com.reffians.c2.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.reffians.c2.model.Command;
+import com.reffians.c2.model.CommandList;
+
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -560,6 +566,21 @@ public class C2ControllerTest {
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
+        .andExpect(status().isOk());
+  }
+
+
+  @Test
+  public void testSubmitCommands() throws Exception {
+    JSONObject obj = new JSONObject();
+    CommandList commandList = new CommandList();
+    List<Command> cmdList = new ArrayList<Command>();
+    cmdList.add(new Command(123, "content123"));
+    commandList.setCommands(cmdList);
+    obj.put("commands", commandList);
+    String testCommand = obj.toString();
+    mockMvc.perform(MockMvcRequestBuilders.post("/beacon/command")
+        .contentType(MediaType.APPLICATION_JSON).content(testCommand))
         .andExpect(status().isOk());
   }
 }

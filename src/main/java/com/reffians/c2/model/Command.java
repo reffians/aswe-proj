@@ -41,7 +41,6 @@ public class Command {
 
   /** Command Constructor. **/
   public Command(Integer beaconid, String content) {
-    //this.id = 0; // change to auto gen
     this.beaconid = beaconid;
     this.content = content;
     this.status = Status.pending.name();
