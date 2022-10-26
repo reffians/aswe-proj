@@ -1,11 +1,13 @@
 package com.reffians.c2.controller;
 
-import com.reffians.c2.model.*;
+import com.reffians.c2.model.Command;
+import com.reffians.c2.model.User;
+import com.reffians.c2.model.Beacon;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.service.C2Service;
 import com.reffians.c2.model.User;
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /** The REST Controller of the C2 Application, performs routing of all REST API
@@ -64,7 +66,10 @@ public class C2Controller {
   }
 
 
-  /** POST create beacon. **/
+   /**
+	 * POST mapping for the create beacon endpoint.
+	 * @param username username of the user that 'owns' this beacon
+	 */
   @PostMapping("/beacon/create")
   public ResponseEntity<?> createBeacon(@RequestParam String username) {
     logger.info("POST create beacon for user with username: {}",
