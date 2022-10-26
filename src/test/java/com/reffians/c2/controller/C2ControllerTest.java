@@ -4,6 +4,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.reffians.c2.model.Command;
+import com.reffians.c2.model.CommandList;
+
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -580,5 +586,18 @@ public class C2ControllerTest {
   public void testGetCreateBeaconNoParams() throws Exception {
     mockMvc.perform(post("/beacon/create"))
         .andExpect(status().isBadRequest());
+
+  @Test
+  public void testSubmitCommands() throws Exception {
+    JSONObject obj = new JSONObject();
+    CommandList commandList = new CommandList();
+    List<Command> cmdList = new ArrayList<Command>();
+    cmdList.add(new Command(123, "content123"));
+    commandList.setCommands(cmdList);
+    obj.put("commands", commandList);
+    String testCommand = obj.toString();
+    mockMvc.perform(MockMvcRequestBuilders.post("/beacon/command")
+        .contentType(MediaType.APPLICATION_JSON).content(testCommand))
+        .andExpect(status().isOk());
   }
 }

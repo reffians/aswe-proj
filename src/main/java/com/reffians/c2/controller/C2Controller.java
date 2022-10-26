@@ -128,19 +128,21 @@ public class C2Controller {
   }
 
   /* POST Beacon Commands (one user submits batch commands to one beacon) */
-  @PostMapping(path="/beacon/command", consumes = MediaType.APPLICATION_JSON_VALUE) // , @RequestBody User user
+  @PostMapping(path="/beacon/command", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> submitCommands(@RequestBody CommandList commands) {
-    // user is needed to insert into beacons table (col1: beaconid, col2: userid)
-  //  Integer id = null;
     Integer beaconid = null;
     String content = "";
 
+    if (commands.getCommands().isEmpty())  
+    {
+      return new ResponseEntity<>("invalid: empty command list", HttpStatus.OK);
+    }
+
     for (Command c: commands.getCommands())
     {
-    //  id = c.id;
       beaconid = c.beaconid;
       content = c.content;
-      c2Service.addCommand(beaconid, content);
+      c2Service.addCommand(beaconid, content, Status.pending.name());
     }
     return new ResponseEntity<>("added commands", HttpStatus.OK); 
    }

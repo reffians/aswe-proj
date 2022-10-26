@@ -20,8 +20,8 @@ public interface CommandRepository extends CrudRepository<Command, Integer> {
 
   @Modifying
   @Transactional
-  @Query(value = "insert into command (beaconid, content) values (:beaconid, :content)", nativeQuery = true)
-  void insertCommand(@Param("beaconid") Integer beaconid, @Param("content") String content);
-  // deleted id as im not sure if autogen handles
+  @Query(value = "insert into command (beaconid, content, status) values (:beaconid, :content, :status)", nativeQuery = true)
+  void insertCommand(@Param("beaconid") Integer beaconid, @Param("content") String content, @Param("status") String status);
+  
 }
 

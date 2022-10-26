@@ -110,8 +110,8 @@ public class C2Service {
   }
 
   /** Post to commands table: */
-  public void addCommand(Integer beaconid, String content){
-    commandRepository.insertCommand(beaconid, content);
+  public void addCommand(Integer beaconid, String content, String status){
+    commandRepository.insertCommand(beaconid, content, status);
   }
   
 }

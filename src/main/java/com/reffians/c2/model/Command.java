@@ -48,7 +48,6 @@ public class Command {
    * @param content a user-defined string containing the command content to be
     executed by the beacon. **/
   public Command(Integer beaconid, String content) {
-    //this.id = 0; // change to auto gen
     this.beaconid = beaconid;
     this.content = content;
     this.status = Status.pending.name();
