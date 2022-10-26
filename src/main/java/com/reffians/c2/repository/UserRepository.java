@@ -1,10 +1,7 @@
 package com.reffians.c2.repository;
 
-<<<<<<< HEAD
 import com.reffians.c2.model.Beacon;
 import com.reffians.c2.model.Command;
-=======
->>>>>>> fc7ad0f (refactored login and register code to follow best code practices. Return different status codes if login or register unsuccessful. Code is checkstyle CLEAN (w/o warns))
 import com.reffians.c2.model.User;
 import java.util.List;
 import org.springframework.data.jpa.repository.Modifying;

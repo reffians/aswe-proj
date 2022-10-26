@@ -9,8 +9,8 @@ import javax.persistence.Table;
 import lombok.Getter;
 
 /**
-  Data model for the beacon
- */
+ * Data model for the beacon.
+ **/
 @Entity
 @Table(name = "beacons")
 public class Beacon {
@@ -19,17 +19,18 @@ public class Beacon {
   @JsonProperty("id")
   private Integer id;
 
-/**
-	 * username of the user that 'owns' this beacon
-	 */
+  /**
+   * username of the user that 'owns' this beacon.
+   **/
   @Getter
   @JsonProperty("username")
   private String username;
  
   /**
-	 * Constructor for a Beacon. It takes in the username of the user that this beacon belongs to.
-	 * @param username username of the user that 'owns' this beacon
-	 */
+   * Constructor for a Beacon. It takes in the username of the user that this beacon belongs to.
+   
+   @param username username of the user that 'owns' this beacon
+   **/
   public Beacon(String username) {
     this.id = null;
     this.username = username;

@@ -1,8 +1,7 @@
 package com.reffians.c2.controller;
 
-import com.reffians.c2.model.Command;
-import com.reffians.c2.model.User;
 import com.reffians.c2.model.Beacon;
+import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.User;
 import com.reffians.c2.service.C2Service;
@@ -33,7 +32,9 @@ public class C2Controller {
 
   /** GET commands for a beacon. Returns 200 OK and an array of command Command
    * objects on success, 400 Bad Request with an error message on failure.
+   
    * @param beaconid A non-negative integer used to identify the beacon.
+   
    * @param status An optional argument specifying the status of the command.
    * Can be one of "pending", "sent", "executed", or "finished". If no status
    * is supplied, commands of any status are retrieved.
@@ -41,7 +42,7 @@ public class C2Controller {
    * identifier "id", integer "beaconid" of the corresponding beacon, user-defined
    * string "content", and string "status" that is one of "pending", "sent",
    * "executed", or "finished".
-   */
+   **/
   @GetMapping("/beacon/command")
   public ResponseEntity<?> getCommandBeacon(@RequestParam Integer beaconid,
       @RequestParam Optional<String> status) {
@@ -66,10 +67,10 @@ public class C2Controller {
   }
 
 
-   /**
-	 * POST mapping for the create beacon endpoint.
-	 * @param username username of the user that 'owns' this beacon
-	 */
+  /**
+   * POST mapping for the create beacon endpoint.
+   * @param username username of the user that 'owns' this beacon
+   */
   @PostMapping("/beacon/create")
   public ResponseEntity<?> createBeacon(@RequestParam String username) {
     logger.info("POST create beacon for user with username: {}",
@@ -108,7 +109,7 @@ public class C2Controller {
     }
     logger.info("Attempted registration for existing user with username: {}", username);
     //return new ResponseEntity<>("User Already Exists", HttpStatus.OK);
-    return responseBadRequest();
+    return responseBadRequest("");
   }   
 
   /** POST Login User. **/
@@ -120,6 +121,6 @@ public class C2Controller {
       return responseOk("logged in");
     } 
     logger.info("Incorrect login information attempt for user: {}", username);
-    return responseBadRequest();
+    return responseBadRequest("");
   }
 }
