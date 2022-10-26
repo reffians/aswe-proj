@@ -1,5 +1,4 @@
 package com.reffians.c2.repository;
-import java.util.List;
 
 import com.reffians.c2.model.*;
 

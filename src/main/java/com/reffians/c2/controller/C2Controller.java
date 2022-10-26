@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/** C2 Controller Class. **/
+/** The REST Controller of the C2 Application, performs routing of all REST API
+ * calls to this service. **/
 @RestController
 public class C2Controller {
   @Autowired
@@ -28,7 +29,17 @@ public class C2Controller {
 
   private static final Logger logger = LoggerFactory.getLogger(C2Controller.class);
 
-  /** GET Command Beacon. **/
+  /** GET commands for a beacon. Returns 200 OK and an array of command Command
+   * objects on success, 400 Bad Request with an error message on failure.
+   * @param beaconid A non-negative integer used to identify the beacon.
+   * @param status An optional argument specifying the status of the command.
+   * Can be one of "pending", "sent", "executed", or "finished". If no status
+   * is supplied, commands of any status are retrieved.
+   * @return A list of command objects. A command object is contains integer
+   * identifier "id", integer "beaconid" of the corresponding beacon, user-defined
+   * string "content", and string "status" that is one of "pending", "sent",
+   * "executed", or "finished".
+   */
   @GetMapping("/beacon/command")
   public ResponseEntity<?> getCommandBeacon(@RequestParam Integer beaconid,
       @RequestParam Optional<String> status) {
@@ -37,7 +48,7 @@ public class C2Controller {
 
     if (beaconid < 0) {
       logger.info("GET commands from beacon with negative beaconid: {}", beaconid);
-      return responseBadRequest();
+      return responseBadRequest("Invalid beaconid: supplied beaconid is negative.");
     }
 
     if (!status.isPresent()) {
@@ -46,7 +57,7 @@ public class C2Controller {
 
     if (!Command.isValidStatus(status.get())) {
       logger.info("GET commands from beacon with invalid status: {}", status);
-      return responseBadRequest();
+      return responseBadRequest("Invalid status.");
     }
 
     return responseOk(c2Service.getCommands(beaconid, Status.valueOf(status.get())));
@@ -72,8 +83,8 @@ public class C2Controller {
     return new ResponseEntity<>(body, HttpStatus.OK);
   }
 
-  private static <T> ResponseEntity<?> responseBadRequest() {
-    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+  private static <T> ResponseEntity<?> responseBadRequest(@Nullable T body) {
+    return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
   }
   
   /* POST Register User. */

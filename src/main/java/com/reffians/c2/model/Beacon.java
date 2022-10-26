@@ -1,7 +1,5 @@
 package com.reffians.c2.model;
 
-import static org.apache.commons.lang3.EnumUtils.isValidEnum;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
