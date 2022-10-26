@@ -22,7 +22,8 @@ public class User {
     this.username = username;
     this.password = password;
   }
-  
+
+  /** User constructor. */
   public User() {
 
     this.username = null;

@@ -28,8 +28,8 @@ public class Beacon {
  
   /**
    * Constructor for a Beacon. It takes in the username of the user that this beacon belongs to.
-   
-   @param username username of the user that 'owns' this beacon
+
+   * @param username username of the user that 'owns' this beacon
    **/
   public Beacon(String username) {
     this.id = null;
