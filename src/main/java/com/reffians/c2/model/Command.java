@@ -15,21 +15,22 @@ import lombok.Getter;
 @Entity
 @Table(name = "command")
 public class Command {
+  
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty("id")
-  private Integer id;
+  public Integer id;
 
   @Getter
   @JsonProperty("beaconid")
-  private Integer beaconid;
+  public Integer beaconid;
 
   @Getter
   @JsonProperty("content")
-  private String content;
+  public String content;
 
   @JsonProperty("status")
-  private String status;
+  public String status;
  
   /** The enum of valid command status. **/
   public static enum Status {
@@ -46,7 +47,6 @@ public class Command {
    * @param content a user-defined string containing the command content to be
     executed by the beacon. **/
   public Command(Integer beaconid, String content) {
-    this.id = null;
     this.beaconid = beaconid;
     this.content = content;
     this.status = Status.pending.name();

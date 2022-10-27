@@ -148,13 +148,14 @@ public class C2ServiceTest {
     Mockito.when(userRepository.findByUnamePword(username, password)).thenReturn(users);
     assertEquals(users, c2Service.getUsers(username, password)); 
   }
-  public void testInsertBeacons() { // TODO
-    // Integer userid = 1
-    // Mockito.when(beaconRepository.insertBeacon(userid)).thenReturn(userid);
-    // Mockito.when(beaconRepository.insertBeacon(userid1)).thenReturn(userid1);
-
-    // TODO get beacons in userRepository
-
+  
+  @Test
+  public void submitCommandTest()
+  {
+    Command command1 = new Command(1, "content1");
+    Mockito.doNothing().when(commandRepository).insertCommand(Mockito.any(Integer.class), Mockito.any(String.class), Mockito.any(String.class));
+    c2Service.addCommand(command1.beaconid, command1.content, command1.status);
+    Mockito.verify(commandRepository, Mockito.times(1)).insertCommand(command1.beaconid, command1.content, command1.status);
   }
 
 }

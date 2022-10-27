@@ -3,6 +3,7 @@ package com.reffians.c2.controller;
 import com.reffians.c2.model.Beacon;
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
+import com.reffians.c2.model.CommandList;
 import com.reffians.c2.model.User;
 import com.reffians.c2.service.C2Service;
 import java.util.List;
@@ -124,5 +125,30 @@ public class C2Controller {
     } 
     logger.info("Incorrect login information attempt for user: {}", username);
     return responseBadRequest("");
+  }
+
+
+  /**
+   * POST Beacon Commands.
+   *
+   * @param commands : a list of Commands (containing beaconid and content)
+   *
+   * @return ResponseEntity with HttpStatus
+   */
+  @PostMapping(path = "/beacon/command", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> submitCommands(@RequestBody CommandList commands) {
+    Integer beaconid = null;
+    String content = "";
+
+    if (commands.getCommands().isEmpty())  {
+      return new ResponseEntity<>("invalid: empty command list", HttpStatus.OK);
+    }
+
+    for (Command c : commands.getCommands()) {
+      beaconid = c.beaconid;
+      content = c.content;
+      c2Service.addCommand(beaconid, content, Status.pending.name());
+    }
+    return new ResponseEntity<>("added commands", HttpStatus.OK); 
   }
 }

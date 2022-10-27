@@ -100,7 +100,6 @@ public class C2Service {
     return updatedCommands;
   }
 
-
   /**
    * Method to create beacon.
 
@@ -110,4 +109,9 @@ public class C2Service {
     beaconRepository.createBeacon(username);
   }
 
+  /** Post to commands table. */
+  public void addCommand(Integer beaconid, String content, String status) {
+    commandRepository.insertCommand(beaconid, content, status);
+  }
+  
 }
