@@ -27,6 +27,13 @@ public interface UserRepository extends CrudRepository<User, String> {
   List<User> findByUnamePword(@Param("username") String username, 
       @Param("password") String password);
 
+  /*
+   * findPwordByUser
+   * get password given username
+   */
+  @Query(value = "select password from users where username = :username", nativeQuery = true)
+  List<String> findPwordByUser(@Param("username") String username);
+
   /** insertUser
    * Add new user to the database with a given username and password.
    **/

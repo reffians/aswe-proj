@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**C2 Service Class. **/
 @Service
@@ -56,6 +57,14 @@ public class C2Service {
     return userRepository.findByUnamePword(username, password);
   }
 
+  public String getPwordHash(String username){
+	List<String> pword = userRepository.findPwordByUser(username);
+	if(pword.size() == 1){
+		return pword.get(0);
+	} 
+    return null;
+  }
+
   /** checkUser. Checks if user exists in the database given a username **/
   public boolean checkUser(String username) {
     List<User> users =  getUsers(username);
@@ -67,15 +76,19 @@ public class C2Service {
 
   /** login. Attempts to login user. Checks if username and password pair exist in the database **/
   public boolean login(String username, String password) {
-    List<User> users = getUsers(username, password);
-    if (users.size() != 0) {
-      return true;
-    }
-    return false;
+	String pw_hash = getPwordHash(username);
+	if (pw_hash == null) {
+		return false;
+	} else {
+		//hash password
+		return BCrypt.checkpw(password, pw_hash);
+	}
   }
 
   public void addUser(String username, String password) {
-    userRepository.insertUser(username, password);
+	//hash password
+	String pwhash = BCrypt.hashpw(password, BCrypt.gensalt());
+    userRepository.insertUser(username, pwhash);
   }
 
   /** Update the status of commands which have oldStatus to newStatus, returning
