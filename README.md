@@ -69,6 +69,15 @@
     - Example:
         - localhost:8080/beacon/command?beaconid=123456789
         - localhost:8080/beacon/command?beaconid=123456789&status=pending
+        
+- /beacon/command
+    - POST
+    - Description: send a list of command objects to a beacon
+    - Returns an error message (string) and a 200 OK on invalid input, 200 OK and validation message on valid input. On correct input, we also insert the commands received into the “commands” database, with the relevant fields
+    - Fields
+        - commands: a CommandList, which is a class used to represent a list of command objects; contains all the commands we want to send. We retrieve this CommandList from the body of the POST mapping, which is in JSON form.
+    - Example:
+        - Sample body request: curl -X POST localhost:8080/beacon/command -H "Content-Type: application/json" -d "{\"commands\" :      [{\"beaconid\":11,\"content\":\"content11\"}, {\"beaconid\":22, \"content\":\"content22\"}]}"
 
 ### COMMON ISSUES
 
