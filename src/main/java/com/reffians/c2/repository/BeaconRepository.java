@@ -1,9 +1,6 @@
 package com.reffians.c2.repository;
 
 import com.reffians.c2.model.Beacon;
-import com.reffians.c2.model.Command;
-import com.reffians.c2.model.User;
-import java.util.List;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
