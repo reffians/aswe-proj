@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.User;
-import com.reffians.c2.model.Beacon;
 import com.reffians.c2.repository.CommandRepository;
 import com.reffians.c2.repository.UserRepository;
 import com.reffians.c2.repository.BeaconRepository;
