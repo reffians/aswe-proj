@@ -105,6 +105,10 @@ public class C2Controller {
   public ResponseEntity<?> registerUser(@RequestBody User user) {
     String username = user.username;
     String password = user.password;
+    if (username == null || password == null) {
+      logger.info("Registration request missing username or password field");
+      return responseBadRequest("");
+    }
     if (c2Service.checkUser(username)) {
       c2Service.addUser(username, password);
       //return new ResponseEntity<>("Registered", HttpStatus.OK);
@@ -120,6 +124,10 @@ public class C2Controller {
   public ResponseEntity<?> login(@RequestBody User user) {
     String username = user.username;
     String password = user.password;
+    if (username == null || password == null) {
+      logger.info("Login request missing username or password field");
+      return responseBadRequest("");
+    }
     if (c2Service.login(username, password)) {
       return responseOk("logged in");
     } 
