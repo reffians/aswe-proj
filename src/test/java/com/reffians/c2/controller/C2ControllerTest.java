@@ -720,19 +720,11 @@ public class C2ControllerTest {
 
   @Test
   public void testSubmitCommands() throws Exception {
-    // JSONObject obj = new JSONObject();
-    // CommandList commandList = new CommandList();
-
-    // List<Command> cmdList = new ArrayList<Command>();
-    // cmdList.add(new Command(123, "content123"));
-    // commandList.setCommands(cmdList);
-    // obj.put("commands", commandList);
-
-    
-    //String testCommand = obj.toString();
-    String testCommand = "{\"commands\" : [{\"beaconid\":11,\"content\":\"content11\"}, {\"beaconid\":22, \"content\":\"content22\"}]}";
-    mockMvc.perform(MockMvcRequestBuilders.post("/beacon/command")
-        .contentType(MediaType.APPLICATION_JSON).content(testCommand))
-        .andExpect(status().isOk());
+    String testCommandContents = "[\"command1\", \"command2\"]\"";
+    mockMvc.perform(MockMvcRequestBuilders.post("/user/command")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(testCommandContents)
+        .queryParam("beaconid", "123456789"))
+        .andExpect(status().isCreated());
   }
 }

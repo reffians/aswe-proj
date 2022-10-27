@@ -1,8 +1,6 @@
 package com.reffians.c2.controller;
 
-import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
-import com.reffians.c2.model.CommandList;
 import com.reffians.c2.model.User;
 import com.reffians.c2.service.C2Service;
 import java.util.List;
@@ -57,7 +55,7 @@ public class C2Controller {
       return responseOk(c2Service.getCommands(beaconid));
     }
 
-    if (!Command.isValidStatus(status.get())) {
+    if (!Status.isValid(status.get())) {
       logger.info("GET commands from beacon with invalid status: {}", status);
       return responseBadRequest("Invalid status.");
     }
@@ -134,26 +132,31 @@ public class C2Controller {
 
 
   /**
-   * POST Beacon Commands.
-   *
-   * @param commands : a list of Commands (containing beaconid and content)
-   *
-   * @return ResponseEntity with HttpStatus
-   */
-  @PostMapping(path = "/beacon/command", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> submitCommands(@RequestBody CommandList commands) {
-    Integer beaconid = null;
-    String content = "";
-
-    if (commands.getCommands().isEmpty())  {
-      return new ResponseEntity<>("invalid: empty command list", HttpStatus.OK);
+    * POST User Commands. Returns 300 Created on success, and 400 Bad Request
+    * on failure.
+    *
+    * @param beaconid a non-negative integer representing the beaconid.
+    * @param commandContents a list of strings representing the command contents.
+    * @return ResponseEntity with HttpStatus
+    */
+  @PostMapping(path = "/user/command", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> submitCommands(@RequestParam Integer beaconid,
+      @RequestBody List<String> commandContents) {
+    logger.info("POST commands to beacon with beaconid: {}, commandContents: {}",
+        beaconid, commandContents);
+    if (beaconid < 0) {
+      logger.info("POST commands to beacon with negative beaconid: {}", beaconid);
+      return responseBadRequest("Invalid beaconid: supplied beaconid is negative.");
     }
 
-    for (Command c : commands.getCommands()) {
-      beaconid = c.beaconid;
-      content = c.content;
-      c2Service.addCommand(beaconid, content, Status.pending.name());
+    if (commandContents.isEmpty())  {
+      logger.info("POST commands to beacon with empty command contents list.");
+      return responseBadRequest("Invalid: empty command contents list.");
     }
-    return new ResponseEntity<>("added commands", HttpStatus.OK); 
+
+    for (String content : commandContents) {
+      c2Service.addCommand(beaconid, content);
+    }
+    return responseCreated("added commands"); 
   }
 }
