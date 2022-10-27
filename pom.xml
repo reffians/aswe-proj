@@ -69,20 +69,15 @@
 						<id>validate</id>
 						<phase>validate</phase>
 						<goals>
-    						<goal>check</goal>
+							<goal>check</goal>
 						</goals>
 					</execution>
 				</executions>
- 			</plugin>
+			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.8</version>
-				<configuration>
-     				<includes>
-        			<include>**/*.class</include>
-      				</includes>
-    			</configuration>
 				<executions>
 					<execution>
 						<goals>
