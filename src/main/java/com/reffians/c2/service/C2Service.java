@@ -10,8 +10,8 @@ import com.reffians.c2.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.stereotype.Service;
 
 /**C2 Service Class. **/
 @Service
@@ -57,11 +57,12 @@ public class C2Service {
     return userRepository.findByUnamePword(username, password);
   }
 
-  public String getPwordHash(String username){
-	List<String> pword = userRepository.findPwordByUser(username);
-	if(pword.size() == 1){
-		return pword.get(0);
-	} 
+  /** Retreives password hash for a given username in the database. **/
+  public String getPwordHash(String username) {
+    List<String> pword = userRepository.findPwordByUser(username);
+    if (pword.size() == 1) {
+      return pword.get(0);
+    } 
     return null;
   }
 
@@ -74,20 +75,20 @@ public class C2Service {
     return false;
   }
 
-  /** login. Attempts to login user. Checks if username and password pair exist in the database **/
+  /** login. Attempts to login user. Retreives password hash if user exists in the database. **/
   public boolean login(String username, String password) {
-	String pw_hash = getPwordHash(username);
-	if (pw_hash == null) {
-		return false;
-	} else {
-		//hash password
-		return BCrypt.checkpw(password, pw_hash);
-	}
+    String pwhash = getPwordHash(username);
+    if (pwhash == null) {
+      return false;
+    }
+    //hash password
+    return BCrypt.checkpw(password, pwhash);
   }
 
+  /** Hashes password and adds user credentials to the database. **/
   public void addUser(String username, String password) {
-	//hash password
-	String pwhash = BCrypt.hashpw(password, BCrypt.gensalt());
+    //hash password
+    String pwhash = BCrypt.hashpw(password, BCrypt.gensalt());
     userRepository.insertUser(username, pwhash);
   }
 
