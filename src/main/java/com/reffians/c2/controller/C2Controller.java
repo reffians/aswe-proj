@@ -127,23 +127,28 @@ public class C2Controller {
     return responseBadRequest("");
   }
 
-  /* POST Beacon Commands. */
-  @PostMapping(path="/beacon/command", consumes = MediaType.APPLICATION_JSON_VALUE)
+
+  /**
+   * POST Beacon Commands.
+   *
+   * @param commands : a list of Commands (containing beaconid and content)
+   *
+   * @return ResponseEntity with HttpStatus
+   */
+  @PostMapping(path = "/beacon/command", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> submitCommands(@RequestBody CommandList commands) {
     Integer beaconid = null;
     String content = "";
 
-    if (commands.getCommands().isEmpty())  
-    {
+    if (commands.getCommands().isEmpty())  {
       return new ResponseEntity<>("invalid: empty command list", HttpStatus.OK);
     }
 
-    for (Command c: commands.getCommands())
-    {
+    for (Command c : commands.getCommands()) {
       beaconid = c.beaconid;
       content = c.content;
       c2Service.addCommand(beaconid, content, Status.pending.name());
     }
     return new ResponseEntity<>("added commands", HttpStatus.OK); 
-   }
+  }
 }

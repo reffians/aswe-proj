@@ -109,8 +109,8 @@ public class C2Service {
     beaconRepository.createBeacon(username);
   }
 
-  /** Post to commands table: */
-  public void addCommand(Integer beaconid, String content, String status){
+  /** Post to commands table. */
+  public void addCommand(Integer beaconid, String content, String status) {
     commandRepository.insertCommand(beaconid, content, status);
   }
   

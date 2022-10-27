@@ -78,4 +78,8 @@ public class Command {
   public void setStatus(Status status) {
     this.status = status.name();
   }
+
+  public Integer getBeaconid() {
+    return null;
+  }
 }
