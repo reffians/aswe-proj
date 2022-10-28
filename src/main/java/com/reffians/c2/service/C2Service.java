@@ -28,22 +28,19 @@ public class C2Service {
     * @return list of command objects associated with the specified beaconid.
     */
   public List<Command> getCommands(Integer beaconid) {
-    List<Command> commands = commandRepository.findByBeaconid(beaconid);
-    this.updateCommandStatus(commands, Status.pending, Status.sent);
-    return commands;
+    return commandRepository.findByBeaconid(beaconid);
   }
 
   /** Get a list of commands by beaconid and status, updating status from pending
     * to sent.
     *
     * @param beaconid an integer used to identify a beacon.
+    * @param status a status type of the command
     * @return list of command objects associated with the specified beaconid and
     *     status.
     */
   public List<Command> getCommands(Integer beaconid, Status status) {
-    List<Command> commands = commandRepository.findByBeaconidStatus(beaconid, status.name());
-    this.updateCommandStatus(commands, Status.pending, Status.sent);
-    return commands;
+    return commandRepository.findByBeaconidStatus(beaconid, status.name());
   }
 
   // registration and login methods
@@ -90,20 +87,19 @@ public class C2Service {
     userRepository.insertUser(username, pwhash);
   }
 
-  /** Update the status of commands which have oldStatus to newStatus, returning
+  /** Update the status of commands which have not yet reached newStatus, returning
     * a list of updated commands.
     *
     * @param commands a list of commands to be updated to newStatus should they be
     *     of oldStatus.
-    * @param oldStatus the status that commands should have to be updated.
-    * @param newStatus the status that the commands will be updated to.
+    * @param newStatus the status that the commands that have not reached this status
+    *     yet will be updated to.
     * @return a list of command objects that have been updated.
     */
-  public List<Command> updateCommandStatus(List<Command> commands, Status oldStatus,
-      Status newStatus) {
+  public List<Command> updateCommandStatus(List<Command> commands, Status newStatus) {
     ArrayList<Command> updatedCommands = new ArrayList<Command>();
     for (Command command : commands) {
-      if (command.getStatus() == oldStatus) {
+      if (command.getStatus().compareTo(newStatus) < 0) {
         command.setStatus(newStatus);
         updatedCommands.add(commandRepository.save(command));
       }

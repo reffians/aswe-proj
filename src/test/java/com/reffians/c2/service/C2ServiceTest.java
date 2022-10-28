@@ -81,10 +81,10 @@ public class C2ServiceTest {
   }
 
   @Test
-  public void testUpdateCommandStatusOldStatusSingle() {
+  public void testUpdateCommandStatusSingleUpdate() {
     Mockito.when(commandRepository.save(command0)).thenReturn(command0);
     List<Command> updatedCommands = c2Service.updateCommandStatus(oneCommandPending,
-        Status.pending, Status.sent);
+        Status.sent);
     assertEquals(1, updatedCommands.size());
     for (Command updatedCommand : updatedCommands) {
       assertEquals(Status.sent, updatedCommand.getStatus());
@@ -92,18 +92,18 @@ public class C2ServiceTest {
   }
 
   @Test
-  public void testUpdateCommandStatusNotOldStatusSingle() {
-    assertTrue(c2Service.updateCommandStatus(oneCommandPending, Status.sent,
-        Status.finished).isEmpty());
+  public void testUpdateCommandStatusSingleNoUpdate() {
+    assertTrue(c2Service.updateCommandStatus(oneCommandPending, Status.pending)
+        .isEmpty());
   }
 
   @Test
-  public void testUpdateCommandStatusMultipleSameOldStatus() {
+  public void testUpdateCommandStatusMultipleAllUpdate() {
     Mockito.when(commandRepository.save(command0)).thenReturn(command0);
     Mockito.when(commandRepository.save(command1)).thenReturn(command1);
     Mockito.when(commandRepository.save(command2)).thenReturn(command2);
-    List<Command> updatedCommands = c2Service.updateCommandStatus(threeCommandsAllPending,
-        Status.pending, Status.finished);
+    List<Command> updatedCommands = c2Service.updateCommandStatus(
+        threeCommandsAllPending, Status.finished);
     assertEquals(3, updatedCommands.size());
     for (Command updatedCommand : updatedCommands) {
       assertEquals(Status.finished, updatedCommand.getStatus());
@@ -111,20 +111,20 @@ public class C2ServiceTest {
   }
 
   @Test
-  public void testUpdateCommandStatusMultipleSameNotOldStatus() {
-    assertTrue(c2Service.updateCommandStatus(threeCommandsAllPending, Status.sent,
-        Status.finished).isEmpty());
+  public void testUpdateCommandStatusMultipleSameNoneUpdate() {
+    assertTrue(c2Service.updateCommandStatus(threeCommandsAllPending, Status.pending)
+        .isEmpty());
   }
 
   @Test
-  public void testUpdateCommandStatusMultipleTwoOldStatus() {
+  public void testUpdateCommandStatusMultipleTwoUpdated() {
     Mockito.when(commandRepository.save(command0)).thenReturn(command0);
     Mockito.when(commandRepository.save(command1)).thenReturn(command1);
-    List<Command> updatedCommands = c2Service.updateCommandStatus(threeCommandsOneExecuted,
-        Status.pending, Status.finished);
+    List<Command> updatedCommands = c2Service.updateCommandStatus(
+      threeCommandsOneExecuted, Status.sent);
     assertEquals(2, updatedCommands.size());
     for (Command updatedCommand : updatedCommands) {
-      assertEquals(Status.finished, updatedCommand.getStatus());
+      assertEquals(Status.sent, updatedCommand.getStatus());
     }
   }
 
