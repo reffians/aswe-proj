@@ -43,6 +43,31 @@ public class C2Service {
     return commandRepository.findByBeaconidStatus(beaconid, status.name());
   }
 
+  /** Update the status of commands which have not yet reached newStatus, returning
+    * a list of updated commands.
+    *
+    * @param commands a list of commands to be updated to newStatus should they be
+    *     of oldStatus.
+    * @param newStatus the status that the commands that have not reached this status
+    *     yet will be updated to.
+    * @return a list of command objects that have been updated.
+    */
+  public List<Command> updateCommandStatus(List<Command> commands, Status newStatus) {
+    ArrayList<Command> updatedCommands = new ArrayList<Command>();
+    for (Command command : commands) {
+      if (command.getStatus().compareTo(newStatus) < 0) {
+        command.setStatus(newStatus);
+        updatedCommands.add(commandRepository.save(command));
+      }
+    }
+    return updatedCommands;
+  }
+
+  /** Post to commands table. */
+  public void addCommand(Integer beaconid, String content) {
+    commandRepository.save(new Command(beaconid, content));
+  }
+
   // registration and login methods
   public List<User> getUsers(String username) {
     return userRepository.findByUsername(username);
@@ -87,26 +112,6 @@ public class C2Service {
     userRepository.insertUser(username, pwhash);
   }
 
-  /** Update the status of commands which have not yet reached newStatus, returning
-    * a list of updated commands.
-    *
-    * @param commands a list of commands to be updated to newStatus should they be
-    *     of oldStatus.
-    * @param newStatus the status that the commands that have not reached this status
-    *     yet will be updated to.
-    * @return a list of command objects that have been updated.
-    */
-  public List<Command> updateCommandStatus(List<Command> commands, Status newStatus) {
-    ArrayList<Command> updatedCommands = new ArrayList<Command>();
-    for (Command command : commands) {
-      if (command.getStatus().compareTo(newStatus) < 0) {
-        command.setStatus(newStatus);
-        updatedCommands.add(commandRepository.save(command));
-      }
-    }
-    return updatedCommands;
-  }
-
   /**
    * Method to create beacon.
 
@@ -114,11 +119,6 @@ public class C2Service {
    */
   public void createBeacon(String username) {
     beaconRepository.createBeacon(username);
-  }
-
-  /** Post to commands table. */
-  public void addCommand(Integer beaconid, String content) {
-    commandRepository.save(new Command(beaconid, content));
   }
   
 }
