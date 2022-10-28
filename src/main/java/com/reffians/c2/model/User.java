@@ -4,11 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /** User table. **/
 @Entity
 @Table(name = "users") //double check what adam named the table for real 
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
   @Id //denotes primary key
   @JsonProperty("username")
@@ -17,16 +21,4 @@ public class User {
   @Getter
   @JsonProperty("password")
   public String password;
-
-  public User(String username, String password) {
-    this.username = username;
-    this.password = password;
-  }
-
-  /** User constructor. */
-  public User() {
-
-    this.username = null;
-    this.password = null;
-  }
 }

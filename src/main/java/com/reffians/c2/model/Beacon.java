@@ -7,12 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Data model for the beacon.
  **/
 @Entity
 @Table(name = "beacons")
+@NoArgsConstructor
 public class Beacon {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
