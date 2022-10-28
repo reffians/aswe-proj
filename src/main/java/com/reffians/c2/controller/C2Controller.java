@@ -45,11 +45,11 @@ public class C2Controller {
     logger.info("GET commands from beacon with beaconid: {}, status: {}",
         beaconid, status.orElse("NULL"));
     if (beaconid < 0) {
-      logger.info("GET commands from beacon with negative beaconid: {}", beaconid);
+      logger.warn("GET commands from beacon with negative beaconid: {}", beaconid);
       return responseBadRequest("Invalid beaconid: supplied beaconid is negative.");
     }
     if (status.isPresent() && !Status.isValid(status.get())) {
-      logger.info("GET commands from beacon with invalid status: {}", status);
+      logger.warn("GET commands from beacon with invalid status: {}", status);
       return responseBadRequest("Invalid status.");
     }
     List<Command> commands;
