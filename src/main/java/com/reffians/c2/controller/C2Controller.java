@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class C2Controller {
   @Autowired
   private C2Service c2Service;
-  
-
   private static final Logger logger = LoggerFactory.getLogger(C2Controller.class);
 
   /** GET commands for a beacon. Returns 200 OK and an array of command Command
@@ -63,7 +61,6 @@ public class C2Controller {
     c2Service.updateCommandStatus(commands, Status.sent);
     return responseOk(commands);
   }
-
 
   /**
    * POST mapping for the create beacon endpoint.
@@ -130,7 +127,6 @@ public class C2Controller {
     logger.info("Incorrect login information attempt for user: {}", username);
     return responseBadRequest("");
   }
-
 
   /**
     * POST User Commands. Returns 300 Created on success, and 400 Bad Request
