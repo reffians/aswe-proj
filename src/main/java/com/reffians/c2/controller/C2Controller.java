@@ -4,6 +4,7 @@ import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.User;
 import com.reffians.c2.service.C2Service;
+import com.reffians.c2.service.CommandService;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class C2Controller {
   @Autowired
   private C2Service c2Service;
+  @Autowired
+  private CommandService commandService;
   private static final Logger logger = LoggerFactory.getLogger(C2Controller.class);
 
   /** GET commands for a beacon. Returns 200 OK and an array of command Command
@@ -54,11 +57,11 @@ public class C2Controller {
     }
     List<Command> commands;
     if (status.isPresent()) {
-      commands = c2Service.getCommands(beaconid, Status.valueOf(status.get()));
+      commands = commandService.getCommands(beaconid, Status.valueOf(status.get()));
     } else {
-      commands = c2Service.getCommands(beaconid);
+      commands = commandService.getCommands(beaconid);
     }
-    c2Service.updateCommandStatus(commands, Status.sent);
+    commandService.updateCommandStatus(commands, Status.sent);
     return responseOk(commands);
   }
 
@@ -152,7 +155,7 @@ public class C2Controller {
     }
 
     for (String content : commandContents) {
-      c2Service.addCommand(beaconid, content);
+      commandService.addCommand(beaconid, content);
     }
     return responseCreated("added commands"); 
   }
