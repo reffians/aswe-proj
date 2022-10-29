@@ -95,39 +95,61 @@ public class C2Controller {
     return new ResponseEntity<>(body, HttpStatus.CREATED);
   }
   
-  /** POST Register User. **/
-  @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> registerUser(@RequestBody User user) {
-    String username = user.username;
-    String password = user.password;
+  /** 
+   * POST mapping to register a new user. 
+
+   * @param username is a non null non empty string
+   * 
+   * @param password is a non null non emtpry plaintext password
+   * **/
+  @PostMapping(path = "/register")
+  public ResponseEntity<?> registerUser(@RequestParam String username, @RequestParam String password) {
     if (username == null || password == null) {
-      logger.info("Registration request missing username or password field");
-      return responseBadRequest("");
+      logger.info("Registration request missing username or password field"); //make warning
+      return responseBadRequest("Registration request missing username or password field"); //put message here 
+    } 
+
+    if (username == "" || password == "") {
+      logger.info("Attempted user creation with empty username or password");
+      return responseBadRequest("Attempted user creation with empty username or password"); 
     }
-    if (c2Service.checkUser(username)) {
-      c2Service.addUser(username, password);
-      //return new ResponseEntity<>("Registered", HttpStatus.OK);
+
+    if (!c2Service.userExists(username)) {
+      c2Service.insertUser(username, password);
+      logger.info("New user created: {}", username);
       return responseCreated("User created");
     }
-    logger.info("Attempted registration for existing user with username: {}", username);
-    //return new ResponseEntity<>("User Already Exists", HttpStatus.OK);
-    return responseBadRequest("");
+
+    logger.info("Attempted registration for existing user with username: {}", username); //change to warning
+    return responseBadRequest("Attempted registration for existing user"); //
   }   
 
-  /** POST Login User. **/
-  @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> login(@RequestBody User user) {
-    String username = user.username;
-    String password = user.password;
+  /** 
+   * POST mapping for login 
+   * 
+   * @param username is a non null non empty string
+   * 
+   * @param password is a non null non emtpry plaintext password
+   * **/
+  @PostMapping(path = "/login")
+  public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
     if (username == null || password == null) {
       logger.info("Login request missing username or password field");
       return responseBadRequest("");
     }
-    if (c2Service.login(username, password)) {
+
+    if (username == "" || password == "") {
+      logger.info("Attempted user creation with empty username or password");
+      return responseBadRequest("Attempted user creation with empty username or password"); 
+    }
+
+    if (c2Service.compareHash(username, password)) {
+      logger.info("User login for {}", username);
       return responseOk("logged in");
     } 
+
     logger.info("Incorrect login information attempt for user: {}", username);
-    return responseBadRequest("");
+    return responseBadRequest("Incorrect login");
   }
 
 
