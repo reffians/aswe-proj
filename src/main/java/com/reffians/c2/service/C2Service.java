@@ -57,8 +57,9 @@ public class C2Service {
 
   /** 
    * Retreives password hash for a given username in the database. 
+
    * @param username is a nonempty string corresponding to the username
-   * **/
+   */
   public String retreiveHash(String username) {
     List<String> pword = userRepository.findPwordByUser(username);
     if (pword.size() == 1) {
@@ -69,9 +70,9 @@ public class C2Service {
 
   /** 
    * Checks if user exists in the database given a username.
-   * 
+
    * @param username is a nonempty string corresponding to the username. 
-   * **/
+   */
   public boolean userExists(String username) {
     List<User> users =  getUsers(username);
     if (!users.isEmpty()) {
@@ -82,12 +83,12 @@ public class C2Service {
 
   /** 
    * Retreives password hash if user exists in the database. 
-   * 
+
    * @param username is a nonempty string corresponding to the username. 
 
    * @param password is a nonempty string corresponding to the plain text
-   * password.
-   * **/
+   *     password.
+   */
   public boolean compareHash(String username, String password) { 
     String pwhash = retreiveHash(username);
     if (pwhash == null) {
@@ -101,12 +102,12 @@ public class C2Service {
    * Adds user credentials to the database consisting of the
    * username and hashed password. This method is run after checking
    * if the user exists 
-   * 
+
    * @param username is a nonempty string corresponding to the username.
 
    * @param password is a nonempty string corresponding to the plain text
-   * password.
-   **/
+   *     password.
+   */
   public void insertUser(String username, String password) {
     //hash password
     String pwhash = BCrypt.hashpw(password, BCrypt.gensalt());

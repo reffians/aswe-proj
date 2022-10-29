@@ -99,18 +99,19 @@ public class C2Controller {
    * POST mapping to register a new user. 
 
    * @param username is a non null non empty string
-   * 
+
    * @param password is a non null non emtpry plaintext password
-   * **/
+   */
   @PostMapping(path = "/register")
-  public ResponseEntity<?> registerUser(@RequestParam String username, @RequestParam String password) {
+  public ResponseEntity<?> 
+      registerUser(@RequestParam String username, @RequestParam String password) {
     if (username == null || password == null) {
-      logger.info("Registration request missing username or password field"); //make warning
-      return responseBadRequest("Registration request missing username or password field"); //put message here 
+      logger.warn("Registration request missing username or password field"); 
+      return responseBadRequest("Registration request missing username or password field");
     } 
 
     if (username == "" || password == "") {
-      logger.info("Attempted user creation with empty username or password");
+      logger.warn("Attempted user creation with empty username or password");
       return responseBadRequest("Attempted user creation with empty username or password"); 
     }
 
@@ -120,26 +121,26 @@ public class C2Controller {
       return responseCreated("User created");
     }
 
-    logger.info("Attempted registration for existing user with username: {}", username); //change to warning
+    logger.warn("Attempted registration for existing user with username: {}", username);
     return responseBadRequest("Attempted registration for existing user"); //
   }   
 
   /** 
-   * POST mapping for login 
-   * 
+   * POST mapping for login. 
+
    * @param username is a non null non empty string
-   * 
+
    * @param password is a non null non emtpry plaintext password
-   * **/
+   */
   @PostMapping(path = "/login")
   public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
     if (username == null || password == null) {
-      logger.info("Login request missing username or password field");
+      logger.warn("Login request missing username or password field");
       return responseBadRequest("");
     }
 
     if (username == "" || password == "") {
-      logger.info("Attempted user creation with empty username or password");
+      logger.warn("Attempted user creation with empty username or password");
       return responseBadRequest("Attempted user creation with empty username or password"); 
     }
 
@@ -148,7 +149,7 @@ public class C2Controller {
       return responseOk("logged in");
     } 
 
-    logger.info("Incorrect login information attempt for user: {}", username);
+    logger.warn("Incorrect login information attempt for user: {}", username);
     return responseBadRequest("Incorrect login");
   }
 
