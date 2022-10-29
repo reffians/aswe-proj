@@ -1,5 +1,6 @@
 package com.reffians.c2.service;
 
+import com.reffians.c2.model.Beacon;
 import com.reffians.c2.model.User;
 import com.reffians.c2.repository.BeaconRepository;
 import com.reffians.c2.repository.UserRepository;
@@ -66,7 +67,8 @@ public class C2Service {
    * @param username username of the user that 'owns' this beacon
    */
   public void createBeacon(String username) {
-    beaconRepository.createBeacon(username);
+    Beacon b = new Beacon(username);
+    beaconRepository.save(b);
   }
   
 }
