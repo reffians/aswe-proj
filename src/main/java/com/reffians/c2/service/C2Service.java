@@ -1,5 +1,6 @@
 package com.reffians.c2.service;
 
+import com.reffians.c2.model.Beacon;
 import com.reffians.c2.model.User;
 import com.reffians.c2.repository.BeaconRepository;
 import com.reffians.c2.repository.UserRepository;

@@ -83,7 +83,8 @@ public class C2Controller {
     }
     c2Service.createBeacon(username);
     Date date = new Date();
-        logger.info("Beacon created at " + new Timestamp(date.getTime()) + " for user: {}", username);
+    logger.info("Beacon created at " + new Timestamp(date.getTime()) + " for user: {}",
+        username);
     return responseOk("Beacon created at " + new Timestamp(date.getTime()));
     
   }
