@@ -9,14 +9,4 @@ import org.springframework.transaction.annotation.Transactional;
 
 /** Beacon Repository to query beacons table. */
 public interface BeaconRepository extends CrudRepository<Beacon, Integer> {
-
-  /**
-   * * SQL query to add the beacon to the beacons table.
-
-   * @param username username of the user that 'owns' this beacon
-   */
-  @Modifying
-  @Transactional
-  @Query(value = "insert into beacons (username) values (:username)", nativeQuery = true)
-  void createBeacon(@Param("username") String username);
 }

@@ -5,6 +5,8 @@ import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.User;
 import com.reffians.c2.service.C2Service;
 import com.reffians.c2.service.CommandService;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -76,12 +78,14 @@ public class C2Controller {
         username);
     List<User> thisUser = c2Service.getUsers(username);
     if (thisUser.size() == 0) {
-      logger.info("POST create beacon for non-existent user: {}", username);
+      logger.error("POST create beacon for non-existent user: {}", username);
       return responseBadRequest("Invalid username: the user does not exist.");
-    } else {
-      c2Service.createBeacon(username);
-      return new ResponseEntity<>("Beacon Created", HttpStatus.OK);
     }
+    c2Service.createBeacon(username);
+    Date date = new Date();
+        logger.info("Beacon created at " + new Timestamp(date.getTime()) + " for user: {}", username);
+    return responseOk("Beacon created at " + new Timestamp(date.getTime()));
+    
   }
 
   private static <T> ResponseEntity<?> responseOk(@Nullable T body) {

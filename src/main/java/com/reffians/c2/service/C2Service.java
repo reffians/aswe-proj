@@ -66,7 +66,8 @@ public class C2Service {
    * @param username username of the user that 'owns' this beacon
    */
   public void createBeacon(String username) {
-    beaconRepository.createBeacon(username);
+    Beacon b = new Beacon(username);
+    beaconRepository.save(b);
   }
   
 }
