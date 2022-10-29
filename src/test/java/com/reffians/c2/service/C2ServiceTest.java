@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.User;
-import com.reffians.c2.repository.CommandRepository;
 import com.reffians.c2.repository.UserRepository;
 import com.reffians.c2.repository.BeaconRepository;
 import java.util.List;
@@ -19,8 +18,6 @@ public class C2ServiceTest {
   @Autowired
   private C2Service c2Service;
 
-  @MockBean
-  private CommandRepository commandRepository;
   @MockBean
   private UserRepository userRepository;
   @MockBean

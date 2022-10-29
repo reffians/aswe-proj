@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.repository.CommandRepository;
-import com.reffians.c2.repository.UserRepository;
-import com.reffians.c2.repository.BeaconRepository;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,10 +21,6 @@ public class CommandServiceTest {
   private CommandService commandService;
   @MockBean
   private CommandRepository commandRepository;
-  @MockBean
-  private UserRepository userRepository;
-  @MockBean
-  private BeaconRepository beaconRepository;
 
   static final int beaconid = 0;
   static Command command0;
