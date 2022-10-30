@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    image: asweproj.azurecr.io/c2
+    ports:
+      - 80:80
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: springuser
+      MYSQL_DATABASE: appdb
+      MYSQL_PASSWORD_FILE: /mnt/secrets/MYSQL_PASSWORD
+    secrets:
+      - source: mysql_password
+        target: /mnt/secrets/MYSQL_PASSWORD
+
+  db:
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/data/db
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      MYSQL_DATABASE: appdb
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD_FILE: /mnt/secrets/mysql_password
+      MYSQL_ROOT_PASSWORD_FILE: /mnt/secrets/mysql_root_password
+    secrets:
+      - source: mysql_password
+        target: /mnt/secrets/mysql_password
+      - source: mysql_root_password
+        target: /mnt/secrets/mysql_root_password
+
+volumes:
+  mysql-data:
+    driver: azure_file
+    driver_opts:
+      share_name: acishare
+      storage_account_name: asweprojstorage
+
+secrets:
+  mysql_password:
+    file: ./mysql_password.txt
+  mysql_root_password:
+    file: ./mysql_root_password.txt
