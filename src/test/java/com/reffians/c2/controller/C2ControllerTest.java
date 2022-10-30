@@ -545,160 +545,111 @@ public class C2ControllerTest {
   //Test registration
   @Test
   public void testRegister() throws Exception {
-    JSONObject obj = new JSONObject();
-    obj.put("username", "Nikhil1");
-    obj.put("password", "pword");
-    String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser))
+        .queryParam("username", "Nikhil1")
+        .queryParam("password", "pword"))
         .andExpect(status().isCreated());
   }
  
   @Test
   public void testRegisterOutofOrder() throws Exception {
-    JSONObject obj = new JSONObject();
-    obj.put("password", "pword");
-	obj.put("username", "Nikhil2");
-    String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser))
+        .queryParam("password", "pword")
+        .queryParam("username", "Nikhil2"))
         .andExpect(status().isCreated());
   }
 
   @Test
   public void testRegisterNoUsername() throws Exception {
-    JSONObject obj = new JSONObject();
-    obj.put("password", "pword");
-    String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser))
+        .queryParam("password", "pword"))
         .andExpect(status().isBadRequest());
   }
 
   @Test
   public void testRegisterNoPassword() throws Exception {
-    JSONObject obj = new JSONObject();
-    obj.put("username", "Nikhil1");
-    String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser))
+        .queryParam("username", "Nikhil1"))
         .andExpect(status().isBadRequest());
   }
 
   @Test
   public void testRegisterEmptyJson() throws Exception {
-    JSONObject obj = new JSONObject();
-    String testUser = obj.toString();
-    mockMvc.perform(MockMvcRequestBuilders.post("/register")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser))
+    mockMvc.perform(MockMvcRequestBuilders.post("/register"))
         .andExpect(status().isBadRequest());
   }
 
   @Test
   public void testRegisterJunkJson() throws Exception {
-    JSONObject obj = new JSONObject();
-	obj.put("stan", "liao");
-	obj.put("AHHHHHH", "HHHHHHH");
-    String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser))
+        .queryParam("asdfasd", "asdfasdfa"))
         .andExpect(status().isBadRequest());
   }
 
   //login tests
   @Test
   public void testLogin() throws Exception {
-	JSONObject obj = new JSONObject();
-    obj.put("username", "Nikhil3");
-    obj.put("password", "pword");
-    String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser))
+        .queryParam("username", "Nikhil3")
+        .queryParam("password", "pword"))
         .andExpect(status().isCreated());
-    JSONObject obj2 = new JSONObject();
-    obj2.put("username", "Nikhil3");
-    obj2.put("password", "pword");
-    String testUser2 = obj2.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser2))
+        .queryParam("username", "Nikhil3")
+        .queryParam("password", "pword"))
         .andExpect(status().isOk());
   }
 
   @Test
   public void testLoginFailureNoUser() throws Exception {
-    JSONObject obj2 = new JSONObject();
-    obj2.put("username", "Nikhil4");
-    obj2.put("password", "pword");
-    String testUser2 = obj2.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser2))
+        .queryParam("username", "Nikhil4")
+        .queryParam("password", "pword"))
         .andExpect(status().isBadRequest());
   }
 
   @Test
   public void testLoginFailureWrongPassword() throws Exception {
-	JSONObject obj = new JSONObject();
-    obj.put("username", "Nikhil5");
-    obj.put("password", "pword");
-    String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser))
+        .queryParam("username", "Nikhil5")
+        .queryParam("password", "pword"))
         .andExpect(status().isCreated());
-    JSONObject obj2 = new JSONObject();
-    obj2.put("username", "Nikhil5");
-    obj2.put("password", "pword1");
-    String testUser2 = obj2.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser2))
+        .queryParam("username", "Nikhil5")
+        .queryParam("password", "pword1"))
         .andExpect(status().isBadRequest());
   }
 
   @Test
   public void testLoginOutofOrder() throws Exception {
-	JSONObject obj = new JSONObject();
-	obj.put("username", "Nikhil6");
-	obj.put("password", "pword");
-    String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser))
+        .queryParam("username", "Nikhil6")
+        .queryParam("password", "pword"))
         .andExpect(status().isCreated());
-    JSONObject obj2 = new JSONObject();
-	obj2.put("password", "pword");
-    obj2.put("username", "Nikhil6");
-    String testUser2 = obj2.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser2))
+        .queryParam("password", "pword")
+        .queryParam("username", "Nikhil6"))
         .andExpect(status().isOk());
   }
 
   @Test
   public void testLoginNoPassword() throws Exception {
-    JSONObject obj = new JSONObject();
-    obj.put("username", "Nikhil6");
-    String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser))
+        .queryParam("username", "Nikhil6"))
         .andExpect(status().isBadRequest());
   }
 
   @Test
   public void testLoginNoUsername() throws Exception {
-    JSONObject obj2 = new JSONObject();
-    obj2.put("password", "Nikhil6");
-    String testUser2 = obj2.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser2))
+        .queryParam("password", "pword"))
         .andExpect(status().isBadRequest());
   }
 
   @Test
   public void testLoginJunk() throws Exception {
-    JSONObject obj2 = new JSONObject();
-    obj2.put("blah", "Nikhil6");
-	obj2.put("ahjkdlsfalsd", "Nikhil6");
-    String testUser2 = obj2.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser2))
+        .queryParam("uasdfadsf", "Nikhil3")
+        .queryParam("sedasdf", "pword"))
         .andExpect(status().isBadRequest());
   }
 

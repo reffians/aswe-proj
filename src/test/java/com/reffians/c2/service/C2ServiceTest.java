@@ -51,7 +51,50 @@ public class C2ServiceTest {
     Mockito.when(userRepository.findByUnamePword(username, password)).thenReturn(users);
     assertEquals(users, c2Service.getUsers(username, password)); 
   }
-  
+
+  @Test
+  public void compareHashTest(){
+    String username = "Nikhil";
+    String password = "pword";
+    C2Service service = Mockito.mock(C2Service.class);
+    service.insertUser(username, password);
+    Mockito.doReturn(true).when(service).compareHash(username, password);
+    assertEquals(true, service.compareHash(username, password));
+  }
+
+
+  @Test
+  public void compareHashTestEmpty(){
+    String username = "Nikhil";
+    String password = "";
+    C2Service service = Mockito.mock(C2Service.class);
+    service.insertUser(username, password);
+    Mockito.doReturn(true).when(service).compareHash(username, password);
+    assertEquals(true, service.compareHash(username, password));
+  }
+
+  @Test
+  public void userExistsTest(){
+    String username = "Nikhil";
+    String password = "pword";
+    C2Service service = Mockito.mock(C2Service.class);
+    service.insertUser(username, password);
+    Mockito.doReturn(true).when(service).userExists(username);
+    assertEquals(true, service.userExists(username));
+  }
+
+  @Test
+  public void wrongUserExistsTest(){
+    String username = "Nikhil";
+    String password = "pword";
+    String wrong_username = "nik";
+    boolean res = false;
+    C2Service service = Mockito.mock(C2Service.class);
+    service.insertUser(username, password);
+    Mockito.doReturn(res).when(service).userExists(wrong_username);
+    assertEquals(res, service.userExists(wrong_username));
+  }
+
   // @Test
   // public void submitCommandTest()
   // {
