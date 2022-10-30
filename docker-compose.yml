@@ -4,8 +4,6 @@ services:
   app:
     build: .
     image: asweproj.azurecr.io/c2
-    ports:
-      - 80:80
     deploy:
       restart_policy:
         condition: on-failure
@@ -20,8 +18,6 @@ services:
 
   db:
     image: mysql:latest
-    ports:
-      - 3306:3306
     volumes:
       - mysql-data:/data/db
     deploy:
@@ -37,6 +33,15 @@ services:
         target: /mnt/secrets/mysql_password
       - source: mysql_root_password
         target: /mnt/secrets/mysql_root_password
+
+  reverse-proxy:
+    build: ./caddy
+    image: asweproj.azurecr.io/reverse-proxy
+    ports:
+      - 80:80
+    deploy:
+      restart_policy:
+        condition: on-failure
 
 volumes:
   mysql-data:
