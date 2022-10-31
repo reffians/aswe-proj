@@ -19,7 +19,7 @@ services:
   db:
     image: mysql:latest
     volumes:
-      - mysql-data:/data/db
+      - mysql-data:/var/lib/mysql
     deploy:
       restart_policy:
         condition: on-failure
