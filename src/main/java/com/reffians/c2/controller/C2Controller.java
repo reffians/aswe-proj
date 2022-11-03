@@ -71,10 +71,9 @@ public class C2Controller {
 
   /**
    * POST mapping for the register beacon endpoint.
-
-   * @param username username of the user that 'owns' this beacon
    */
-  @PostMapping(path = "/beacon/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(path = "/beacon/register", consumes = MediaType.APPLICATION_JSON_VALUE, 
+      produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> registerBeacon(@RequestBody Beacon beacon) {
     String username = beacon.username;
     logger.info("POST register beacon for user with username: {}",
@@ -114,7 +113,8 @@ public class C2Controller {
   }
   
   /** 
-   * POST mapping to register a new user. 
+   * POST mapping to register a new user.
+
    * @param username is a non null non empty string
    * @param password is a non null non emtpry plaintext password
    */
