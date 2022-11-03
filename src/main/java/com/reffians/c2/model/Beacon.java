@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Data model for the beacon.
@@ -24,9 +25,9 @@ public class Beacon {
   /**
    * username of the user that 'owns' this beacon.
    **/
-  @Getter
+  @Setter
   @JsonProperty("username")
-  private String username;
+  public String username;
  
   /**
    * Constructor for a Beacon. It takes in the username of the user that this beacon belongs to.

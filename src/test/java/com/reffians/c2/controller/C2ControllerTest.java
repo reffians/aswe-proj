@@ -655,17 +655,30 @@ public class C2ControllerTest {
 
   @Test
   public void testGetCommandBeaconBadUsername() throws Exception {
-    mockMvc.perform(post("/beacon/create?username=bad_username")).andExpect(status().isBadRequest());
+    JSONObject obj = new JSONObject();
+    obj.put("username", "bad_username");
+    String testUser = obj.toString();
+    mockMvc.perform(MockMvcRequestBuilders.post("/beacon/register")
+        .contentType(MediaType.APPLICATION_JSON).content(testUser))
+        .andExpect(status().isBadRequest());
   }
 
   @Test
   public void testGetCommandBeaconGoodUsername() throws Exception {
-    mockMvc.perform(post("/beacon/create?username=Nikhil1")).andExpect(status().isOk());
+    JSONObject obj = new JSONObject();
+    obj.put("username", "Nikhil1");
+    String testUser = obj.toString();
+    mockMvc.perform(MockMvcRequestBuilders.post("/beacon/register")
+        .contentType(MediaType.APPLICATION_JSON).content(testUser))
+        .andExpect(status().isOk());
   }
 
   @Test
   public void testGetCreateBeaconNoParams() throws Exception {
-    mockMvc.perform(post("/beacon/create"))
+    JSONObject obj = new JSONObject();
+    String testUser = obj.toString();
+    mockMvc.perform(post("/beacon/register")
+        .contentType(MediaType.APPLICATION_JSON).content(testUser))
         .andExpect(status().isBadRequest());
   }
 
