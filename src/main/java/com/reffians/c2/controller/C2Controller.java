@@ -1,5 +1,6 @@
 package com.reffians.c2.controller;
 
+import com.reffians.c2.model.Beacon;
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.User;
@@ -9,6 +10,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,24 +70,33 @@ public class C2Controller {
   }
 
   /**
-   * POST mapping for the create beacon endpoint.
-
-   * @param username username of the user that 'owns' this beacon
+   * POST mapping for the register beacon endpoint.
    */
-  @PostMapping("/beacon/create")
-  public ResponseEntity<?> createBeacon(@RequestParam String username) {
-    logger.info("POST create beacon for user with username: {}",
+  @PostMapping(path = "/beacon/register", consumes = MediaType.APPLICATION_JSON_VALUE, 
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> registerBeacon(@RequestBody Beacon beacon) {
+    String username = beacon.username;
+    logger.info("POST register beacon for user with username: {}",
         username);
     List<User> thisUser = c2Service.getUsers(username);
     if (thisUser.size() == 0) {
-      logger.error("POST create beacon for non-existent user: {}", username);
+      logger.error("POST register beacon for non-existent user: {}", username);
       return responseBadRequest("Invalid username: the user does not exist.");
     }
-    c2Service.createBeacon(username);
+    c2Service.registerBeacon(username);
     Date date = new Date();
-    logger.info("Beacon created at " + new Timestamp(date.getTime()) + " for user: {}",
+    Timestamp t = new Timestamp(date.getTime());
+    logger.info("Beacon registered at " + t + " for user: {}",
         username);
-    return responseOk("Beacon created at " + new Timestamp(date.getTime()));
+
+    JSONObject obj = new JSONObject();
+    obj.put("timestamp", t);
+    obj.put("status", 200);
+    obj.put("path", "/beacon/register");
+    obj.put("username", username);
+    obj.put("beacon_id", "beacon_id");
+    String bodyToReturn = obj.toString();
+    return responseOk(bodyToReturn);
     
   }
 
@@ -102,10 +113,9 @@ public class C2Controller {
   }
   
   /** 
-   * POST mapping to register a new user. 
+   * POST mapping to register a new user.
 
    * @param username is a non null non empty string
-
    * @param password is a non null non emtpry plaintext password
    */
   @PostMapping(path = "/register")

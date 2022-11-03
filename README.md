@@ -51,13 +51,13 @@
         - Password (Type: String)
     - Sample body request { “username” : “John Smith”, “password”: “12345678”}
 
-- /beacon/create
+- /beacon/registers
     - POST
-    - Description: Takes in a username. Creates a beacon associated with that username and auto-generates a beaconid.
+    - Description: Takes in a username. Register a beacon associated with that username and auto-generates a beaconid.
     - Fields
         - username
-    - Example: curl -X POST "localhost:8080/beacon/create?username=username"
-        - Creates a beacon associated with user ‘username’
+    - Example: curl -X POST localhost:8080/beacon -H "Content-Type: application/json" -d '{"username":"username"}'
+        - Registers a beacon associated with user ‘username’
 
 - /beacon/command
     - GET
