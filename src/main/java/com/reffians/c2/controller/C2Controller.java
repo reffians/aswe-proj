@@ -107,7 +107,6 @@ public class C2Controller {
 
   /** 
    * POST mapping to register a new user.
-
    * @param userRequest is contains two strings:
    *     username is a non-null non-empty string
    *     password is a non-null non-empty plaintext password
