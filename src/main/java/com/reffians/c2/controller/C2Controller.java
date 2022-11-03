@@ -115,12 +115,14 @@ public class C2Controller {
   /** 
    * POST mapping to register a new user.
 
-   * @param username is a non null non empty string
-   * @param password is a non null non emtpry plaintext password
+   * @param user is contains two strings:
+   *     username is a non null non empty string
+   *     password is a non null non emtpry plaintext password
    */
-  @PostMapping(path = "/register")
-  public ResponseEntity<?> 
-      registerUser(@RequestParam String username, @RequestParam String password) {
+  @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> registerUser(@RequestBody User user) {
+    String username = user.username;
+    String password = user.password;
     if (username == null || password == null) {
       logger.warn("Registration request missing username or password field"); 
       return responseBadRequest("Registration request missing username or password field");
@@ -144,12 +146,14 @@ public class C2Controller {
   /** 
    * POST mapping for login. 
 
-   * @param username is a non null non empty string
-
-   * @param password is a non null non emtpry plaintext password
+   * @param user is contains two strings:
+   *     username is a non null non empty string
+   *     password is a non null non emtpry plaintext password
    */
-  @PostMapping(path = "/login")
-  public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
+  @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> login(@RequestBody User user) {
+    String username = user.username;
+    String password = user.password;
     if (username == null || password == null) {
       logger.warn("Login request missing username or password field");
       return responseBadRequest("");
