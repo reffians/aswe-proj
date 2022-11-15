@@ -18,21 +18,14 @@ public class UserService {
     return userRepository.findByUsername(username);
   }
 
-  public List<User> getUsers(String username, String password) {
-    return userRepository.findByUnamePword(username, password);
-  } //mark for deletion
-
   /** 
    * Retreives password hash for a given username in the database. 
 
    * @param username is a nonempty string corresponding to the username
    */
-  public String retreiveHash(String username) {
-    List<String> pword = userRepository.findPwordByUser(username);
-    if (pword.size() == 1) {
-      return pword.get(0);
-    } 
-    return null;
+  public String getPasswordHash(String username) {
+    List<String> encodedPasswords = userRepository.findEncodedPasswordByUsername(username);
+    return encodedPasswords.isEmpty() ? null : encodedPasswords.get(0);
   }
 
   /** 
@@ -41,12 +34,8 @@ public class UserService {
    * @param username is a nonempty string corresponding to the username. 
    */
   public boolean userExists(String username) {
-    List<User> users =  getUsers(username);
-    if (!users.isEmpty()) {
-      return true;
-    }
-    return false;
-  } // return !getUsers(username).isEmpty();
+    return !(getUsers(username).isEmpty());
+  }
 
   /** 
    * Retreives password hash if user exists in the database. 
@@ -57,7 +46,7 @@ public class UserService {
    *     password.
    */
   public boolean compareHash(String username, String password) { 
-    String pwhash = retreiveHash(username);
+    String pwhash = getPasswordHash(username);
     if (pwhash == null) {
       return false;
     }
@@ -75,9 +64,9 @@ public class UserService {
    * @param password is a nonempty string corresponding to the plain text
    *     password.
    */
-  public void insertUser(String username, String password) {
+  public void addUser(String username, String password) {
     //hash password
     String pwhash = BCrypt.hashpw(password, BCrypt.gensalt());
-    userRepository.insertUser(username, pwhash);
+    userRepository.save(new User(username, pwhash));
   }
 }

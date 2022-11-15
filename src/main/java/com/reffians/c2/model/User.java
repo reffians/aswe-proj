@@ -1,6 +1,7 @@
 package com.reffians.c2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -10,15 +11,15 @@ import lombok.NoArgsConstructor;
 
 /** User table. **/
 @Entity
-@Table(name = "users") //double check what adam named the table for real 
+@Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-  @Id //denotes primary key
+  @Id
   @JsonProperty("username")
   public String username;
 
   @Getter
-  @JsonProperty("password")
-  public String password;
+  @JsonProperty("encodedPassword")
+  public String encodedPassword;
 }

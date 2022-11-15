@@ -30,21 +30,11 @@ public class UserServiceTest {
   }
 
   @Test
-  public void getUsersByBothTest()  {
-    String username = "Nikhil";
-    String password = "pword";
-    User user = new User(username, password);
-    List<User> users = List.of(user);
-    Mockito.when(userRepository.findByUnamePword(username, password)).thenReturn(users);
-    assertEquals(users, userService.getUsers(username, password)); 
-  }
-
-  @Test
   public void compareHashTest(){
     String username = "Nikhil";
     String password = "pword";
     UserService service = Mockito.mock(UserService.class);
-    service.insertUser(username, password);
+    service.addUser(username, password);
     Mockito.doReturn(true).when(service).compareHash(username, password);
     assertEquals(true, service.compareHash(username, password));
   }
@@ -55,7 +45,7 @@ public class UserServiceTest {
     String username = "Nikhil";
     String password = "";
     UserService service = Mockito.mock(UserService.class);
-    service.insertUser(username, password);
+    service.addUser(username, password);
     Mockito.doReturn(true).when(service).compareHash(username, password);
     assertEquals(true, service.compareHash(username, password));
   }
@@ -65,7 +55,7 @@ public class UserServiceTest {
     String username = "Nikhil";
     String password = "pword";
     UserService service = Mockito.mock(UserService.class);
-    service.insertUser(username, password);
+    service.addUser(username, password);
     Mockito.doReturn(true).when(service).userExists(username);
     assertEquals(true, service.userExists(username));
   }
@@ -77,7 +67,7 @@ public class UserServiceTest {
     String wrong_username = "nik";
     boolean res = false;
     UserService service = Mockito.mock(UserService.class);
-    service.insertUser(username, password);
+    service.addUser(username, password);
     Mockito.doReturn(res).when(service).userExists(wrong_username);
     assertEquals(res, service.userExists(wrong_username));
   }

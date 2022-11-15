@@ -1,5 +1,6 @@
 package com.reffians.c2.controller;
 
+import com.reffians.c2.dto.UserRequestDTO;
 import com.reffians.c2.model.Beacon;
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
@@ -110,28 +111,26 @@ public class C2Controller {
    *     password is a non null non emtpry plaintext password
    */
   @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> registerUser(@RequestBody User user) {
-    String username = user.username;
-    String password = user.password;
-    if (username == null || password == null) {
+  public ResponseEntity<?> registerUser(@RequestBody UserRequestDTO user) {
+    if (user.getUsername() == null || user.getPassword() == null) {
       logger.warn("Registration request missing username or password field"); 
       return ResponseEntity.badRequest()
         .body("Registration request missing username or password field");
     } 
 
-    if (username == "" || password == "") {
+    if (user.getUsername().isEmpty() || user.getPassword().isEmpty()) {
       logger.warn("Attempted user creation with empty username or password");
       return ResponseEntity.badRequest()
         .body("Attempted user creation with empty username or password"); 
     }
 
-    if (!userService.userExists(username)) {
-      userService.insertUser(username, password);
-      logger.info("New user created: {}", username);
+    if (!userService.userExists(user.getUsername())) {
+      userService.addUser(user.getUsername(), user.getPassword());
+      logger.info("New user created: {}", user.getUsername());
       return ResponseEntity.ok("User created");
     }
 
-    logger.warn("Attempted registration for existing user with username: {}", username);
+    logger.warn("Attempted registration for existing user with username: {}", user.getUsername());
     return ResponseEntity.badRequest().body("Attempted registration for existing user"); //
   }   
 
@@ -143,26 +142,24 @@ public class C2Controller {
    *     password is a non null non emtpry plaintext password
    */
   @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> login(@RequestBody User user) {
-    String username = user.username;
-    String password = user.password;
-    if (username == null || password == null) {
+  public ResponseEntity<?> login(@RequestBody UserRequestDTO user) {
+    if (user.getUsername() == null || user.getPassword() == null) {
       logger.warn("Login request missing username or password field");
       return ResponseEntity.badRequest().body("");
     }
 
-    if (username == "" || password == "") {
+    if (user.getUsername().isEmpty() || user.getPassword().isEmpty()) {
       logger.warn("Attempted user creation with empty username or password");
       return ResponseEntity.badRequest()
         .body("Attempted user creation with empty username or password"); 
     }
 
-    if (userService.compareHash(username, password)) {
-      logger.info("User login for {}", username);
+    if (userService.compareHash(user.getUsername(), user.getPassword())) {
+      logger.info("User login for {}", user.getUsername());
       return ResponseEntity.ok("logged in");
     } 
 
-    logger.warn("Incorrect login information attempt for user: {}", username);
+    logger.warn("Incorrect login information attempt for user: {}", user.getUsername());
     return ResponseEntity.badRequest().body("Incorrect login");
   }
 
