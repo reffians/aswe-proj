@@ -1,21 +1,17 @@
 package com.reffians.c2.service;
 
-import com.reffians.c2.model.Beacon;
 import com.reffians.c2.model.User;
-import com.reffians.c2.repository.BeaconRepository;
 import com.reffians.c2.repository.UserRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-/**C2 Service Class. **/
+/**User Service Class. **/
 @Service
-public class C2Service {
+public class UserService {
   @Autowired
   private UserRepository userRepository;
-  @Autowired
-  private BeaconRepository beaconRepository;
 
   // registration and login methods
   public List<User> getUsers(String username) {
@@ -84,15 +80,4 @@ public class C2Service {
     String pwhash = BCrypt.hashpw(password, BCrypt.gensalt());
     userRepository.insertUser(username, pwhash);
   }
-
-  /**
-   * Method to register beacon.
-
-   * @param username username of the user that 'owns' this beacon
-   */
-  public void registerBeacon(String username) {
-    Beacon b = new Beacon(username);
-    beaconRepository.save(b);
-  }
-  
 }

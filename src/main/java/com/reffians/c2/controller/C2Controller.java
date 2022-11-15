@@ -4,8 +4,9 @@ import com.reffians.c2.model.Beacon;
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.User;
-import com.reffians.c2.service.C2Service;
+import com.reffians.c2.service.BeaconService;
 import com.reffians.c2.service.CommandService;
+import com.reffians.c2.service.UserService;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,7 +29,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class C2Controller {
   @Autowired
-  private C2Service c2Service;
+  private BeaconService beaconService;
+  @Autowired
+  private UserService userService;
   @Autowired
   private CommandService commandService;
   private static final Logger logger = LoggerFactory.getLogger(C2Controller.class);
@@ -77,12 +80,12 @@ public class C2Controller {
     String username = beacon.username;
     logger.info("POST register beacon for user with username: {}",
         username);
-    List<User> thisUser = c2Service.getUsers(username);
+    List<User> thisUser = userService.getUsers(username);
     if (thisUser.size() == 0) {
       logger.error("POST register beacon for non-existent user: {}", username);
       return ResponseEntity.badRequest().body("Invalid username: the user does not exist.");
     }
-    c2Service.registerBeacon(username);
+    beaconService.registerBeacon(username);
     Date date = new Date();
     Timestamp t = new Timestamp(date.getTime());
     logger.info("Beacon registered at " + t + " for user: {}",
@@ -122,8 +125,8 @@ public class C2Controller {
         .body("Attempted user creation with empty username or password"); 
     }
 
-    if (!c2Service.userExists(username)) {
-      c2Service.insertUser(username, password);
+    if (!userService.userExists(username)) {
+      userService.insertUser(username, password);
       logger.info("New user created: {}", username);
       return ResponseEntity.ok("User created");
     }
@@ -154,7 +157,7 @@ public class C2Controller {
         .body("Attempted user creation with empty username or password"); 
     }
 
-    if (c2Service.compareHash(username, password)) {
+    if (userService.compareHash(username, password)) {
       logger.info("User login for {}", username);
       return ResponseEntity.ok("logged in");
     } 
