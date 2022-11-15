@@ -551,7 +551,7 @@ public class C2ControllerTest {
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
-        .andExpect(status().isCreated());
+        .andExpect(status().isOk());
   }
  
   @Test
@@ -562,7 +562,7 @@ public class C2ControllerTest {
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
-        .andExpect(status().isCreated());
+        .andExpect(status().isOk());
   }
 
   @Test
@@ -613,7 +613,7 @@ public class C2ControllerTest {
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
-        .andExpect(status().isCreated());
+        .andExpect(status().isOk());
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
         .andExpect(status().isOk());
@@ -638,7 +638,7 @@ public class C2ControllerTest {
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
-        .andExpect(status().isCreated());
+        .andExpect(status().isOk());
     JSONObject obj2 = new JSONObject();
     obj2.put("username", "Nikhil5");
     obj2.put("password", "pword1");
@@ -656,7 +656,7 @@ public class C2ControllerTest {
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
-        .andExpect(status().isCreated());
+        .andExpect(status().isOk());
     JSONObject obj2 = new JSONObject();
     obj2.put("password", "pword");
     obj2.put("username", "Nikhil6");
@@ -733,6 +733,6 @@ public class C2ControllerTest {
         .contentType(MediaType.APPLICATION_JSON)
         .content(testCommandContents)
         .queryParam("beaconid", "123456789"))
-        .andExpect(status().isCreated());
+        .andExpect(status().isOk());
   }
 }

@@ -7,6 +7,7 @@ import com.reffians.c2.model.User;
 import com.reffians.c2.service.C2Service;
 import com.reffians.c2.service.CommandService;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -14,10 +15,8 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,11 +52,11 @@ public class C2Controller {
         beaconid, status.orElse("NULL"));
     if (beaconid < 0) {
       logger.warn("GET commands from beacon with negative beaconid: {}", beaconid);
-      return responseBadRequest("Invalid beaconid: supplied beaconid is negative.");
+      return ResponseEntity.badRequest().body("Invalid beaconid: supplied beaconid is negative.");
     }
     if (status.isPresent() && !Status.isValid(status.get())) {
       logger.warn("GET commands from beacon with invalid status: {}", status);
-      return responseBadRequest("Invalid status.");
+      return ResponseEntity.badRequest().body("Invalid status.");
     }
     List<Command> commands;
     if (status.isPresent()) {
@@ -66,7 +65,7 @@ public class C2Controller {
       commands = commandService.getCommands(beaconid);
     }
     commandService.updateCommandStatus(commands, Status.sent);
-    return responseOk(commands);
+    return ResponseEntity.ok(commands);
   }
 
   /**
@@ -81,7 +80,7 @@ public class C2Controller {
     List<User> thisUser = c2Service.getUsers(username);
     if (thisUser.size() == 0) {
       logger.error("POST register beacon for non-existent user: {}", username);
-      return responseBadRequest("Invalid username: the user does not exist.");
+      return ResponseEntity.badRequest().body("Invalid username: the user does not exist.");
     }
     c2Service.registerBeacon(username);
     Date date = new Date();
@@ -96,22 +95,10 @@ public class C2Controller {
     obj.put("username", username);
     obj.put("beacon_id", "beacon_id");
     String bodyToReturn = obj.toString();
-    return responseOk(bodyToReturn);
+    return ResponseEntity.ok(bodyToReturn);
     
   }
 
-  private static <T> ResponseEntity<?> responseOk(@Nullable T body) {
-    return new ResponseEntity<>(body, HttpStatus.OK);
-  }
-
-  private static <T> ResponseEntity<?> responseBadRequest(@Nullable T body) {
-    return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-  }
-
-  private static <T> ResponseEntity<?> responseCreated(@Nullable T body) {
-    return new ResponseEntity<>(body, HttpStatus.CREATED);
-  }
-  
   /** 
    * POST mapping to register a new user.
 
@@ -125,22 +112,24 @@ public class C2Controller {
     String password = user.password;
     if (username == null || password == null) {
       logger.warn("Registration request missing username or password field"); 
-      return responseBadRequest("Registration request missing username or password field");
+      return ResponseEntity.badRequest()
+        .body("Registration request missing username or password field");
     } 
 
     if (username == "" || password == "") {
       logger.warn("Attempted user creation with empty username or password");
-      return responseBadRequest("Attempted user creation with empty username or password"); 
+      return ResponseEntity.badRequest()
+        .body("Attempted user creation with empty username or password"); 
     }
 
     if (!c2Service.userExists(username)) {
       c2Service.insertUser(username, password);
       logger.info("New user created: {}", username);
-      return responseCreated("User created");
+      return ResponseEntity.ok("User created");
     }
 
     logger.warn("Attempted registration for existing user with username: {}", username);
-    return responseBadRequest("Attempted registration for existing user"); //
+    return ResponseEntity.badRequest().body("Attempted registration for existing user"); //
   }   
 
   /** 
@@ -156,21 +145,22 @@ public class C2Controller {
     String password = user.password;
     if (username == null || password == null) {
       logger.warn("Login request missing username or password field");
-      return responseBadRequest("");
+      return ResponseEntity.badRequest().body("");
     }
 
     if (username == "" || password == "") {
       logger.warn("Attempted user creation with empty username or password");
-      return responseBadRequest("Attempted user creation with empty username or password"); 
+      return ResponseEntity.badRequest()
+        .body("Attempted user creation with empty username or password"); 
     }
 
     if (c2Service.compareHash(username, password)) {
       logger.info("User login for {}", username);
-      return responseOk("logged in");
+      return ResponseEntity.ok("logged in");
     } 
 
     logger.warn("Incorrect login information attempt for user: {}", username);
-    return responseBadRequest("Incorrect login");
+    return ResponseEntity.badRequest().body("Incorrect login");
   }
 
   /**
@@ -188,17 +178,18 @@ public class C2Controller {
         beaconid, commandContents);
     if (beaconid < 0) {
       logger.info("POST commands to beacon with negative beaconid: {}", beaconid);
-      return responseBadRequest("Invalid beaconid: supplied beaconid is negative.");
+      return ResponseEntity.badRequest().body("Invalid beaconid: supplied beaconid is negative.");
     }
 
     if (commandContents.isEmpty())  {
       logger.info("POST commands to beacon with empty command contents list.");
-      return responseBadRequest("Invalid: empty command contents list.");
+      return ResponseEntity.badRequest().body("Invalid: empty command contents list.");
     }
 
+    ArrayList<Command> addedCommands = new ArrayList<Command>();
     for (String content : commandContents) {
-      commandService.addCommand(beaconid, content);
+      addedCommands.add(commandService.addCommand(beaconid, content));
     }
-    return responseCreated("added commands"); 
+    return ResponseEntity.ok(addedCommands); 
   }
 }

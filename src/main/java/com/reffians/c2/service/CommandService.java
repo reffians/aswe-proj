@@ -58,8 +58,8 @@ public class CommandService {
   }
 
   /** Post to commands table. */
-  public void addCommand(Integer beaconid, String content) {
-    commandRepository.save(new Command(beaconid, content));
+  public Command addCommand(Integer beaconid, String content) {
+    return commandRepository.save(new Command(beaconid, content));
   }
 
 }
