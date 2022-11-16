@@ -17,7 +17,12 @@ public class UserService {
   @Autowired
   private BCryptPasswordEncoder passwordEncoder;
 
-  /** Get user method. */
+  /** Get user with this username from the database.
+    *
+    * @param username a non-empty string identifying a user.
+    * @return a user object corresponding to the username.
+    * @throws UserMissingException if username does not belong to any user.
+    */
   public User getUser(String username) throws UserMissingException {
     List<User> users = userRepository.findByUsername(username);
     if (users.isEmpty()) {
@@ -27,34 +32,35 @@ public class UserService {
   }
 
   /** 
-   * Checks if user exists in the database given a username.
-
-   * @param username is a nonempty string corresponding to the username. 
-   */
+    * Checks if user exists in the database given a username.
+    *
+    * @param username is a nonempty string identifying a user.
+    * @return a boolean indicating whether a user with this username exists.
+    */
   public boolean userExists(String username) {
     return !userRepository.findByUsername(username).isEmpty();
   }
 
   /** 
-   * Check whether the encoded password matches the raw password after it is encoded.
-   *
-   * @param rawPassword is a nonempty string corresponding to the plain text password. 
-   * @param encodedPassword is a nonempty string corresponding to the encoded password.
-   * @return a boolean indicating whether the password matches.
-   */
+    * Check whether the encoded password matches the raw password after it is encoded.
+    *
+    * @param rawPassword is a nonempty string corresponding to the plain text password. 
+    * @param encodedPassword is a nonempty string corresponding to the encoded password.
+    * @return a boolean indicating whether the password matches.
+    */
   public boolean passwordMatches(String rawPassword, String encodedPassword) { 
     return passwordEncoder.matches(rawPassword, encodedPassword);
   }
 
   /** 
-   * Adds a new user to the database.
-   *
-   * @param username is a nonempty string corresponding to the username.
-   * @param rawPassword is a nonempty string corresponding to the plain text
-   *     password.
-   * @return the saved user object.
-   * @throws UserExistsException if user already exists in the database.
-   */
+    * Adds a new user to the database.
+    *
+    * @param username is a nonempty string corresponding to the username.
+    * @param rawPassword is a nonempty string corresponding to the plain text
+    *     password.
+    * @return the saved user object.
+    * @throws UserExistsException if user already exists in the database.
+    */
   public User addUser(String username, String rawPassword) throws UserExistsException {
     if (userExists(username)) {
       throw new UserExistsException(username);
