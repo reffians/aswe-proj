@@ -34,7 +34,7 @@ public class UserService {
   /** 
     * Checks if user exists in the database given a username.
     *
-    * @param username is a nonempty string identifying a user.
+    * @param username a non-empty string identifying a user.
     * @return a boolean indicating whether a user with this username exists.
     */
   public boolean userExists(String username) {
@@ -44,8 +44,8 @@ public class UserService {
   /** 
     * Check whether the encoded password matches the raw password after it is encoded.
     *
-    * @param rawPassword is a nonempty string corresponding to the plain text password. 
-    * @param encodedPassword is a nonempty string corresponding to the encoded password.
+    * @param rawPassword a non-empty string corresponding to the plain text password. 
+    * @param encodedPassword a non-empty string corresponding to the encoded password.
     * @return a boolean indicating whether the password matches.
     */
   public boolean passwordMatches(String rawPassword, String encodedPassword) { 
@@ -55,8 +55,8 @@ public class UserService {
   /** 
     * Adds a new user to the database.
     *
-    * @param username is a nonempty string corresponding to the username.
-    * @param rawPassword is a nonempty string corresponding to the plain text
+    * @param username a non-empty string corresponding to the username.
+    * @param rawPassword a non-empty string corresponding to the plain text
     *     password.
     * @return the saved user object.
     * @throws UserExistsException if user already exists in the database.
