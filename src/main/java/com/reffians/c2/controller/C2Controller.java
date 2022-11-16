@@ -1,6 +1,8 @@
 package com.reffians.c2.controller;
 
-import com.reffians.c2.dto.UserRequestDTO;
+import com.reffians.c2.dto.UserRequest;
+import com.reffians.c2.exception.UserExistsException;
+import com.reffians.c2.exception.UserMissingException;
 import com.reffians.c2.model.Beacon;
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
@@ -81,11 +83,12 @@ public class C2Controller {
     String username = beacon.username;
     logger.info("POST register beacon for user with username: {}",
         username);
-    List<User> thisUser = userService.getUsers(username);
-    if (thisUser.size() == 0) {
+
+    if (!userService.userExists(username)) {
       logger.error("POST register beacon for non-existent user: {}", username);
       return ResponseEntity.badRequest().body("Invalid username: the user does not exist.");
     }
+
     beaconService.registerBeacon(username);
     Date date = new Date();
     Timestamp t = new Timestamp(date.getTime());
@@ -106,61 +109,63 @@ public class C2Controller {
   /** 
    * POST mapping to register a new user.
 
-   * @param user is contains two strings:
-   *     username is a non null non empty string
-   *     password is a non null non emtpry plaintext password
+   * @param userRequest is contains two strings:
+   *     username is a non-null non-empty string
+   *     password is a non-null non-empty plaintext password
    */
   @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> registerUser(@RequestBody UserRequestDTO user) {
-    if (user.getUsername() == null || user.getPassword() == null) {
-      logger.warn("Registration request missing username or password field"); 
-      return ResponseEntity.badRequest()
-        .body("Registration request missing username or password field");
+  public ResponseEntity<?> registerUser(@RequestBody UserRequest userRequest) {
+    if (userRequest.getUsername() == null || userRequest.getUsername().isEmpty()) {
+      logger.warn("POST register user: Invalid or missing username."); 
+      return ResponseEntity.badRequest().body("Invalid or missing username.");
     } 
 
-    if (user.getUsername().isEmpty() || user.getPassword().isEmpty()) {
-      logger.warn("Attempted user creation with empty username or password");
-      return ResponseEntity.badRequest()
-        .body("Attempted user creation with empty username or password"); 
-    }
+    if (userRequest.getPassword() == null || userRequest.getPassword().isEmpty()) {
+      logger.warn("POST register user: Invalid or missing password."); 
+      return ResponseEntity.badRequest().body(" Invalid or missing password.");
+    } 
 
-    if (!userService.userExists(user.getUsername())) {
-      userService.addUser(user.getUsername(), user.getPassword());
-      logger.info("New user created: {}", user.getUsername());
-      return ResponseEntity.ok("User created");
+    try {
+      User user = userService.addUser(userRequest.getUsername(), userRequest.getPassword());
+      logger.info("New user created: {}", userRequest.getUsername());
+      return ResponseEntity.ok(user);
+    } catch (UserExistsException e) {
+      logger.warn("POST register user: {}", e.toString());
+      return ResponseEntity.badRequest().body(e.toString()); //
     }
-
-    logger.warn("Attempted registration for existing user with username: {}", user.getUsername());
-    return ResponseEntity.badRequest().body("Attempted registration for existing user"); //
   }   
 
   /** 
    * POST mapping for login. 
 
-   * @param user is contains two strings:
-   *     username is a non null non empty string
-   *     password is a non null non emtpry plaintext password
+   * @param userRequest is contains two strings:
+   *     username is a non-null non-empty string
+   *     password is a non-null non-empty plaintext password
    */
   @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> login(@RequestBody UserRequestDTO user) {
-    if (user.getUsername() == null || user.getPassword() == null) {
-      logger.warn("Login request missing username or password field");
-      return ResponseEntity.badRequest().body("");
-    }
-
-    if (user.getUsername().isEmpty() || user.getPassword().isEmpty()) {
-      logger.warn("Attempted user creation with empty username or password");
-      return ResponseEntity.badRequest()
-        .body("Attempted user creation with empty username or password"); 
-    }
-
-    if (userService.compareHash(user.getUsername(), user.getPassword())) {
-      logger.info("User login for {}", user.getUsername());
-      return ResponseEntity.ok("logged in");
+  public ResponseEntity<?> login(@RequestBody UserRequest userRequest) {
+    if (userRequest.getUsername() == null || userRequest.getUsername().isEmpty()) {
+      logger.warn("POST register user: Invalid or missing username."); 
+      return ResponseEntity.badRequest().body("Invalid or missing username.");
     } 
 
-    logger.warn("Incorrect login information attempt for user: {}", user.getUsername());
-    return ResponseEntity.badRequest().body("Incorrect login");
+    if (userRequest.getPassword() == null || userRequest.getPassword().isEmpty()) {
+      logger.warn("POST register user: Invalid or missing password."); 
+      return ResponseEntity.badRequest().body(" Invalid or missing password.");
+    } 
+
+    try {
+      User user = userService.getUser(userRequest.getUsername());
+      if (!userService.passwordMatches(userRequest.getPassword(), user.getEncodedPassword())) {
+        logger.warn("POST register user: Incorrect username or password.");
+        return ResponseEntity.badRequest().body("Incorrect username or password."); //
+      }
+      logger.info("User {} logged in.", user.getUsername());
+      return ResponseEntity.ok(user);
+    } catch (UserMissingException e) {
+      logger.warn("POST register user: {}", e.toString());
+      return ResponseEntity.badRequest().body(e.toString()); //
+    }
   }
 
   /**

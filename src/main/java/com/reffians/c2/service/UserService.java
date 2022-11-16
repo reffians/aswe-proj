@@ -1,31 +1,29 @@
 package com.reffians.c2.service;
 
+import com.reffians.c2.exception.UserExistsException;
+import com.reffians.c2.exception.UserMissingException;
 import com.reffians.c2.model.User;
 import com.reffians.c2.repository.UserRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-/**User Service Class. **/
+/** User Service Class. **/
 @Service
 public class UserService {
   @Autowired
   private UserRepository userRepository;
+  @Autowired
+  private BCryptPasswordEncoder passwordEncoder;
 
-  // registration and login methods
-  public List<User> getUsers(String username) {
-    return userRepository.findByUsername(username);
-  }
-
-  /** 
-   * Retreives password hash for a given username in the database. 
-
-   * @param username is a nonempty string corresponding to the username
-   */
-  public String getPasswordHash(String username) {
-    List<String> encodedPasswords = userRepository.findEncodedPasswordByUsername(username);
-    return encodedPasswords.isEmpty() ? null : encodedPasswords.get(0);
+  /** Get user method. */
+  public User getUser(String username) throws UserMissingException {
+    List<User> users = userRepository.findByUsername(username);
+    if (users.isEmpty()) {
+      throw new UserMissingException(username);
+    }
+    return users.get(0);
   }
 
   /** 
@@ -34,39 +32,33 @@ public class UserService {
    * @param username is a nonempty string corresponding to the username. 
    */
   public boolean userExists(String username) {
-    return !(getUsers(username).isEmpty());
+    return !userRepository.findByUsername(username).isEmpty();
   }
 
   /** 
-   * Retreives password hash if user exists in the database. 
-
-   * @param username is a nonempty string corresponding to the username. 
-
-   * @param password is a nonempty string corresponding to the plain text
-   *     password.
+   * Check whether the encoded password matches the raw password after it is encoded.
+   *
+   * @param rawPassword is a nonempty string corresponding to the plain text password. 
+   * @param encodedPassword is a nonempty string corresponding to the encoded password.
+   * @return a boolean indicating whether the password matches.
    */
-  public boolean compareHash(String username, String password) { 
-    String pwhash = getPasswordHash(username);
-    if (pwhash == null) {
-      return false;
-    }
-    //hash password
-    return BCrypt.checkpw(password, pwhash);
+  public boolean passwordMatches(String rawPassword, String encodedPassword) { 
+    return passwordEncoder.matches(rawPassword, encodedPassword);
   }
 
   /** 
-   * Adds user credentials to the database consisting of the
-   * username and hashed password. This method is run after checking
-   * if the user exists 
-
+   * Adds a new user to the database.
+   *
    * @param username is a nonempty string corresponding to the username.
-
-   * @param password is a nonempty string corresponding to the plain text
+   * @param rawPassword is a nonempty string corresponding to the plain text
    *     password.
+   * @return the saved user object.
+   * @throws UserExistsException if user already exists in the database.
    */
-  public void addUser(String username, String password) {
-    //hash password
-    String pwhash = BCrypt.hashpw(password, BCrypt.gensalt());
-    userRepository.save(new User(username, pwhash));
+  public User addUser(String username, String rawPassword) throws UserExistsException {
+    if (userExists(username)) {
+      throw new UserExistsException(username);
+    }
+    return userRepository.save(new User(username, rawPassword, passwordEncoder));
   }
 }

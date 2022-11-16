@@ -19,6 +19,7 @@ public interface UserRepository extends CrudRepository<User, String> {
    * findPwordByUser
    * get password given username
    */
-  @Query(value = "select encoded_password from users where username = :username", nativeQuery = true)
+  @Query(value = "select encoded_password from users where username = :username",
+      nativeQuery = true)
   List<String> findEncodedPasswordByUsername(@Param("username") String username);
 }
