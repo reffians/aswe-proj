@@ -122,7 +122,7 @@ public class C2Controller {
 
     if (userRequest.getPassword() == null || userRequest.getPassword().isEmpty()) {
       logger.warn("POST register user: Invalid or missing password."); 
-      return ResponseEntity.badRequest().body(" Invalid or missing password.");
+      return ResponseEntity.badRequest().body("Invalid or missing password.");
     } 
 
     try {
@@ -151,7 +151,7 @@ public class C2Controller {
 
     if (userRequest.getPassword() == null || userRequest.getPassword().isEmpty()) {
       logger.warn("POST register user: Invalid or missing password."); 
-      return ResponseEntity.badRequest().body(" Invalid or missing password.");
+      return ResponseEntity.badRequest().body("Invalid or missing password.");
     } 
 
     try {
