@@ -6,12 +6,15 @@ import com.reffians.c2.model.User;
 import com.reffians.c2.repository.UserRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /** User Service Class. **/
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
   @Autowired
   private UserRepository userRepository;
   @Autowired
@@ -66,5 +69,14 @@ public class UserService {
       throw new UserExistsException(username);
     }
     return userRepository.save(new User(username, rawPassword, passwordEncoder));
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    List<User> users = userRepository.findByUsername(username);
+    if (users.isEmpty()) {
+      throw new UsernameNotFoundException(String.format("User %s not found", username));
+    }
+    return users.get(0);
   }
 }
