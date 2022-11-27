@@ -21,7 +21,6 @@ public class JwtService {
   private static final long EXPIRATION_TIME = 24 * 60 * 60 * 1000;
   private static final String ISSUER = "C2.reffians.com";
   private static final SecretKey SECRET = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-  private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
 
   /** Parse a JWT and return its subject.
    *
@@ -30,7 +29,6 @@ public class JwtService {
   */
   public String parseJwtSubject(String jwt) throws ExpiredJwtException, UnsupportedJwtException,
       MalformedJwtException, SecurityException, IllegalArgumentException {
-    logger.warn(String.format("Secret: %s", Encoders.BASE64.encode(SECRET.getEncoded())));
     return Jwts.parserBuilder()
       .setSigningKey(SECRET)
       .requireIssuer(ISSUER)
@@ -46,7 +44,6 @@ public class JwtService {
    * @return a signed, serialized JWT.
   */
   public String issueJwt(User user) {
-    logger.warn(String.format("Secret: %s", Encoders.BASE64.encode(SECRET.getEncoded())));
     return Jwts.builder()
       .setSubject(user.getUsername())
       .setIssuer(ISSUER)
