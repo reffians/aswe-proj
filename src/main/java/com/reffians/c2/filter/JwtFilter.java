@@ -3,8 +3,8 @@ package com.reffians.c2.filter;
 import com.reffians.c2.exception.MalformedAuthorizationHeaderException;
 import com.reffians.c2.exception.UserMissingException;
 import com.reffians.c2.model.User;
-import com.reffians.c2.service.JwtService;
 import com.reffians.c2.service.UserService;
+import com.reffians.c2.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
 import java.io.IOException;
 import javax.servlet.FilterChain;
@@ -46,8 +46,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
   private User getValidatedUser(HttpServletRequest request) throws
       MalformedAuthorizationHeaderException, JwtException, UserMissingException {
-    String jwt = JwtService.getJwtFromRequest(request);
-    String username = JwtService.getUsernameFromValidatedJwt(jwt);
+    String jwt = JwtUtil.getJwtFromRequest(request);
+    String username = JwtUtil.getUsernameFromValidatedJwt(jwt);
     return userService.getUser(username);
   }
 

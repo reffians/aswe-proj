@@ -8,8 +8,8 @@ import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.User;
 import com.reffians.c2.service.BeaconService;
 import com.reffians.c2.service.CommandService;
-import com.reffians.c2.service.JwtService;
 import com.reffians.c2.service.UserService;
+import com.reffians.c2.util.JwtUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -93,8 +93,8 @@ public class C2Controller {
   public ResponseEntity<?> registerBeacon(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String
       authorizationHeader) {
     try {
-      String jwt = JwtService.getJwtFromHeader(authorizationHeader);
-      String username = JwtService.getUsernameFromValidatedJwt(jwt);
+      String jwt = JwtUtil.getJwtFromHeader(authorizationHeader);
+      String username = JwtUtil.getUsernameFromValidatedJwt(jwt);
       Beacon beacon = beaconService.registerBeacon(username);
       logger.info("POST register beacon for user with username {}: registered", username);
       return ResponseEntity.ok(beacon);
@@ -160,7 +160,7 @@ public class C2Controller {
           userRequest.getAuthenticationToken());
       User user = (User) authentication.getPrincipal();
       logger.info("User {} logged in.", user.getUsername());
-      return ResponseEntity.ok().body(JwtService.issueJwt(user));
+      return ResponseEntity.ok().body(JwtUtil.issueJwt(user));
     } catch (BadCredentialsException e) {
       logger.error("POST login user: {}", e.toString());
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); //
