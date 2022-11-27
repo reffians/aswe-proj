@@ -16,8 +16,7 @@ public class BeaconService {
 
    * @param username username of the user that 'owns' this beacon
    */
-  public void registerBeacon(String username) {
-    Beacon b = new Beacon(username);
-    beaconRepository.save(b);
+  public Beacon registerBeacon(String username) {
+    return beaconRepository.save(new Beacon(username));
   }
 }

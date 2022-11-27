@@ -10,15 +10,13 @@ import com.reffians.c2.service.BeaconService;
 import com.reffians.c2.service.CommandService;
 import com.reffians.c2.service.JwtService;
 import com.reffians.c2.service.UserService;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +26,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,8 +40,6 @@ public class C2Controller {
   private UserService userService;
   @Autowired
   private CommandService commandService;
-  @Autowired
-  private JwtService jwtService;
   @Autowired
   private AuthenticationManager authenticationManager;
 
@@ -90,35 +87,17 @@ public class C2Controller {
   }
 
   /**
-   * POST mapping for the register beacon endpoint.
+   * GET mapping for the register beacon endpoint.
    */
-  @PostMapping(path = "/beacon/register", consumes = MediaType.APPLICATION_JSON_VALUE, 
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> registerBeacon(@RequestBody Beacon beacon) {
-    String username = beacon.username;
-    logger.info("POST register beacon for user with username: {}",
-        username);
-
-    if (!userService.userExists(username)) {
-      logger.error("POST register beacon for non-existent user: {}", username);
-      return ResponseEntity.badRequest().body("Invalid username: the user does not exist.");
-    }
-
+  @GetMapping(path = "/beacon/register")
+  public ResponseEntity<?> registerBeacon(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String
+      authorizationHeader) {
     try {
-      beaconService.registerBeacon(username);
-      Date date = new Date();
-      Timestamp t = new Timestamp(date.getTime());
-      logger.info("Beacon registered at " + t + " for user: {}",
-          username);
-
-      JSONObject obj = new JSONObject();
-      obj.put("timestamp", t);
-      obj.put("status", 200);
-      obj.put("path", "/beacon/register");
-      obj.put("username", username);
-      obj.put("beacon_id", "beacon_id");
-      String bodyToReturn = obj.toString();
-      return ResponseEntity.ok(bodyToReturn);
+      String jwt = JwtService.getJwtFromHeader(authorizationHeader);
+      String username = JwtService.getUsernameFromValidatedJwt(jwt);
+      Beacon beacon = beaconService.registerBeacon(username);
+      logger.info("POST register beacon for user with username {}: registered", username);
+      return ResponseEntity.ok(beacon);
     } catch (Exception e) {
       logger.error("POST register beacon unexpected error", e);
       return ResponseEntity.internalServerError().build();
@@ -181,7 +160,7 @@ public class C2Controller {
           userRequest.getAuthenticationToken());
       User user = (User) authentication.getPrincipal();
       logger.info("User {} logged in.", user.getUsername());
-      return ResponseEntity.ok().body(jwtService.issueJwt(user));
+      return ResponseEntity.ok().body(JwtService.issueJwt(user));
     } catch (BadCredentialsException e) {
       logger.error("POST login user: {}", e.toString());
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); //

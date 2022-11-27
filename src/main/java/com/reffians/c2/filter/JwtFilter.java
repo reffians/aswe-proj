@@ -24,8 +24,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
   @Autowired
-  private JwtService jwtService;
-  @Autowired
   private UserService userService;
 
   private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
@@ -48,8 +46,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
   private User getValidatedUser(HttpServletRequest request) throws
       MalformedAuthorizationHeaderException, JwtException, UserMissingException {
-    String jwt = getJwt(request);
-    String username = jwtService.parseJwtSubject(jwt);
+    String jwt = JwtService.getJwtFromRequest(request);
+    String username = JwtService.getUsernameFromValidatedJwt(jwt);
     return userService.getUser(username);
   }
 
@@ -60,12 +58,4 @@ public class JwtFilter extends OncePerRequestFilter {
     SecurityContextHolder.getContext().setAuthentication(token);
   }
 
-  private String getJwt(HttpServletRequest request) throws MalformedAuthorizationHeaderException {
-    String header = request.getHeader("Authorization");
-    if (header == null || header.isEmpty() || !header.startsWith("Bearer")
-        || header.split(" ").length != 2) {
-      throw new MalformedAuthorizationHeaderException();
-    }
-    return header.split(" ")[1].trim();
-  }
 }
