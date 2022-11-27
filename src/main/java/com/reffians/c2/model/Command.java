@@ -22,18 +22,18 @@ public class Command {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @JsonProperty("id")
-  public Integer id;
+  private Integer id;
 
   @Getter
   @JsonProperty("beaconid")
-  public Integer beaconid;
+  private Integer beaconid;
 
   @Getter
   @JsonProperty("content")
-  public String content;
+  private String content;
 
   @JsonProperty("status")
-  public String status;
+  private String status;
  
   /** The enum of valid command status. **/
   public static enum Status {
