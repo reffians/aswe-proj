@@ -2,13 +2,13 @@ package com.reffians.c2.controller;
 
 import com.reffians.c2.dto.UserRequest;
 import com.reffians.c2.exception.UserExistsException;
-import com.reffians.c2.exception.UserMissingException;
 import com.reffians.c2.model.Beacon;
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.User;
 import com.reffians.c2.service.BeaconService;
 import com.reffians.c2.service.CommandService;
+import com.reffians.c2.service.JwtService;
 import com.reffians.c2.service.UserService;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -19,8 +19,12 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +41,11 @@ public class C2Controller {
   private UserService userService;
   @Autowired
   private CommandService commandService;
+  @Autowired
+  private JwtService jwtService;
+  @Autowired
+  private AuthenticationManager authenticationManager;
+
   private static final Logger logger = LoggerFactory.getLogger(C2Controller.class);
 
   /** GET commands for a beacon. Returns 200 OK and an array of command Command
@@ -128,7 +137,7 @@ public class C2Controller {
     try {
       User user = userService.addUser(userRequest.getUsername(), userRequest.getPassword());
       logger.info("New user created: {}", userRequest.getUsername());
-      return ResponseEntity.ok(user);
+      return ResponseEntity.ok(String.format("User %s created.", user.getUsername()));
     } catch (UserExistsException e) {
       logger.warn("POST register user: {}", e.toString());
       return ResponseEntity.badRequest().body(e.toString()); //
@@ -155,16 +164,14 @@ public class C2Controller {
     } 
 
     try {
-      User user = userService.getUser(userRequest.getUsername());
-      if (!userService.passwordMatches(userRequest.getPassword(), user.getEncodedPassword())) {
-        logger.warn("POST register user: Incorrect username or password.");
-        return ResponseEntity.badRequest().body("Incorrect username or password."); //
-      }
+      Authentication authentication = authenticationManager.authenticate(
+          userRequest.getAuthenticationToken());
+      User user = (User) authentication.getPrincipal();
       logger.info("User {} logged in.", user.getUsername());
-      return ResponseEntity.ok(user);
-    } catch (UserMissingException e) {
+      return ResponseEntity.ok().body(jwtService.issueJwt(user));
+    } catch (BadCredentialsException e) {
       logger.warn("POST register user: {}", e.toString());
-      return ResponseEntity.badRequest().body(e.toString()); //
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); //
     }
   }
 
