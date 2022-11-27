@@ -33,14 +33,24 @@ public class JwtFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
+    attemptUserAuthentication(request);
+    filterChain.doFilter(request, response);
+  }
+
+  private void attemptUserAuthentication(HttpServletRequest request) {
     try {
-      String jwt = getJwt(request);
-      String username = jwtService.parseJwtSubject(jwt);
-      setAuthenticationContext(request, userService.getUser(username));
+      User user = getValidatedUser(request);
+      setAuthenticationContext(request, user);
     } catch (MalformedAuthorizationHeaderException | JwtException | UserMissingException e) {
       logger.error(e.toString());
     }
-    filterChain.doFilter(request, response);
+  }
+
+  private User getValidatedUser(HttpServletRequest request) throws
+      MalformedAuthorizationHeaderException, JwtException, UserMissingException {
+    String jwt = getJwt(request);
+    String username = jwtService.parseJwtSubject(jwt);
+    return userService.getUser(username);
   }
 
   private void setAuthenticationContext(HttpServletRequest request, User user) {
