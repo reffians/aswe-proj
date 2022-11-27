@@ -14,7 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 
-/** JWT Service. */
+/** JWT Util Class. */
 @Service
 public class JwtUtil {
   private static final long EXPIRATION_TIME = 24 * 60 * 60 * 1000;
@@ -50,12 +50,24 @@ public class JwtUtil {
       .compact();
   }
 
+  /** Extracts a JWT string from an HTTP request.
+   *
+   * @param request an HTTP request object.
+   * @return a JWT string.
+   * @throws MalformedAuthorizationHeaderException if JWT extraction fails.
+  */
   public static String getJwtFromRequest(HttpServletRequest request) throws
       MalformedAuthorizationHeaderException {
     String header = request.getHeader(HttpHeaders.AUTHORIZATION);
     return getJwtFromHeader(header);
   }
 
+  /** Extracts a JWT string from an HTTP header.
+   *
+   * @param header an HTTP request header, typically the Authorization header.
+   * @return a JWT string.
+   * @throws MalformedAuthorizationHeaderException if JWT extraction fails.
+  */
   public static String getJwtFromHeader(String header) throws
       MalformedAuthorizationHeaderException {
     if (header == null || header.isEmpty() || !header.startsWith("Bearer")
@@ -65,6 +77,13 @@ public class JwtUtil {
     return header.split(" ")[1].trim();
   }
 
+  /** Extracts the username from a validated JWT. 
+   *
+   * @param jwt a JWT.
+   * @return the username associated with the JWT.
+   * @throws MalformedAuthorizationHeaderException if JWT extraction fails.
+   * @throws JwtException if JWT parsing/validation fails.
+  */
   public static String getUsernameFromValidatedJwt(String jwt) throws
       MalformedAuthorizationHeaderException, JwtException {
     return parseJwt(jwt).getSubject();

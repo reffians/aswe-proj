@@ -7,11 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.apache.tomcat.util.codec.binary.Base64;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 /**
  * Data model for the beacon.
@@ -34,9 +32,8 @@ public class Beacon {
   @JsonProperty("token")
   private String token;
  
-  /**
-   * Constructor for a Beacon. It takes in the username of the user that this beacon belongs to.
-
+  /** Constructor for a Beacon. It takes in the username of the user that this beacon belongs to.
+   *
    * @param username username of the user that 'owns' this beacon
    **/
   public Beacon(String username) {
@@ -45,8 +42,12 @@ public class Beacon {
     this.token = generateToken();
   }
 
+  /** Generates a token using a secure random generator.
+   *
+   * @return a new token of size TOKEN_LEN.
+   */
   public String generateToken() {
-    byte bytes[] = new byte[TOKEN_LEN];
+    byte[] bytes = new byte[TOKEN_LEN];
     new SecureRandom().nextBytes(bytes);
     return Base64.encodeBase64URLSafeString(bytes);
   }
