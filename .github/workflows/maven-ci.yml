@@ -18,7 +18,19 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_DATABASE: ucan_testing
+          MYSQL_USER: user
+          MYSQL_PASSWORD: secret
+          MYSQL_ROOT_PASSWORD: secretroot
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
