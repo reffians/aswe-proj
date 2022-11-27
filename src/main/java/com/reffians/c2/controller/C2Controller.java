@@ -70,17 +70,23 @@ public class C2Controller {
       return ResponseEntity.badRequest().body("Invalid beaconid: supplied beaconid is negative.");
     }
     if (status.isPresent() && !Status.isValid(status.get())) {
-      logger.warn("GET commands from beacon with invalid status: {}", status);
+      logger.error("GET commands from beacon with invalid status: {}", status);
       return ResponseEntity.badRequest().body("Invalid status.");
     }
-    List<Command> commands;
-    if (status.isPresent()) {
-      commands = commandService.getCommands(beaconid, Status.valueOf(status.get()));
-    } else {
-      commands = commandService.getCommands(beaconid);
+
+    try {
+      List<Command> commands;
+      if (status.isPresent()) {
+        commands = commandService.getCommands(beaconid, Status.valueOf(status.get()));
+      } else {
+        commands = commandService.getCommands(beaconid);
+      }
+      commandService.updateCommandStatus(commands, Status.sent);
+      return ResponseEntity.ok(commands);
+    } catch (Exception e) {
+      logger.error("GET commands from beacon unexpected error", e);
+      return ResponseEntity.internalServerError().build();
     }
-    commandService.updateCommandStatus(commands, Status.sent);
-    return ResponseEntity.ok(commands);
   }
 
   /**
@@ -98,21 +104,25 @@ public class C2Controller {
       return ResponseEntity.badRequest().body("Invalid username: the user does not exist.");
     }
 
-    beaconService.registerBeacon(username);
-    Date date = new Date();
-    Timestamp t = new Timestamp(date.getTime());
-    logger.info("Beacon registered at " + t + " for user: {}",
-        username);
+    try {
+      beaconService.registerBeacon(username);
+      Date date = new Date();
+      Timestamp t = new Timestamp(date.getTime());
+      logger.info("Beacon registered at " + t + " for user: {}",
+          username);
 
-    JSONObject obj = new JSONObject();
-    obj.put("timestamp", t);
-    obj.put("status", 200);
-    obj.put("path", "/beacon/register");
-    obj.put("username", username);
-    obj.put("beacon_id", "beacon_id");
-    String bodyToReturn = obj.toString();
-    return ResponseEntity.ok(bodyToReturn);
-    
+      JSONObject obj = new JSONObject();
+      obj.put("timestamp", t);
+      obj.put("status", 200);
+      obj.put("path", "/beacon/register");
+      obj.put("username", username);
+      obj.put("beacon_id", "beacon_id");
+      String bodyToReturn = obj.toString();
+      return ResponseEntity.ok(bodyToReturn);
+    } catch (Exception e) {
+      logger.error("POST register beacon unexpected error", e);
+      return ResponseEntity.internalServerError().build();
+    }
   }
 
   /** 
@@ -141,6 +151,9 @@ public class C2Controller {
     } catch (UserExistsException e) {
       logger.warn("POST register user: {}", e.toString());
       return ResponseEntity.badRequest().body(e.toString()); //
+    } catch (Exception e) {
+      logger.error("POST register user unexpected error", e);
+      return ResponseEntity.internalServerError().build();
     }
   }   
 
@@ -154,12 +167,12 @@ public class C2Controller {
   @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> login(@RequestBody UserRequest userRequest) {
     if (userRequest.getUsername() == null || userRequest.getUsername().isEmpty()) {
-      logger.warn("POST register user: Invalid or missing username."); 
+      logger.error("POST login user: Invalid or missing username."); 
       return ResponseEntity.badRequest().body("Invalid or missing username.");
     } 
 
     if (userRequest.getPassword() == null || userRequest.getPassword().isEmpty()) {
-      logger.warn("POST register user: Invalid or missing password."); 
+      logger.error("POST login user: Invalid or missing password."); 
       return ResponseEntity.badRequest().body("Invalid or missing password.");
     } 
 
@@ -170,8 +183,11 @@ public class C2Controller {
       logger.info("User {} logged in.", user.getUsername());
       return ResponseEntity.ok().body(jwtService.issueJwt(user));
     } catch (BadCredentialsException e) {
-      logger.warn("POST register user: {}", e.toString());
+      logger.error("POST login user: {}", e.toString());
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); //
+    } catch (Exception e) {
+      logger.error("POST login user unexpected error", e);
+      return ResponseEntity.internalServerError().build();
     }
   }
 
@@ -198,10 +214,15 @@ public class C2Controller {
       return ResponseEntity.badRequest().body("Invalid: empty command contents list.");
     }
 
-    ArrayList<Command> addedCommands = new ArrayList<Command>();
-    for (String content : commandContents) {
-      addedCommands.add(commandService.addCommand(beaconid, content));
+    try {
+      ArrayList<Command> addedCommands = new ArrayList<Command>();
+      for (String content : commandContents) {
+        addedCommands.add(commandService.addCommand(beaconid, content));
+      }
+      return ResponseEntity.ok(addedCommands); 
+    } catch (Exception e) {
+      logger.error("POST commands to beacon unexpected error", e);
+      return ResponseEntity.internalServerError().build();
     }
-    return ResponseEntity.ok(addedCommands); 
   }
 }

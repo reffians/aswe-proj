@@ -42,7 +42,7 @@ public class JwtFilter extends OncePerRequestFilter {
       User user = getValidatedUser(request);
       setAuthenticationContext(request, user);
     } catch (MalformedAuthorizationHeaderException | JwtException | UserMissingException e) {
-      logger.error(e.toString());
+      logger.error("JWT Filter authentication failure: {}", e.toString());
     }
   }
 
