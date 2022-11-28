@@ -33,14 +33,14 @@ jobs:
       # Use mvn clean and package as the standard maven build phase
       - run:
           name: Build
-          command: ./mvnw spring-boot:run 
+          command: mvn -B -DskipTests clean package
       - run:
           name: Wait for Database Port
           command: while ! nc -z localhost 3306 ; do sleep 1 ; done
       # Then run your tests!
       - run:
           name: Test
-          command: ./mvnw test
+          command: mvn test
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
