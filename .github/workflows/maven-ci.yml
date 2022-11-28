@@ -16,13 +16,14 @@ on:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
     services:
       app:
-        image: asweproj.azurecr.io/c2
+        image: mcr.microsoft.com/vscode/devcontainers/java:0-17-bullseye
       db:
         image: mysql:latest
 
-    runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
