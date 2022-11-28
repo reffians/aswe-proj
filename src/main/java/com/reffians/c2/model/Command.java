@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
   * executed by a specific beacon.
   */
 @Entity
-@Table(name = "command")
+@Table(name = "commands")
 @NoArgsConstructor
 public class Command {
   
@@ -33,7 +34,17 @@ public class Command {
   private String content;
 
   @JsonProperty("status")
-  private String status;
+  public String status;
+
+  @JsonProperty("type")
+  public String type;
+  
+  @JsonProperty("received_time")
+  public Timestamp received_time;
+
+  @JsonProperty("time_sent")
+  public Timestamp time_sent;
+
  
   /** The enum of valid command status. **/
   public static enum Status {
@@ -59,10 +70,9 @@ public class Command {
     * @param content a user-defined string containing the command content to be
     *     executed by the beacon.
     */
-  public Command(Integer beaconid, String content) {
+  public Command(Integer beaconid) {
     this.id = null;
     this.beaconid = beaconid;
-    this.content = content;
     this.status = Status.pending.name();
   }
 
@@ -81,4 +91,24 @@ public class Command {
   public void setStatus(Status status) {
     this.status = status.name();
   }
+
+  /** Sets command type.
+    *
+    * @param type an String representing a type of command.
+    */
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  /** Sets command content.
+    *
+    * @param type an String with command content.
+    */
+  public void setCommandContent(String content) {
+    checkTypeContent(content);
+    this.content = content;
+  }
+
+  public void checkTypeContent(String content) throws IllegalArgumentException{
+  };
 }
