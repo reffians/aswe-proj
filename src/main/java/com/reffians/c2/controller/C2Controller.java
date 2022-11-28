@@ -15,6 +15,7 @@ import com.reffians.c2.util.JwtUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,8 @@ public class C2Controller {
     *     of the corresponding beacon, user-defined string "content", and string "status".
     */
   @PostMapping(path = "/beacon/command", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> receiveCommand(@RequestBody @Valid ReceiveCommandRequest request) {
+  public ResponseEntity<?> receiveCommand(@NotEmpty @Valid @RequestBody ReceiveCommandRequest
+      request) {
     logger.info("POST beacon receive commands with beaconid: {}", request.getBeacon().getId());
     if (!beaconService.beaconExists(request.getBeacon().getId(), request.getBeacon().getToken())) {
       logger.warn("POST beacon receive commands: no beacon with this beaconid and/or token.");
@@ -98,7 +100,7 @@ public class C2Controller {
    *     password is a non-null non-empty plaintext password
    */
   @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> registerUser(@Valid @RequestBody UserRequest userRequest) {
+  public ResponseEntity<?> registerUser(@NotEmpty @Valid @RequestBody UserRequest userRequest) {
     try {
       User user = userService.addUser(userRequest.getUsername(), userRequest.getPassword());
       logger.info("New user created: {}", userRequest.getUsername());
@@ -120,7 +122,7 @@ public class C2Controller {
    *     password is a non-null non-empty plaintext password
    */
   @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> login(@Valid @RequestBody UserRequest userRequest) {
+  public ResponseEntity<?> login(@NotEmpty @Valid @RequestBody UserRequest userRequest) {
     try {
       Authentication authentication = authenticationManager.authenticate(
           userRequest.getAuthenticationToken());
@@ -145,14 +147,9 @@ public class C2Controller {
     * @return ResponseEntity with HttpStatus
     */
   @PostMapping(path = "/user/command", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> submitCommands(@RequestBody List<CommandRequest> commandRequests) {
+  public ResponseEntity<?> submitCommands(@NotEmpty @Valid @RequestBody List<CommandRequest>
+      commandRequests) {
     logger.info("POST commands with commandRequests: {}", commandRequests);
-
-    if (commandRequests.isEmpty())  {
-      logger.info("POST commands with empty command list.");
-      return ResponseEntity.badRequest().body("Invalid: empty command list.");
-    }
-
     try {
       ArrayList<Command> addedCommands = new ArrayList<Command>();
       for (CommandRequest comm : commandRequests) { // need to be able to check that the beacon ids correspond to the right user
