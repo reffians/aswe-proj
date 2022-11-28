@@ -13,7 +13,11 @@ jobs:
     # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/openjdk
     docker:
       - image: cimg/openjdk:17.0
-
+        environment:
+          MYSQL_HOST: db
+          MYSQL_DATABASE: appdb
+          MYSQL_USER: springuser
+          MYSQL_PASSWORD: springusersecret
       - image: mysql:latest
         environment:
           MYSQL_ROOT_PASSWORD: rootsecret
@@ -31,8 +35,8 @@ jobs:
           name: Build
           command: mvn -B -DskipTests clean package
       - run:
-          name: Check Database Port
-          command: nc -z db 3306 ;
+          name: Try 1 netcat
+          command: nc -z db 3306
       - run:
           name: Wait for Database Port
           command: while ! nc -z db 3306 ; do sleep 1 ; done
