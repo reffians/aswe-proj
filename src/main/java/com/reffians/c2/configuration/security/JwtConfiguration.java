@@ -29,7 +29,7 @@ public class JwtConfiguration {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf().disable()
         .authorizeHttpRequests()
-        .antMatchers("/register", "/login").permitAll()
+        .antMatchers("/register", "/login", "/beacon/command").permitAll()
         .anyRequest().authenticated();
     http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
