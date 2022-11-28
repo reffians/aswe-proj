@@ -1,5 +1,6 @@
 package com.reffians.c2.controller;
 
+import com.reffians.c2.dto.ReceiveCommandRequest;
 import com.reffians.c2.dto.UserRequest;
 import com.reffians.c2.exception.UserExistsException;
 import com.reffians.c2.model.Beacon;
@@ -12,7 +13,7 @@ import com.reffians.c2.service.UserService;
 import com.reffians.c2.util.JwtUtil;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -45,43 +45,30 @@ public class C2Controller {
 
   private static final Logger logger = LoggerFactory.getLogger(C2Controller.class);
 
-  /** GET commands for a beacon. Returns 200 OK and an array of command Command
-    * objects on success, 400 Bad Request with an error message on failure.
+  /** POST receive commands for a beacon. Returns 200 OK and an array of Command objects on success,
+    * 400 Bad Request with an error message on failure.
     *
-    * @param beaconid A non-negative integer used to identify the beacon.
-    * @param status An optional argument specifying the status of the command. Can
-    *     be one of "pending", "sent", "executed", or "finished". If no status is
-    *     supplied, commands of any status are retrieved.
-    * @return A list of command objects. A command object contains integer identifier
-    *     "id", integer "beaconid" of the corresponding beacon, user-defined string
-    *      "content", and string "status" that is one of "pending", "sent", "executed",
-    *      or "finished".
+    * @param request A request object consisting of beacon id, beacon token, and command status that
+    *     can be one of "pending", "sent", "executed", "finished", or "all".
+    * @return A list of command objects. A command object contains integer "id", integer "beaconid"
+    *     of the corresponding beacon, user-defined string "content", and string "status".
     */
-  @GetMapping("/beacon/command")
-  public ResponseEntity<?> getCommandBeacon(@RequestParam Integer beaconid,
-      @RequestParam Optional<String> status) {
-    logger.info("GET commands from beacon with beaconid: {}, status: {}",
-        beaconid, status.orElse("NULL"));
-    if (beaconid < 0) {
-      logger.warn("GET commands from beacon with negative beaconid: {}", beaconid);
-      return ResponseEntity.badRequest().body("Invalid beaconid: supplied beaconid is negative.");
-    }
-    if (status.isPresent() && !Status.isValid(status.get())) {
-      logger.error("GET commands from beacon with invalid status: {}", status);
-      return ResponseEntity.badRequest().body("Invalid status.");
+  @PostMapping(path = "/beacon/command", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> receiveCommand(@RequestBody @Valid ReceiveCommandRequest request) {
+    logger.info("POST beacon receive commands with beaconid: {}", request.getBeacon().getId());
+    if (!beaconService.beaconExists(request.getBeacon().getId(), request.getBeacon().getToken())) {
+      logger.warn("POST beacon receive commands: no beacon with this beaconid and/or token.");
+      return ResponseEntity.badRequest().body("No beacon with this beaconid and/or token.");
     }
 
     try {
-      List<Command> commands;
-      if (status.isPresent()) {
-        commands = commandService.getCommands(beaconid, Status.valueOf(status.get()));
-      } else {
-        commands = commandService.getCommands(beaconid);
-      }
+      Integer id = request.getBeacon().getId();
+      List<Command> commands = request.statusAll() ? commandService.getCommands(id)
+          : commandService.getCommands(id, request.getStatus());
       commandService.updateCommandStatus(commands, Status.sent);
       return ResponseEntity.ok(commands);
     } catch (Exception e) {
-      logger.error("GET commands from beacon unexpected error", e);
+      logger.error("POST beacon receive commands unexpected error", e);
       return ResponseEntity.internalServerError().build();
     }
   }
@@ -112,17 +99,7 @@ public class C2Controller {
    *     password is a non-null non-empty plaintext password
    */
   @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> registerUser(@RequestBody UserRequest userRequest) {
-    if (userRequest.getUsername() == null || userRequest.getUsername().isEmpty()) {
-      logger.warn("POST register user: Invalid or missing username."); 
-      return ResponseEntity.badRequest().body("Invalid or missing username.");
-    } 
-
-    if (userRequest.getPassword() == null || userRequest.getPassword().isEmpty()) {
-      logger.warn("POST register user: Invalid or missing password."); 
-      return ResponseEntity.badRequest().body("Invalid or missing password.");
-    } 
-
+  public ResponseEntity<?> registerUser(@Valid @RequestBody UserRequest userRequest) {
     try {
       User user = userService.addUser(userRequest.getUsername(), userRequest.getPassword());
       logger.info("New user created: {}", userRequest.getUsername());
@@ -144,17 +121,7 @@ public class C2Controller {
    *     password is a non-null non-empty plaintext password
    */
   @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> login(@RequestBody UserRequest userRequest) {
-    if (userRequest.getUsername() == null || userRequest.getUsername().isEmpty()) {
-      logger.error("POST login user: Invalid or missing username."); 
-      return ResponseEntity.badRequest().body("Invalid or missing username.");
-    } 
-
-    if (userRequest.getPassword() == null || userRequest.getPassword().isEmpty()) {
-      logger.error("POST login user: Invalid or missing password."); 
-      return ResponseEntity.badRequest().body("Invalid or missing password.");
-    } 
-
+  public ResponseEntity<?> login(@Valid @RequestBody UserRequest userRequest) {
     try {
       Authentication authentication = authenticationManager.authenticate(
           userRequest.getAuthenticationToken());
