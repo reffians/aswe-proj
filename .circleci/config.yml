@@ -34,6 +34,12 @@ jobs:
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
+      - run:
+          name: Try 1 netcat
+          command: nc -z localhost 1299; nc -z localhost 1299;
+      - run:
+          name: Wait for Database Port
+          command: while ! nc -z db 3306 ; do sleep 1 ; done
       # Then run your tests!
       - run:
           name: Test
