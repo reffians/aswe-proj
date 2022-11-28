@@ -1,6 +1,7 @@
 package com.reffians.c2.controller;
 
 import com.reffians.c2.dto.ReceiveCommandRequest;
+import com.reffians.c2.dto.CommandRequest;
 import com.reffians.c2.dto.UserRequest;
 import com.reffians.c2.exception.UserExistsException;
 import com.reffians.c2.model.Beacon;
@@ -27,7 +28,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /** The REST Controller of the C2 Application, performs routing of all REST API
@@ -93,7 +93,6 @@ public class C2Controller {
 
   /** 
    * POST mapping to register a new user.
-
    * @param userRequest is contains two strings:
    *     username is a non-null non-empty string
    *     password is a non-null non-empty plaintext password
@@ -146,24 +145,18 @@ public class C2Controller {
     * @return ResponseEntity with HttpStatus
     */
   @PostMapping(path = "/user/command", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> submitCommands(@RequestParam Integer beaconid,
-      @RequestBody List<String> commandContents) {
-    logger.info("POST commands to beacon with beaconid: {}, commandContents: {}",
-        beaconid, commandContents);
-    if (beaconid < 0) {
-      logger.info("POST commands to beacon with negative beaconid: {}", beaconid);
-      return ResponseEntity.badRequest().body("Invalid beaconid: supplied beaconid is negative.");
-    }
+  public ResponseEntity<?> submitCommands(@RequestBody List<CommandRequest> commandRequests) {
+    logger.info("POST commands with commandRequests: {}", commandRequests);
 
-    if (commandContents.isEmpty())  {
-      logger.info("POST commands to beacon with empty command contents list.");
-      return ResponseEntity.badRequest().body("Invalid: empty command contents list.");
+    if (commandRequests.isEmpty())  {
+      logger.info("POST commands with empty command list.");
+      return ResponseEntity.badRequest().body("Invalid: empty command list.");
     }
 
     try {
       ArrayList<Command> addedCommands = new ArrayList<Command>();
-      for (String content : commandContents) {
-        addedCommands.add(commandService.addCommand(beaconid, content));
+      for (CommandRequest comm : commandRequests) { // need to be able to check that the beacon ids correspond to the right user
+        addedCommands.add(commandService.addCommand(comm.getBeaconid(), comm.getCommandType(), comm.getContent()));
       }
       return ResponseEntity.ok(addedCommands); 
     } catch (Exception e) {

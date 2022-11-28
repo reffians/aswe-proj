@@ -2,6 +2,7 @@ package com.reffians.c2.service;
 
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
+import com.reffians.c2.model.CommandTypes.CommandFactory;
 import com.reffians.c2.repository.CommandRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +59,8 @@ public class CommandService {
   }
 
   /** Post to commands table. */
-  public Command addCommand(Integer beaconid, String content) {
-    return commandRepository.save(new Command(beaconid, content));
+  public Command addCommand(Integer beaconid, String type, String content) {
+    return commandRepository.save(CommandFactory.getCommand(beaconid, type, content));
   }
 
 }
