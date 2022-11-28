@@ -15,16 +15,14 @@ on:
     branches: [ "main" ]
 
 jobs:
-  docker:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build the stack
-        run: cd .devcontainer && docker-compose up -d
-        
   build:
+    services:
+      app:
+        image: mcr.microsoft.com/vscode/devcontainers/java:0-17-bullseye
+      db:
+        image: mysql:latest
+
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/vscode/devcontainers/java:0-17-bullseye
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
