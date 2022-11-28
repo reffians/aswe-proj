@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
+import com.reffians.c2.model.CommandTypes.CommandFactory;
 import com.reffians.c2.repository.CommandRepository;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
@@ -20,7 +21,9 @@ public class CommandServiceTest {
   @Autowired
   private CommandService commandService;
   @MockBean
-  private CommandRepository commandRepository;
+  private CommandRepository commandRepository;  
+  @MockBean
+  private static CommandFactory commandFactory;
 
   static final int beaconid = 0;
   static Command command0;
@@ -33,10 +36,10 @@ public class CommandServiceTest {
 
   @BeforeAll
   static void beforeClass() {
-    command0 = new Command(beaconid, "foo");
-    command1 = new Command(1, "bar");
-    command2 = new Command(2, "foobar");
-    command3 = new Command(3, "foofoobar");
+    command0 = commandFactory.getCommand(0, "STOP", "");
+    command1 = commandFactory.getCommand(1, "SLEEP", "15");
+    command2 = commandFactory.getCommand(2, "SLEEP", "300");
+    command3 = commandFactory.getCommand(3, "GETHOSTNAME", "300");
     command3.setStatus(Status.executed);
     oneCommandPending = List.of(command0);
     threeCommandsAllPending = List.of(command0, command1, command2);
@@ -53,7 +56,7 @@ public class CommandServiceTest {
 
   @Test
   public void getCommandsBeaconIdTest() {
-    Command command = new Command(beaconid, "foo");
+    Command command = commandFactory.getCommand(beaconid, "STOP", "");
     List<Command> commands = List.of(command);
     Mockito.when(commandRepository.findByBeaconid(beaconid)).thenReturn(commands);
     assertEquals(commands, commandService.getCommands(beaconid));

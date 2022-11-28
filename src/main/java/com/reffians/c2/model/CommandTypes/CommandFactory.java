@@ -1,9 +1,12 @@
 package com.reffians.c2.model.CommandTypes;
 
 import com.reffians.c2.model.Command;
+import org.springframework.stereotype.Component;
+
 /**
  * Class to create the necessary Command classes (as part of a factory pattern).
  */
+ @Component("CommandFactory")
 public class CommandFactory {
 
     /**

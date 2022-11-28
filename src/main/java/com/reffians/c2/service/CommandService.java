@@ -62,7 +62,7 @@ public class CommandService {
   }
 
   /** Post to commands table. */
-  public void addCommand(Integer beaconid, String type, String content) {
+  public Command addCommand(Integer beaconid, String type, String content) {
     return commandRepository.save(commandFactory.getCommand(beaconid, type, content));
   }
 
