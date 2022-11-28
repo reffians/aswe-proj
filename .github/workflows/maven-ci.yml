@@ -18,7 +18,7 @@ jobs:
   build:
     services:
       app:
-        image: mcr.microsoft.com/vscode/devcontainers/java:0-17-bullseye
+        image: asweproj.azurecr.io/c2
       db:
         image: mysql:latest
 
