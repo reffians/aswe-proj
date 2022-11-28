@@ -36,7 +36,7 @@ jobs:
           command: mvn -B -DskipTests clean package
       - run:
           name: Try 1 netcat
-          command: nc -z localhost 3306; 
+          command: nc -z localhost/db 3306; 
       - run:
           name: Wait for Database Port
           command: while ! nc -z localhost 3306 ; do sleep 1 ; done
