@@ -87,9 +87,9 @@ public class C2Controller {
   }
 
   /**
-   * GET mapping for the register beacon endpoint.
+   * POST mapping for the register beacon endpoint.
    */
-  @GetMapping(path = "/beacon/register")
+  @PostMapping("/beacon/register")
   public ResponseEntity<?> registerBeacon(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String
       authorizationHeader) {
     try {
