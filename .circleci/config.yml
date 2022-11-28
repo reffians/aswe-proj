@@ -12,7 +12,7 @@ jobs:
     # Be sure to update the Docker image tag below to openjdk version of your application.
     # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/openjdk
     docker:
-      - image: mcr.microsoft.com/vscode/devcontainers/java:0-17-bullseye
+      - image: circleci/jdk17.0
 
       - image: mysql:latest
         environment:
