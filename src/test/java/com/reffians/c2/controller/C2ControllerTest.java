@@ -1,7 +1,6 @@
 package com.reffians.c2.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.json.JSONObject;
@@ -761,38 +760,6 @@ public class C2ControllerTest {
     obj.put("sedasdf", "pword");
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser))
-        .andExpect(status().isBadRequest());
-  }
-
-  @Test
-  @WithMockUser
-  public void testGetCommandBeaconBadUsername() throws Exception {
-    JSONObject obj = new JSONObject();
-    obj.put("username", "bad_username");
-    String testUser = obj.toString();
-    mockMvc.perform(MockMvcRequestBuilders.post("/beacon/register")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser))
-        .andExpect(status().isBadRequest());
-  }
-
-  @Test
-  @WithMockUser
-  public void testGetCommandBeaconGoodUsername() throws Exception {
-    JSONObject obj = new JSONObject();
-    obj.put("username", "Nikhil1");
-    String testUser = obj.toString();
-    mockMvc.perform(MockMvcRequestBuilders.post("/beacon/register")
-        .contentType(MediaType.APPLICATION_JSON).content(testUser))
-        .andExpect(status().isOk());
-  }
-
-  @Test
-  @WithMockUser
-  public void testGetCreateBeaconNoParams() throws Exception {
-    JSONObject obj = new JSONObject();
-    String testUser = obj.toString();
-    mockMvc.perform(post("/beacon/register")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
         .andExpect(status().isBadRequest());
   }
