@@ -110,12 +110,13 @@ def command():
 		command_type = input("Command: ")
 		command_contents = input("Args:")
 
-		data = {
-			"beaconid": int(beaconid)
-			"commandType": [command_type],
-		}
+		data = [{
+			"beaconid": int(beaconid),
+			"commandType": command_type,
+			"content": command_contents,
+		}]
 		
-		response = requests.post(url, headers=headers, params=params, json=data)
+		response = requests.post(url, headers=headers, json=data)
 
 		if response.status_code == 200:
 			print("Success 200")
