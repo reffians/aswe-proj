@@ -66,7 +66,7 @@ def beacon():
 	if not login:
 		print("Please login first") 
 	else:
-		response = requests.get(url, headers=headers)
+		response = requests.post(url, headers=headers)
 		if response.status_code == 200:
 			print("Success 200")
 			print("New Beacon Registered with token:")
@@ -111,12 +111,11 @@ def command():
 		command_contents = input("Args:")
 
 		data = {
-			"beaconid": int(beaconid),
-			"commandType": command_type,
-			"content": command_contents,
+			"beaconid": int(beaconid)
+			"commandType": [command_type],
 		}
 		
-		response = requests.post(url, headers=headers, json=data)
+		response = requests.post(url, headers=headers, params=params, json=data)
 
 		if response.status_code == 200:
 			print("Success 200")
