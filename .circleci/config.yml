@@ -44,7 +44,7 @@ jobs:
       - store_artifacts:
           path:  target
       # SonarCloud
-       - run:
+      - run:
           name: Analyze on SonarCloud
           command: mvn verify sonar:sonar -Dsonar.projectKey=reffians_aswe-proj
 
@@ -54,5 +54,5 @@ workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build-and-test
-      context: SonarCloud
+      - build-and-test:
+          context: SonarCloud
