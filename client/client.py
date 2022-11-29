@@ -44,7 +44,8 @@ def login():
 
 	response = requests.post(url, headers=headers, json=data)
 	if response.status_code == 200:
-		print(response.status_code)
+		print("Success 200")
+		print("Logged in")
 		login = True
 		jwt = response.text
 		print(jwt)
@@ -67,11 +68,11 @@ def beacon():
 	else:
 		response = requests.get(url, headers=headers)
 		if response.status_code == 200:
+			print("Success 200")
 			print("New Beacon Registered with token:")
 			print(response.json())
 		else:
 			print(response.status_code)
-
 			print("login failed")
 
 def register():
@@ -92,7 +93,39 @@ def register():
 	print(response.text)
 	
 def command():
-	print("Command")
+	global baseurl
+	global jwt
+	global login
+
+	url = baseurl + "/user/command"
+	headers = {
+		"Content-Type": "application/json; charset=utf-8",
+		"Authorization": "Bearer " + jwt,
+	}
+
+	if not login:
+		print("Please login first") 
+	else:
+		beaconid = input("Beacon ID: ")
+		command_type = input("Command: ")
+		command_contents = input("Args:")
+
+		data = {
+			"beaconid": int(beaconid),
+			"commandType": command_type,
+			"content": command_contents,
+		}
+		
+		response = requests.post(url, headers=headers, json=data)
+
+		if response.status_code == 200:
+			print("Success 200")
+			print("Command received")
+			print(response.text)
+		else:
+			print(response.status_code)
+			print(response.text)
+			print("Failure")
 
 if __name__ == "__main__":
     main()
