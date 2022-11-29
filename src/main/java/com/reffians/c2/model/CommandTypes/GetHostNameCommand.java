@@ -31,7 +31,7 @@ public class GetHostNameCommand extends Command{
   }
   @Override
   public void checkTypeContent(String content) throws IllegalArgumentException{
-      if (content != ""){
+      if (!content.isEmpty()){
         throw new IllegalArgumentException("The content you are trying to add does not match the command type. Please change the command type or the content.");
       }
   }

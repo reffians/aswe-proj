@@ -17,9 +17,6 @@ public class CommandService {
   @Autowired
   private CommandRepository commandRepository;
 
-  @Autowired
-  private CommandFactory commandFactory;
-
   /** Get a list of commands by beaconid, updating status from pending to sent.
     *
     * @param beaconid an integer used to identify a beacon.
@@ -63,7 +60,7 @@ public class CommandService {
 
   /** Post to commands table. */
   public Command addCommand(Integer beaconid, String type, String content) {
-    return commandRepository.save(commandFactory.getCommand(beaconid, type, content));
+    return commandRepository.save(CommandFactory.getCommand(beaconid, type, content));
   }
 
 }

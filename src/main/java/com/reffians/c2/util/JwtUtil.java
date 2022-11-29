@@ -25,7 +25,7 @@ public class JwtUtil {
    *
    * @param jwt a serialized JWT.
    * @return a subject string of the JWT.
-  */
+   */
   public static Claims parseJwt(String jwt) throws JwtException {
     return Jwts.parserBuilder()
       .setSigningKey(SECRET)
@@ -39,7 +39,7 @@ public class JwtUtil {
    *
    * @param user a user that is to be issued a JWT.
    * @return a signed, serialized JWT.
-  */
+   */
   public static String issueJwt(User user) {
     return Jwts.builder()
       .setSubject(user.getUsername())
@@ -55,7 +55,7 @@ public class JwtUtil {
    * @param request an HTTP request object.
    * @return a JWT string.
    * @throws MalformedAuthorizationHeaderException if JWT extraction fails.
-  */
+   */
   public static String getJwtFromRequest(HttpServletRequest request) throws
       MalformedAuthorizationHeaderException {
     String header = request.getHeader(HttpHeaders.AUTHORIZATION);
@@ -67,7 +67,7 @@ public class JwtUtil {
    * @param header an HTTP request header, typically the Authorization header.
    * @return a JWT string.
    * @throws MalformedAuthorizationHeaderException if JWT extraction fails.
-  */
+   */
   public static String getJwtFromHeader(String header) throws
       MalformedAuthorizationHeaderException {
     if (header == null || header.isEmpty() || !header.startsWith("Bearer")
@@ -83,7 +83,7 @@ public class JwtUtil {
    * @return the username associated with the JWT.
    * @throws MalformedAuthorizationHeaderException if JWT extraction fails.
    * @throws JwtException if JWT parsing/validation fails.
-  */
+   */
   public static String getUsernameFromValidatedJwt(String jwt) throws
       MalformedAuthorizationHeaderException, JwtException {
     return parseJwt(jwt).getSubject();

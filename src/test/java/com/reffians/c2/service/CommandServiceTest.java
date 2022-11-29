@@ -22,8 +22,6 @@ public class CommandServiceTest {
   private CommandService commandService;
   @MockBean
   private CommandRepository commandRepository;  
-  @MockBean
-  private static CommandFactory commandFactory;
 
   static final int beaconid = 0;
   static Command command0;
@@ -36,10 +34,10 @@ public class CommandServiceTest {
 
   @BeforeAll
   static void beforeClass() {
-    command0 = commandFactory.getCommand(0, "STOP", "");
-    command1 = commandFactory.getCommand(1, "SLEEP", "15");
-    command2 = commandFactory.getCommand(2, "SLEEP", "300");
-    command3 = commandFactory.getCommand(3, "GETHOSTNAME", "300");
+    command0 = CommandFactory.getCommand(0, "STOP", "");
+    command1 = CommandFactory.getCommand(1, "SLEEP", "15");
+    command2 = CommandFactory.getCommand(2, "SLEEP", "300");
+    command3 = CommandFactory.getCommand(3, "GETHOSTNAME", "");
     command3.setStatus(Status.executed);
     oneCommandPending = List.of(command0);
     threeCommandsAllPending = List.of(command0, command1, command2);
@@ -56,7 +54,7 @@ public class CommandServiceTest {
 
   @Test
   public void getCommandsBeaconIdTest() {
-    Command command = commandFactory.getCommand(beaconid, "STOP", "");
+    Command command = CommandFactory.getCommand(beaconid, "STOP", "");
     List<Command> commands = List.of(command);
     Mockito.when(commandRepository.findByBeaconid(beaconid)).thenReturn(commands);
     assertEquals(commands, commandService.getCommands(beaconid));
