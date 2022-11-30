@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.reffians.c2.exception.CommandContentMismatchException;
-import com.reffians.c2.model.Command;
-import com.reffians.c2.model.Command.Status;
-import com.reffians.c2.model.CommandTypes.CommandFactory;
+import com.reffians.c2.model.commands.Command;
+import com.reffians.c2.model.commands.CommandFactory;
+import com.reffians.c2.model.commands.Command.Status;
 import com.reffians.c2.repository.CommandRepository;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;

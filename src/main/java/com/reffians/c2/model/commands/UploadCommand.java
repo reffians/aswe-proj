@@ -1,14 +1,13 @@
-package com.reffians.c2.model.CommandTypes;
+package com.reffians.c2.model.commands;
 
 import javax.persistence.Entity;
 import com.reffians.c2.exception.CommandContentMismatchException;
-import com.reffians.c2.model.Command;
 
 /** A stop command data model, representing a command created by a user to be
   * executed by a specific beacon.
   */
 @Entity
-public class SleepCommand extends Command{
+public class UploadCommand extends Command {
 
   /** A constructor for the command data model.
     *
@@ -16,7 +15,7 @@ public class SleepCommand extends Command{
     * @param content a user-defined string containing the command content to be
     *     executed by the beacon.
     */
-  public SleepCommand(Integer beaconid, String commandType, String content) throws
+  public UploadCommand(Integer beaconid, String commandType, String content) throws
       CommandContentMismatchException {
     super(beaconid);
     setType(commandType);
@@ -25,12 +24,8 @@ public class SleepCommand extends Command{
 
   @Override
   public void checkTypeContent(String content) throws CommandContentMismatchException {
-    try {
-      if (Integer.parseInt(content) <= 0) {
-        throw new CommandContentMismatchException("SLEEP", content);
-      }
-    } catch (NumberFormatException e) {
-      throw new CommandContentMismatchException("SLEEP", content);
+    if (content.length() < 1 || content.length() > 10 || !content.matches("^[a-zA-Z0-9[.]]*$")) { // TODO: this (. vs \.) might cause small problems
+      throw new CommandContentMismatchException("UPLOAD", content);
     }
   }
 }

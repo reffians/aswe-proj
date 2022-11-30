@@ -3,7 +3,7 @@ package com.reffians.c2.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.reffians.c2.model.Command;
+import com.reffians.c2.model.commands.Command;
 import com.reffians.c2.service.BeaconService;
 import com.reffians.c2.service.CommandService;
 import java.util.Collections;

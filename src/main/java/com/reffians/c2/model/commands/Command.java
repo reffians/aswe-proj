@@ -1,4 +1,4 @@
-package com.reffians.c2.model;
+package com.reffians.c2.model.commands;
 
 import static org.apache.commons.lang3.EnumUtils.isValidEnum;
 

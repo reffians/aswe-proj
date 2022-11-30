@@ -1,8 +1,7 @@
-package com.reffians.c2.model.CommandTypes;
+package com.reffians.c2.model.commands;
 
 import javax.persistence.Entity;
 import com.reffians.c2.exception.CommandContentMismatchException;
-import com.reffians.c2.model.Command;
 
 /** A stop command data model, representing a command created by a user to be
   * executed by a specific beacon.

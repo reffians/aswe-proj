@@ -1,14 +1,13 @@
-package com.reffians.c2.model.CommandTypes;
+package com.reffians.c2.model.commands;
 
 import javax.persistence.Entity;
 import com.reffians.c2.exception.CommandContentMismatchException;
-import com.reffians.c2.model.Command;
 
 /** A stop command data model, representing a command created by a user to be
   * executed by a specific beacon.
   */
 @Entity
-public class StopCommand extends Command {
+public class GetHostNameCommand extends Command{
 
   /** A constructor for the command data model.
     *
@@ -16,7 +15,7 @@ public class StopCommand extends Command {
     * @param content a user-defined string containing the command content to be
     *     executed by the beacon.
     */
-  public StopCommand(Integer beaconid, String commandType, String content) throws
+  public GetHostNameCommand(Integer beaconid, String commandType, String content) throws 
       CommandContentMismatchException {
     super(beaconid);
     setType(commandType);
@@ -26,7 +25,7 @@ public class StopCommand extends Command {
   @Override
   public void checkTypeContent(String content) throws CommandContentMismatchException {
     if (!content.isEmpty()){
-      throw new CommandContentMismatchException("STOP", content);
+      throw new CommandContentMismatchException("GETHOSTNAME", content);
     }
   }
 }

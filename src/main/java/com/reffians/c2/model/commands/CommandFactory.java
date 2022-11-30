@@ -1,7 +1,7 @@
-package com.reffians.c2.model.CommandTypes;
+package com.reffians.c2.model.commands;
 
 import com.reffians.c2.exception.CommandContentMismatchException;
-import com.reffians.c2.model.Command;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
