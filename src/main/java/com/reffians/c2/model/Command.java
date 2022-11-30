@@ -3,6 +3,8 @@ package com.reffians.c2.model;
 import static org.apache.commons.lang3.EnumUtils.isValidEnum;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.reffians.c2.exception.CommandContentMismatchException;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -104,11 +106,11 @@ public class Command {
     *
     * @param type an String with command content.
     */
-  public void setCommandContent(String content) {
+  public void setCommandContent(String content) throws CommandContentMismatchException {
     checkTypeContent(content);
     this.content = content;
   }
 
-  public void checkTypeContent(String content) throws IllegalArgumentException{
+  public void checkTypeContent(String content) throws CommandContentMismatchException {
   };
 }

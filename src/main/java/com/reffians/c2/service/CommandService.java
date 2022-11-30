@@ -1,5 +1,6 @@
 package com.reffians.c2.service;
 
+import com.reffians.c2.exception.CommandContentMismatchException;
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.CommandTypes.CommandFactory;
@@ -59,7 +60,8 @@ public class CommandService {
   }
 
   /** Post to commands table. */
-  public Command addCommand(Integer beaconid, String type, String content) {
+  public Command addCommand(Integer beaconid, String type, String content) throws
+      CommandContentMismatchException, IllegalArgumentException {
     return commandRepository.save(CommandFactory.getCommand(beaconid, type, content));
   }
 
