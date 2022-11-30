@@ -2,6 +2,8 @@ package com.reffians.c2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Collection;
+import java.util.Collections;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -32,7 +34,7 @@ public class User implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    return Collections.emptyList();
   }
 
   @Override
