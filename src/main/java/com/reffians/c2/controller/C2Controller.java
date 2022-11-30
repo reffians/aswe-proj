@@ -1,16 +1,23 @@
 package com.reffians.c2.controller;
 
-import com.reffians.c2.dto.ReceiveCommandRequest;
 import com.reffians.c2.dto.CommandRequest;
+import com.reffians.c2.dto.ReceiveCommandRequest;
+import com.reffians.c2.dto.SendResultRequest;
 import com.reffians.c2.dto.UserRequest;
 import com.reffians.c2.exception.CommandContentMismatchException;
 import com.reffians.c2.exception.UserExistsException;
 import com.reffians.c2.model.Beacon;
+<<<<<<< HEAD
+=======
+import com.reffians.c2.model.Command;
+import com.reffians.c2.model.Result;
+>>>>>>> 9c77782 (refactored all the status stuff + and added the {beacon/user}/result endpoints)
 import com.reffians.c2.model.User;
 import com.reffians.c2.model.commands.Command;
 import com.reffians.c2.model.commands.Command.Status;
 import com.reffians.c2.service.BeaconService;
 import com.reffians.c2.service.CommandService;
+import com.reffians.c2.service.ResultService;
 import com.reffians.c2.service.UserService;
 import com.reffians.c2.util.JwtUtil;
 import java.util.ArrayList;
@@ -43,38 +50,11 @@ public class C2Controller {
   @Autowired
   private CommandService commandService;
   @Autowired
+  private ResultService resultService;
+  @Autowired
   private AuthenticationManager authenticationManager;
 
   private static final Logger logger = LoggerFactory.getLogger(C2Controller.class);
-
-  /** POST receive commands for a beacon. Returns 200 OK and an array of Command objects on success,
-    * 400 Bad Request with an error message on failure.
-    *
-    * @param request A request object consisting of beacon id, beacon token, and command status that
-    *     can be one of "pending", "sent", "executed", "finished", or "all".
-    * @return A list of command objects. A command object contains integer "id", integer "beaconid"
-    *     of the corresponding beacon, user-defined string "content", and string "status".
-    */
-  @PostMapping(path = "/beacon/command", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> receiveCommand(@NotEmpty @Valid @RequestBody ReceiveCommandRequest
-      request) {
-    logger.info("POST beacon receive commands with beaconid: {}", request.getBeacon().getId());
-    if (!beaconService.beaconExists(request.getBeacon().getId(), request.getBeacon().getToken())) {
-      logger.warn("POST beacon receive commands: no beacon with this beaconid and/or token.");
-      return ResponseEntity.badRequest().body("No beacon with this beaconid and/or token.");
-    }
-
-    try {
-      Integer id = request.getBeacon().getId();
-      List<Command> commands = request.statusAll() ? commandService.getCommands(id)
-          : commandService.getCommands(id, request.getStatus());
-      commandService.updateCommandStatus(commands, Status.sent);
-      return ResponseEntity.ok(commands);
-    } catch (Exception e) {
-      logger.error("POST beacon receive commands unexpected error", e);
-      return ResponseEntity.internalServerError().build();
-    }
-  }
 
   /**
    * POST mapping for the register beacon endpoint.
@@ -161,8 +141,8 @@ public class C2Controller {
       return ResponseEntity.internalServerError().build();
     }
     try {
-      ArrayList<Command> addedCommands = new ArrayList<>();
-      for (CommandRequest commReq : commandRequests) { // need to be able to check that the beacon ids correspond to the right user
+      ArrayList<Command> addedCommands = new ArrayList<Command>();
+      for (CommandRequest commReq : commandRequests) { 
         int beaconid = commReq.getBeaconid();
         if (!username.equals(beaconService.getUserForBeacon(beaconid))){
           logger.error("POST submit command by user: user is not authorized for this beacon");
@@ -177,6 +157,103 @@ public class C2Controller {
       return ResponseEntity.badRequest().body(e.toString());
     } catch (Exception e) {
       logger.error("POST commands to beacon unexpected error", e);
+      return ResponseEntity.internalServerError().build();
+    }
+  }
+
+    /** POST receive commands for a beacon. Returns 200 OK and an array of Command objects on success,
+    * 400 Bad Request with an error message on failure.
+    *
+    * @param request A request object consisting of beacon id, beacon token, and command status that
+    *     can be one of "pending", "sent", "executed", "finished", or "all".
+    * @return A list of command objects. A command object contains integer "id", integer "beaconid"
+    *     of the corresponding beacon, user-defined string "content", and string "status".
+    */
+  @PostMapping(path = "/beacon/command", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> receiveCommand(@NotEmpty @Valid @RequestBody ReceiveCommandRequest
+      request) {
+    logger.info("POST beacon receive commands with beaconid: {}", request.getBeacon().getId());
+    if (!beaconService.beaconExists(request.getBeacon().getId(), request.getBeacon().getToken())) {
+      logger.warn("POST beacon receive commands: no beacon with this beaconid and/or token.");
+      return ResponseEntity.badRequest().body("No beacon with this beaconid and/or token.");
+    }
+    try { 
+      Integer id = request.getBeacon().getId();
+      List<Command> commands = commandService.getNotSentCommands(id);
+      for (Command command: commands){
+        command.setCommandSent();
+      }
+      return ResponseEntity.ok(commands);
+    } catch (Exception e) {
+      logger.error("POST beacon receive commands unexpected error", e);
+      return ResponseEntity.internalServerError().build();
+    }
+  }
+
+    /** POST send results for a beacon. Returns 200 OK and an array of Command objects on success,
+    * 400 Bad Request with an error message on failure.
+    *
+    * @param request A request object consisting of beacon id, beacon token, and command status that
+    *     can be one of "pending", "sent", "executed", "finished", or "all".
+    * @return A list of command objects. A command object contains integer "id", integer "beaconid"
+    *     of the corresponding beacon, user-defined string "content", and string "status".
+    */
+  @PostMapping(path = "/beacon/result", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> beaconSendResult(@NotEmpty @Valid @RequestBody SendResultRequest
+      request) {
+    logger.info("POST beacon send results with beaconid: {}", request.getBeacon().getId());
+    if (!beaconService.beaconExists(request.getBeacon().getId(), request.getBeacon().getToken())) {
+      logger.warn("POST beacon send results: no beacon with this beaconid and/or token.");
+      return ResponseEntity.badRequest().body("No beacon with this beaconid and/or token.");
+    }
+    try { 
+      int beaconid = request.getBeacon().getId();
+      ArrayList<Result> addedResults = new ArrayList<Result>();
+      List<Result> results = request.getResults();
+      for (Result result: results){
+        int commandid = result.getCommandid();
+        if (beaconid != commandService.getBeaconForCommand(commandid)){
+          logger.error("POST submit result by beacon: this beacon is not authorized for this command (id " + beaconid + " )");
+          continue;
+        }
+        String username = beaconService.getUserForBeacon(beaconid);
+        addedResults.add(resultService.addResult(commandid, username, result.getContent()));
+      }
+      return ResponseEntity.ok(addedResults);
+    } catch (Exception e) {
+      logger.error("POST beacon send results unexpected error", e);
+      return ResponseEntity.internalServerError().build();
+    }
+  }
+
+    /**
+    * POST User receive results. Returns 300 Created on success, and 400 Bad Request
+    * on failure.
+    *
+    * @param beaconid a non-negative integer representing the beaconid.
+    * @param commandContents a list of strings representing the command contents.
+    * @return ResponseEntity with HttpStatus
+    */
+  @PostMapping(path = "/user/result", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> userReceiveResults(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String
+      authorizationHeader) {
+    String username = "";
+    try {
+      String jwt = JwtUtil.getJwtFromHeader(authorizationHeader);
+      username = JwtUtil.getUsernameFromValidatedJwt(jwt);
+      logger.info("GET results with username: {}", username);
+    } catch (Exception e) {
+      logger.error("GET command results by user: incorrect authentication", e);
+      return ResponseEntity.internalServerError().build();
+    }
+    try {
+      List<Result> retrievedResults = resultService.getNotReceivedResults(username);
+      for (Result result : retrievedResults) {
+          result.setResultRead();
+      }
+      return ResponseEntity.ok(retrievedResults);
+    } catch (Exception e) {
+      logger.error("POST user receive results unexpected error", e);
       return ResponseEntity.internalServerError().build();
     }
   }

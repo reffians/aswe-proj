@@ -1,7 +1,12 @@
 package com.reffians.c2.model.commands;
 
+<<<<<<< HEAD:src/main/java/com/reffians/c2/model/commands/GetHostOsCommand.java
 import javax.persistence.Entity;
 import com.reffians.c2.exception.CommandContentMismatchException;
+=======
+import com.reffians.c2.model.Command;
+import javax.persistence.Entity;
+>>>>>>> 9c77782 (refactored all the status stuff + and added the {beacon/user}/result endpoints):src/main/java/com/reffians/c2/model/CommandTypes/GetHostOsCommand.java
 
 /** A stop command data model, representing a command created by a user to be
   * executed by a specific beacon.

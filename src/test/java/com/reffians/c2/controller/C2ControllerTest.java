@@ -34,8 +34,8 @@ class C2ControllerTest {
     Integer beaconid = 1;
     Mockito.when(beaconService.beaconExists(beaconid, "token")).thenReturn(true);
     Mockito.when(commandService.getCommands(beaconid)).thenReturn(Collections.emptyList());
-    Mockito.when(commandService.updateCommandStatus(Mockito.anyList(),
-        Mockito.any(Command.Status.class))).thenReturn(Collections.emptyList());
+    // Mockito.when(commandService.updateCommandStatus(Mockito.anyList(),
+    //     Mockito.any(Command.Status.class))).thenReturn(Collections.emptyList());
     mockMvc.perform(post("/beacon/command")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"beacon\": {\"id\": 1, \"token\": \"token\"},\"status\": \"all\"}")
@@ -49,8 +49,8 @@ class C2ControllerTest {
     Integer beaconid = 1;
     Mockito.when(beaconService.beaconExists(beaconid, "token")).thenReturn(true);
     Mockito.when(commandService.getCommands(beaconid)).thenReturn(Collections.emptyList());
-    Mockito.when(commandService.updateCommandStatus(Mockito.anyList(),
-        Mockito.any(Command.Status.class))).thenReturn(Collections.emptyList());
+    // Mockito.when(commandService.updateCommandStatus(Mockito.anyList(),
+    //     Mockito.any(Command.Status.class))).thenReturn(Collections.emptyList());
     mockMvc.perform(post("/beacon/command")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"beacon\": {\"id\": 1, \"token\": \"token\"},\"status\": \"pending\"}")
@@ -65,7 +65,7 @@ class C2ControllerTest {
     Mockito.when(beaconService.beaconExists(beaconid, "token")).thenReturn(false);
     mockMvc.perform(post("/beacon/command")
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"beacon\": {\"id\": 1, \"token\": \"token\"},\"status\": \"all\"}"))
+        .content("{\"beacon\": {\"id\": 1, \"token\": \"token\"}}"))
         .andExpect(status().isBadRequest());
   }
 
@@ -74,7 +74,7 @@ class C2ControllerTest {
   void testReceiveCommandInvalidStatus() throws Exception {
     mockMvc.perform(post("/beacon/command")
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"beacon\": {\"id\": 1, \"token\": \"token\"},\"status\": \"invalid\"}")
+        .content("{\"beacon\": {\"id\": 1, \"token\": \"token\"}}")
         .queryParam("beaconid", "5"))
         .andExpect(status().isBadRequest());
   }
