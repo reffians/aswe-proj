@@ -38,8 +38,8 @@ public class Command {
   @JsonProperty("content")
   private String content;
 
-  @JsonProperty("status")
-  public String status;
+  @JsonProperty("has_been_sent")
+  public boolean hasBeenSent;
 
   @JsonProperty("type")
   public String type;
@@ -52,22 +52,22 @@ public class Command {
 
  
   /** The enum of valid command status. **/
-  public static enum Status {
-    pending,
-    sent,
-    executed,
-    finished;
+  // public static enum Status {
+  //   pending,
+  //   sent,
+  //   executed,
+  //   finished;
 
-    /** Checks whether the provided string represents a valid command status.
-      *
-      * @param status the status string under question.
-      * @return a boolean indicating whether the provided string represents a valid
-      *     command status.
-      */
-    public static boolean isValid(String status) {
-      return isValidEnum(Status.class, status);
-    }
-  }
+  //   /** Checks whether the provided string represents a valid command status.
+  //     *
+  //     * @param status the status string under question.
+  //     * @return a boolean indicating whether the provided string represents a valid
+  //     *     command status.
+  //     */
+  //   public static boolean isValid(String status) {
+  //     return isValidEnum(Status.class, status);
+  //   }
+  // }
 
   /** A constructor for the command data model.
     *
@@ -78,23 +78,21 @@ public class Command {
   public Command(Integer beaconid) {
     this.id = null;
     this.beaconid = beaconid;
-    this.status = Status.pending.name();
+    this.hasBeenSent = false;
   }
 
-  /** Retrieves command status.
-    *
-    * @return an enum representing a valid status.
-    */
-  public Status getStatus() {
-    return Status.valueOf(this.status);
-  }
+  // /** Retrieves command status.
+  //   *
+  //   * @return an enum representing a valid status.
+  //   */
+  // public Status getStatus() {
+  //   return Status.valueOf(this.status);
+  // }
 
-  /** Sets command status.
-    *
-    * @param status an enum representing a valid status.
+  /** Sets command to have been sent.
     */
-  public void setStatus(Status status) {
-    this.status = status.name();
+  public void setCommandSent() {
+    this.hasBeenSent = true;
   }
 
   /** Sets command type.
