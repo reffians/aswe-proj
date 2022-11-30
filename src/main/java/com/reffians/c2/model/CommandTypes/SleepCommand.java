@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 /** A stop command data model, representing a command created by a user to be
   * executed by a specific beacon.
   */
-// @NoArgsConstructor
+@Entity
 public class SleepCommand extends Command{
 
   /** A constructor for the command data model.
