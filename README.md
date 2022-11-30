@@ -80,6 +80,9 @@
     - Example:
         - Sample body request: curl -X POST localhost:8080/beacon/command -H "Content-Type: application/json" -d '["command1", "command2"]'
 
+### CI Reports
+CI is implemented through CircleCI. Reports are located here (https://app.circleci.com/pipelines/github/reffians/aswe-proj) and include branch coverage reports.   
+
 ### COMMON ISSUES
 
 If you get a JAVA_HOME error, it’s likely that the JAVA_HOME was auto set incorrectly. To fix, run 
