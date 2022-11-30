@@ -161,11 +161,11 @@ public class C2Controller {
       return ResponseEntity.internalServerError().build();
     }
     try {
-      ArrayList<Command> addedCommands = new ArrayList<Command>();
+      ArrayList<Command> addedCommands = new ArrayList<>();
       for (CommandRequest commReq : commandRequests) { // need to be able to check that the beacon ids correspond to the right user
         int beaconid = commReq.getBeaconid();
         if (!username.equals(beaconService.getUserForBeacon(beaconid))){
-          logger.error("POST submit command by user: this user is not authorized for this beacon (id " + beaconid + " )");
+          logger.error("POST submit command by user: user is not authorized for this beacon");
           continue;
         }
         Command c = commandService.addCommand(beaconid, commReq.getCommandType(), commReq.getContent());
