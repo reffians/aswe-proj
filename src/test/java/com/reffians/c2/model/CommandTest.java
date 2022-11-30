@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.reffians.c2.model.commands.Command.Status;
 
 @SpringBootTest
-public class CommandTest {
+class CommandTest {
   // @Test
   // void testGetBeaconidBeaconidZeroContentNotEmpty() {
   //   int beaconid = 0;

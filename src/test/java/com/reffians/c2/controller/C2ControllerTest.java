@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class C2ControllerTest {
+class C2ControllerTest {
   @Autowired
   private MockMvc mockMvc;
   @MockBean

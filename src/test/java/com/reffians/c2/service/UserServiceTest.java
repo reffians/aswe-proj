@@ -22,7 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootTest
-public class UserServiceTest {
+class UserServiceTest {
   @Autowired
   private UserService userService;
 
