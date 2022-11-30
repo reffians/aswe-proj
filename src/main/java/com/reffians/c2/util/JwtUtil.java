@@ -10,14 +10,15 @@ import io.jsonwebtoken.security.Keys;
 import java.util.Date;
 import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Service;
 
 
 /** JWT Util Class. */
-@Service
+@NoArgsConstructor(access = AccessLevel.PRIVATE) 
 public class JwtUtil {
-  private static final long EXPIRATION_TIME = 24 * 60 * 60 * 1000;
+  private static final long EXPIRATION_TIME = 24 * 60 * 60 * 1000L;
   private static final String ISSUER = "C2.reffians.com";
   private static final SecretKey SECRET = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
@@ -81,11 +82,9 @@ public class JwtUtil {
    *
    * @param jwt a JWT.
    * @return the username associated with the JWT.
-   * @throws MalformedAuthorizationHeaderException if JWT extraction fails.
    * @throws JwtException if JWT parsing/validation fails.
    */
-  public static String getUsernameFromValidatedJwt(String jwt) throws
-      MalformedAuthorizationHeaderException, JwtException {
+  public static String getUsernameFromValidatedJwt(String jwt) throws JwtException {
     return parseJwt(jwt).getSubject();
   }
 }
