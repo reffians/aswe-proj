@@ -22,7 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootTest
-public class UserServiceTest {
+class UserServiceTest {
   @Autowired
   private UserService userService;
 
@@ -33,7 +33,7 @@ public class UserServiceTest {
   private BCryptPasswordEncoder passwordEncoder;
 
   @Test
-  public void getUserExistsTest()  {
+  void getUserExistsTest()  {
     String username = "user";
     User user = mock(User.class);
     Mockito.when(userRepository.findByUsername(username)).thenReturn(List.of(user));
@@ -43,7 +43,7 @@ public class UserServiceTest {
   }
 
   @Test
-  public void getUserNExistsTest()  {
+  void getUserNExistsTest()  {
     String username = "user";
     Mockito.when(userRepository.findByUsername(username)).thenReturn(emptyList());
     assertThrows(UserMissingException.class, () -> {
@@ -52,7 +52,7 @@ public class UserServiceTest {
   }
 
   @Test
-  public void userExistsExistsTest()  {
+  void userExistsExistsTest()  {
     String username = "user";
     List<User> users = List.of(mock(User.class));
     Mockito.when(userRepository.findByUsername(username)).thenReturn(users);
@@ -60,14 +60,14 @@ public class UserServiceTest {
   }
 
   @Test
-  public void userExistsNExistsTest()  {
+  void userExistsNExistsTest()  {
     String username = "user";
     Mockito.when(userRepository.findByUsername(username)).thenReturn(emptyList());
     assertFalse(userService.userExists(username));
   }
 
   @Test
-  public void passwordMatchesMatchesTest() {
+  void passwordMatchesMatchesTest() {
     String rawPassword = "raw";
     String encodedPassword = "encoded";
     Mockito.when(passwordEncoder.matches(rawPassword, encodedPassword)).thenReturn(true);
@@ -75,7 +75,7 @@ public class UserServiceTest {
   }
 
   @Test
-  public void passwordMatchesNMatchesTest() {
+  void passwordMatchesNMatchesTest() {
     String rawPassword = "raw";
     String encodedPassword = "encoded";
     Mockito.when(passwordEncoder.matches(rawPassword, encodedPassword)).thenReturn(false);
@@ -83,7 +83,7 @@ public class UserServiceTest {
   }
 
   @Test
-  public void addUserExistsTest() {
+  void addUserExistsTest() {
     String username = "user";
     Mockito.when(userRepository.findByUsername(username)).thenReturn(List.of(mock(User.class)));
     assertThrows(UserExistsException.class, () -> {
@@ -92,7 +92,7 @@ public class UserServiceTest {
   }
 
   @Test
-  public void addUserNExistsEncodedPasswordTest() {
+  void addUserNExistsEncodedPasswordTest() {
     String username = "user";
     User user = mock(User.class);
     Mockito.when(userRepository.findByUsername(username)).thenReturn(emptyList());

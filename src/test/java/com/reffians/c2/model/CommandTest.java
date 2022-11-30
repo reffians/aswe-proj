@@ -8,128 +8,128 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.reffians.c2.model.commands.Command.Status;
 
 @SpringBootTest
-public class CommandTest {
+class CommandTest {
   // @Test
-  // public void testGetBeaconidBeaconidZeroContentNotEmpty() {
+  // void testGetBeaconidBeaconidZeroContentNotEmpty() {
   //   int beaconid = 0;
   //   Command command = new Command(beaconid, "foo");
   //   assertEquals(beaconid, command.getBeaconid());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidZeroContentEmpty() {
+  // void testGetBeaconidBeaconidZeroContentEmpty() {
   //   int beaconid = 0;
   //   Command command = new Command(beaconid, "");
   //   assertEquals(beaconid, command.getBeaconid());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidZeroContentNull() {
+  // void testGetBeaconidBeaconidZeroContentNull() {
   //   int beaconid = 0;
   //   Command command = new Command(beaconid, null);
   //   assertEquals(beaconid, command.getBeaconid());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidNegContentNotEmpty() {
+  // void testGetBeaconidBeaconidNegContentNotEmpty() {
   //   int beaconid = -10;
   //   Command command = new Command(beaconid, "foo");
   //   assertEquals(beaconid, command.getBeaconid());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidNegContentEmpty() {
+  // void testGetBeaconidBeaconidNegContentEmpty() {
   //   int beaconid = -10;
   //   Command command = new Command(beaconid, "");
   //   assertEquals(beaconid, command.getBeaconid());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidNegContentNull() {
+  // void testGetBeaconidBeaconidNegContentNull() {
   //   int beaconid = -10;
   //   Command command = new Command(beaconid, null);
   //   assertEquals(beaconid, command.getBeaconid());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidPosContentNotEmpty() {
+  // void testGetBeaconidBeaconidPosContentNotEmpty() {
   //   int beaconid = 5;
   //   Command command = new Command(beaconid, "foo");
   //   assertEquals(beaconid, command.getBeaconid());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidPosContentEmpty() {
+  // void testGetBeaconidBeaconidPosContentEmpty() {
   //   int beaconid = 5;
   //   Command command = new Command(beaconid, "");
   //   assertEquals(beaconid, command.getBeaconid());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidPosContentNull() {
+  // void testGetBeaconidBeaconidPosContentNull() {
   //   int beaconid = 5;
   //   Command command = new Command(beaconid, null);
   //   assertEquals(beaconid, command.getBeaconid());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidNullContentNotEmpty() {
+  // void testGetBeaconidBeaconidNullContentNotEmpty() {
   //   Integer beaconid = null;
   //   Command command = new Command(beaconid, "foo");
   //   assertEquals(beaconid, command.getBeaconid());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidNullContentEmpty() {
+  // void testGetBeaconidBeaconidNullContentEmpty() {
   //   Integer beaconid = null;
   //   Command command = new Command(beaconid, "");
   //   assertEquals(beaconid, command.getBeaconid());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidNullContentNull() {
+  // void testGetBeaconidBeaconidNullContentNull() {
   //   Integer beaconid = null;
   //   Command command = new Command(beaconid, null);
   //   assertEquals(beaconid, command.getBeaconid());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidMaxPosContentNonEmpty() {
+  // void testGetBeaconidBeaconidMaxPosContentNonEmpty() {
   //   String content = "foo";
   //   Command command = new Command(Integer.MAX_VALUE, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidMaxPosContentEmpty() {
+  // void testGetBeaconidBeaconidMaxPosContentEmpty() {
   //   String content = "";
   //   Command command = new Command(Integer.MAX_VALUE, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidMaxPosContentNull() {
+  // void testGetBeaconidBeaconidMaxPosContentNull() {
   //   String content = null;
   //   Command command = new Command(Integer.MAX_VALUE, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidMinNegContentNonEmpty() {
+  // void testGetBeaconidBeaconidMinNegContentNonEmpty() {
   //   String content = "foo";
   //   Command command = new Command(Integer.MIN_VALUE, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidMinNegContentEmpty() {
+  // void testGetBeaconidBeaconidMinNegContentEmpty() {
   //   String content = "";
   //   Command command = new Command(Integer.MIN_VALUE, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetBeaconidBeaconidMinNegContentNull() {
+  // void testGetBeaconidBeaconidMinNegContentNull() {
   //   String content = null;
   //   Command command = new Command(Integer.MIN_VALUE, content);
   //   assertEquals(content, command.getContent());
@@ -137,360 +137,360 @@ public class CommandTest {
 
 
   // @Test
-  // public void testGetContentBeaconidZeroContentNonEmpty() {
+  // void testGetContentBeaconidZeroContentNonEmpty() {
   //   String content = "foo";
   //   Command command = new Command(0, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidZeroContentEmpty() {
+  // void testGetContentBeaconidZeroContentEmpty() {
   //   String content = "";
   //   Command command = new Command(0, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidZeroContentNull() {
+  // void testGetContentBeaconidZeroContentNull() {
   //   String content = null;
   //   Command command = new Command(0, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidNegContentNonEmpty() {
+  // void testGetContentBeaconidNegContentNonEmpty() {
   //   String content = "foo";
   //   Command command = new Command(-5, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidNegContentEmpty() {
+  // void testGetContentBeaconidNegContentEmpty() {
   //   String content = "";
   //   Command command = new Command(-5, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidNegContentNull() {
+  // void testGetContentBeaconidNegContentNull() {
   //   String content = null;
   //   Command command = new Command(-5, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidPosContentNonEmpty() {
+  // void testGetContentBeaconidPosContentNonEmpty() {
   //   String content = "foo";
   //   Command command = new Command(5, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidPosContentEmpty() {
+  // void testGetContentBeaconidPosContentEmpty() {
   //   String content = "";
   //   Command command = new Command(5, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidPosContentNull() {
+  // void testGetContentBeaconidPosContentNull() {
   //   String content = null;
   //   Command command = new Command(5, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidNullContentNonEmpty() {
+  // void testGetContentBeaconidNullContentNonEmpty() {
   //   String content = "foo";
   //   Command command = new Command(null, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidNullContentEmpty() {
+  // void testGetContentBeaconidNullContentEmpty() {
   //   String content = "";
   //   Command command = new Command(null, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidNullContentNull() {
+  // void testGetContentBeaconidNullContentNull() {
   //   String content = null;
   //   Command command = new Command(null, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidMaxPosContentNonEmpty() {
+  // void testGetContentBeaconidMaxPosContentNonEmpty() {
   //   String content = "foo";
   //   Command command = new Command(Integer.MAX_VALUE, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidMaxPosContentEmpty() {
+  // void testGetContentBeaconidMaxPosContentEmpty() {
   //   String content = "";
   //   Command command = new Command(Integer.MAX_VALUE, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidMaxPosContentNull() {
+  // void testGetContentBeaconidMaxPosContentNull() {
   //   String content = null;
   //   Command command = new Command(Integer.MAX_VALUE, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidMinNegContentNonEmpty() {
+  // void testGetContentBeaconidMinNegContentNonEmpty() {
   //   String content = "foo";
   //   Command command = new Command(Integer.MIN_VALUE, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidMinNegContentEmpty() {
+  // void testGetContentBeaconidMinNegContentEmpty() {
   //   String content = "";
   //   Command command = new Command(Integer.MIN_VALUE, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testGetContentBeaconidMinNegContentNull() {
+  // void testGetContentBeaconidMinNegContentNull() {
   //   String content = null;
   //   Command command = new Command(Integer.MIN_VALUE, content);
   //   assertEquals(content, command.getContent());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidNullContentNotEmpty() {
+  // void testNewCommandStatusBeaconidNullContentNotEmpty() {
   //   Command command = new Command(null, "foo");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidZeroContentNotEmpty() {
+  // void testNewCommandStatusBeaconidZeroContentNotEmpty() {
   //   Command command = new Command(0, "foo");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidPosContentNotEmpty() {
+  // void testNewCommandStatusBeaconidPosContentNotEmpty() {
   //   Command command = new Command(5, "foo");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidNegContentNotEmpty() {
+  // void testNewCommandStatusBeaconidNegContentNotEmpty() {
   //   Command command = new Command(-5, "foo");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidMaxPosContentNotEmpty() {
+  // void testNewCommandStatusBeaconidMaxPosContentNotEmpty() {
   //   Command command = new Command(Integer.MAX_VALUE, "foo");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidMinNegContentNotEmpty() {
+  // void testNewCommandStatusBeaconidMinNegContentNotEmpty() {
   //   Command command = new Command(Integer.MIN_VALUE, "foo");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidNullContentEmpty() {
+  // void testNewCommandStatusBeaconidNullContentEmpty() {
   //   Command command = new Command(null, "");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidZeroContentEmpty() {
+  // void testNewCommandStatusBeaconidZeroContentEmpty() {
   //   Command command = new Command(0, "");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidPosContentEmpty() {
+  // void testNewCommandStatusBeaconidPosContentEmpty() {
   //   Command command = new Command(5, "");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidNegContentEmpty() {
+  // void testNewCommandStatusBeaconidNegContentEmpty() {
   //   Command command = new Command(-5, "");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidMaxPosContentEmpty() {
+  // void testNewCommandStatusBeaconidMaxPosContentEmpty() {
   //   Command command = new Command(Integer.MAX_VALUE, "");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidMinNegContentEmpty() {
+  // void testNewCommandStatusBeaconidMinNegContentEmpty() {
   //   Command command = new Command(Integer.MIN_VALUE, "");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidNullContentNull() {
+  // void testNewCommandStatusBeaconidNullContentNull() {
   //   Command command = new Command(null, "");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidZeroContentNull() {
+  // void testNewCommandStatusBeaconidZeroContentNull() {
   //   Command command = new Command(0, "");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidPosContentNull() {
+  // void testNewCommandStatusBeaconidPosContentNull() {
   //   Command command = new Command(5, "");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidNegContentNull() {
+  // void testNewCommandStatusBeaconidNegContentNull() {
   //   Command command = new Command(-5, "");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidMaxPosContentNull() {
+  // void testNewCommandStatusBeaconidMaxPosContentNull() {
   //   Command command = new Command(Integer.MAX_VALUE, "");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testNewCommandStatusBeaconidMinNegContentNull() {
+  // void testNewCommandStatusBeaconidMinNegContentNull() {
   //   Command command = new Command(Integer.MIN_VALUE, "");
   //   assertEquals(Status.pending, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidNullContentNotEmpty() {
+  // void testSetStatusBeaconidNullContentNotEmpty() {
   //   Command command = new Command(null, "foo");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidZeroContentNotEmpty() {
+  // void testSetStatusBeaconidZeroContentNotEmpty() {
   //   Command command = new Command(0, "foo");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidPosContentNotEmpty() {
+  // void testSetStatusBeaconidPosContentNotEmpty() {
   //   Command command = new Command(5, "foo");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidNegContentNotEmpty() {
+  // void testSetStatusBeaconidNegContentNotEmpty() {
   //   Command command = new Command(-5, "foo");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidMaxPosContentNotEmpty() {
+  // void testSetStatusBeaconidMaxPosContentNotEmpty() {
   //   Command command = new Command(Integer.MAX_VALUE, "foo");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidMinNegContentNotEmpty() {
+  // void testSetStatusBeaconidMinNegContentNotEmpty() {
   //   Command command = new Command(Integer.MIN_VALUE, "foo");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidNullContentEmpty() {
+  // void testSetStatusBeaconidNullContentEmpty() {
   //   Command command = new Command(null, "");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidZeroContentEmpty() {
+  // void testSetStatusBeaconidZeroContentEmpty() {
   //   Command command = new Command(0, "");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidPosContentEmpty() {
+  // void testSetStatusBeaconidPosContentEmpty() {
   //   Command command = new Command(5, "");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidNegContentEmpty() {
+  // void testSetStatusBeaconidNegContentEmpty() {
   //   Command command = new Command(-5, "");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidMaxPosContentEmpty() {
+  // void testSetStatusBeaconidMaxPosContentEmpty() {
   //   Command command = new Command(Integer.MAX_VALUE, "");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidMinNegContentEmpty() {
+  // void testSetStatusBeaconidMinNegContentEmpty() {
   //   Command command = new Command(Integer.MIN_VALUE, "");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidNullContentNull() {
+  // void testSetStatusBeaconidNullContentNull() {
   //   Command command = new Command(null, "");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidZeroContentNull() {
+  // void testSetStatusBeaconidZeroContentNull() {
   //   Command command = new Command(0, "");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidPosContentNull() {
+  // void testSetStatusBeaconidPosContentNull() {
   //   Command command = new Command(5, "");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidNegContentNull() {
+  // void testSetStatusBeaconidNegContentNull() {
   //   Command command = new Command(-5, "");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidMaxPosContentNull() {
+  // void testSetStatusBeaconidMaxPosContentNull() {
   //   Command command = new Command(Integer.MAX_VALUE, "");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());
   // }
 
   // @Test
-  // public void testSetStatusBeaconidMinNegContentNull() {
+  // void testSetStatusBeaconidMinNegContentNull() {
   //   Command command = new Command(Integer.MIN_VALUE, "");
   //   command.setStatus(Status.sent);
   //   assertEquals(Status.sent, command.getStatus());

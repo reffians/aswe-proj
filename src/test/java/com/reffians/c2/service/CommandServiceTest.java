@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 @SpringBootTest
-public class CommandServiceTest {
+class CommandServiceTest {
   @Autowired
   private CommandService commandService;
   @MockBean
@@ -54,7 +54,7 @@ public class CommandServiceTest {
   }
 
   @Test
-  public void getCommandsBeaconIdTest() throws CommandContentMismatchException {
+  void getCommandsBeaconIdTest() throws CommandContentMismatchException {
     Command command = CommandFactory.getCommand(beaconid, "STOP", "");
     List<Command> commands = List.of(command);
     Mockito.when(commandRepository.findByBeaconid(beaconid)).thenReturn(commands);
@@ -62,20 +62,20 @@ public class CommandServiceTest {
   }
 
   @Test
-  public void testGetCommandsBeaconIdSingleCommandSingleBeaconid() {
+  void testGetCommandsBeaconIdSingleCommandSingleBeaconid() {
     Mockito.when(commandRepository.findByBeaconid(beaconid)).thenReturn(oneCommandPending);
     assertEquals(oneCommandPending, commandService.getCommands(beaconid));
   }
 
   @Test
-  public void testGetCommandsBeaconIdStatus() {
+  void testGetCommandsBeaconIdStatus() {
     Mockito.when(commandRepository.findByBeaconidStatus(beaconid, Status.pending.name()))
         .thenReturn(oneCommandPending);
     assertEquals(oneCommandPending, commandService.getCommands(beaconid, Status.pending));
   }
 
   @Test
-  public void testUpdateCommandStatusSingleUpdate() {
+  void testUpdateCommandStatusSingleUpdate() {
     Mockito.when(commandRepository.save(command0)).thenReturn(command0);
     List<Command> updatedCommands = commandService.updateCommandStatus(oneCommandPending,
         Status.sent);
@@ -86,13 +86,13 @@ public class CommandServiceTest {
   }
 
   @Test
-  public void testUpdateCommandStatusSingleNoUpdate() {
+  void testUpdateCommandStatusSingleNoUpdate() {
     assertTrue(commandService.updateCommandStatus(oneCommandPending, Status.pending)
         .isEmpty());
   }
 
   @Test
-  public void testUpdateCommandStatusMultipleAllUpdate() {
+  void testUpdateCommandStatusMultipleAllUpdate() {
     Mockito.when(commandRepository.save(command0)).thenReturn(command0);
     Mockito.when(commandRepository.save(command1)).thenReturn(command1);
     Mockito.when(commandRepository.save(command2)).thenReturn(command2);
@@ -105,13 +105,13 @@ public class CommandServiceTest {
   }
 
   @Test
-  public void testUpdateCommandStatusMultipleSameNoneUpdate() {
+  void testUpdateCommandStatusMultipleSameNoneUpdate() {
     assertTrue(commandService.updateCommandStatus(threeCommandsAllPending, Status.pending)
         .isEmpty());
   }
 
   @Test
-  public void testUpdateCommandStatusMultipleTwoUpdated() {
+  void testUpdateCommandStatusMultipleTwoUpdated() {
     Mockito.when(commandRepository.save(command0)).thenReturn(command0);
     Mockito.when(commandRepository.save(command1)).thenReturn(command1);
     List<Command> updatedCommands = commandService.updateCommandStatus(

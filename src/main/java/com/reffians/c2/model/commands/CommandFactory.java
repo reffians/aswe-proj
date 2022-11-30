@@ -31,7 +31,8 @@ public class CommandFactory {
         return new GetHostNameCommand(beaconid, commandType, content);
       case "GETHOSTOSNAME":
         return new GetHostOsCommand(beaconid, commandType, content);
+      default:
+        throw new IllegalArgumentException(String.format("Unknown commandType %s", commandType));
     }
-    throw new IllegalArgumentException(String.format("Unknown commandType %s", commandType));
   }
 }
