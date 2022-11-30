@@ -3,10 +3,11 @@ references
 https://www.geeksforgeeks.org/python-requests-post-request-with-headers-and-body/?ref=rp
 """
 
+import requests
+
 jwt = ""
 login = False
 username = ""
-import requests
 baseurl = "http://localhost:8080"
 
 
