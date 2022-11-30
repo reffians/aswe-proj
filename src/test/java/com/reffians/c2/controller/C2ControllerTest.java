@@ -30,7 +30,7 @@ public class C2ControllerTest {
 
 
   @Test
-  public void testReceiveCommandValidBeaconExistsStatusAll() throws Exception {
+  private void testReceiveCommandValidBeaconExistsStatusAll() throws Exception {
     Integer beaconid = 1;
     Mockito.when(beaconService.beaconExists(beaconid, "token")).thenReturn(true);
     Mockito.when(commandService.getCommands(beaconid)).thenReturn(Collections.emptyList());
@@ -45,7 +45,7 @@ public class C2ControllerTest {
 
 
   @Test
-  public void testReceiveCommandValidBeaconExistsStatusPending() throws Exception {
+  private void testReceiveCommandValidBeaconExistsStatusPending() throws Exception {
     Integer beaconid = 1;
     Mockito.when(beaconService.beaconExists(beaconid, "token")).thenReturn(true);
     Mockito.when(commandService.getCommands(beaconid)).thenReturn(Collections.emptyList());
@@ -60,7 +60,7 @@ public class C2ControllerTest {
 
 
   @Test
-  public void testReceiveCommandValidBeaconNExists() throws Exception {
+  private void testReceiveCommandValidBeaconNExists() throws Exception {
     Integer beaconid = 1;
     Mockito.when(beaconService.beaconExists(beaconid, "token")).thenReturn(false);
     mockMvc.perform(post("/beacon/command")
@@ -71,7 +71,7 @@ public class C2ControllerTest {
 
 
   @Test
-  public void testReceiveCommandInvalidStatus() throws Exception {
+  private void testReceiveCommandInvalidStatus() throws Exception {
     mockMvc.perform(post("/beacon/command")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"beacon\": {\"id\": 1, \"token\": \"token\"},\"status\": \"invalid\"}")
@@ -81,7 +81,7 @@ public class C2ControllerTest {
 
 
   @Test
-  public void testReceiveCommandEmptyStatus() throws Exception {
+  private void testReceiveCommandEmptyStatus() throws Exception {
     mockMvc.perform(post("/beacon/command")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"beacon\": {\"id\": 1, \"token\": \"token\"}, \"status\": \"\"}")
@@ -91,7 +91,7 @@ public class C2ControllerTest {
 
 
   @Test
-  public void testReceiveCommandMissingStatus() throws Exception {
+  private void testReceiveCommandMissingStatus() throws Exception {
     mockMvc.perform(post("/beacon/command")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"beacon\": {\"id\": 1, \"token\": \"token\"}}")
@@ -101,7 +101,7 @@ public class C2ControllerTest {
 
 
   @Test
-  public void testReceiveCommandEmptyToken() throws Exception {
+  private void testReceiveCommandEmptyToken() throws Exception {
     Integer beaconid = 1;
     Mockito.when(beaconService.beaconExists(beaconid, "token")).thenReturn(false);
     mockMvc.perform(post("/beacon/command")
@@ -112,7 +112,7 @@ public class C2ControllerTest {
 
 
   @Test
-  public void testReceiveCommandMissingToken() throws Exception {
+  private void testReceiveCommandMissingToken() throws Exception {
     Integer beaconid = 1;
     Mockito.when(beaconService.beaconExists(beaconid, "token")).thenReturn(false);
     mockMvc.perform(post("/beacon/command")
@@ -123,7 +123,7 @@ public class C2ControllerTest {
 
 
   @Test
-  public void testReceiveCommandMissingBeaconId() throws Exception {
+  private void testReceiveCommandMissingBeaconId() throws Exception {
     Integer beaconid = 1;
     Mockito.when(beaconService.beaconExists(beaconid, "token")).thenReturn(false);
     mockMvc.perform(post("/beacon/command")
@@ -134,7 +134,7 @@ public class C2ControllerTest {
 
 
   @Test
-  public void testReceiveCommandMissingBeacon() throws Exception {
+  private void testReceiveCommandMissingBeacon() throws Exception {
     Integer beaconid = 1;
     Mockito.when(beaconService.beaconExists(beaconid, "token")).thenReturn(false);
     mockMvc.perform(post("/beacon/command")
@@ -146,7 +146,7 @@ public class C2ControllerTest {
 
   //Test registration
   @Test
-  public void testRegister() throws Exception {
+  private void testRegister() throws Exception {
     JSONObject obj = new JSONObject();
     obj.put("username", "Nikhil1");
 	  obj.put("password", "pword");
@@ -157,7 +157,7 @@ public class C2ControllerTest {
   }
  
   @Test
-  public void testRegisterOutofOrder() throws Exception {
+  private void testRegisterOutofOrder() throws Exception {
     JSONObject obj = new JSONObject();
 	  obj.put("password", "pword");
     obj.put("username", "Nikhil2");
@@ -168,7 +168,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testRegisterNoUsername() throws Exception {
+  private void testRegisterNoUsername() throws Exception {
     JSONObject obj = new JSONObject();
 	  obj.put("password", "pword");
     String testUser = obj.toString();
@@ -178,7 +178,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testRegisterNoPassword() throws Exception {
+  private void testRegisterNoPassword() throws Exception {
     JSONObject obj = new JSONObject();
     obj.put("username", "Nikhil1");
     String testUser = obj.toString();
@@ -188,7 +188,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testRegisterEmptyJson() throws Exception {
+  private void testRegisterEmptyJson() throws Exception {
     JSONObject obj = new JSONObject();
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
@@ -197,7 +197,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testRegisterJunkJson() throws Exception {
+  private void testRegisterJunkJson() throws Exception {
     JSONObject obj = new JSONObject();
     obj.put("asdfasd", "asdfasdfa");
     String testUser = obj.toString();
@@ -208,7 +208,7 @@ public class C2ControllerTest {
 
   //login tests
   @Test
-  public void testLogin() throws Exception {
+  private void testLogin() throws Exception {
     JSONObject obj = new JSONObject();
     obj.put("username", "Nikhil3");
     obj.put("password", "pword");
@@ -222,7 +222,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testLoginFailureNoUser() throws Exception {
+  private void testLoginFailureNoUser() throws Exception {
     JSONObject obj = new JSONObject();
     obj.put("username", "Nikhil4");
     obj.put("password", "pword");
@@ -233,7 +233,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testLoginFailureWrongPassword() throws Exception {
+  private void testLoginFailureWrongPassword() throws Exception {
     JSONObject obj = new JSONObject();
     obj.put("username", "Nikhil5");
     obj.put("password", "pword");
@@ -251,7 +251,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testLoginOutofOrder() throws Exception {
+  private void testLoginOutofOrder() throws Exception {
     JSONObject obj = new JSONObject();
     obj.put("username", "Nikhil6");
     obj.put("password", "pword");
@@ -269,7 +269,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testLoginNoPassword() throws Exception {
+  private void testLoginNoPassword() throws Exception {
     JSONObject obj = new JSONObject();
     obj.put("username", "Nikhil6");
     String testUser = obj.toString();
@@ -279,7 +279,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testLoginNoUsername() throws Exception {
+  private void testLoginNoUsername() throws Exception {
     JSONObject obj = new JSONObject();
     obj.put("password", "pword");
     String testUser = obj.toString();
@@ -289,7 +289,7 @@ public class C2ControllerTest {
   }
 
   @Test
-  public void testLoginJunk() throws Exception {
+  private void testLoginJunk() throws Exception {
     JSONObject obj = new JSONObject();
     obj.put("uasdfadsf", "Nikhil6");
     obj.put("sedasdf", "pword");
