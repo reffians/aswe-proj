@@ -14,8 +14,8 @@ def main():
 	global jwt
 	while True:
 		com = input(">>> ")
-		if com not in ["LOGIN", "REG", "COMM", "BEAC"]:
-			print("Please enter a valid command: \"LOGIN\", \"REG\", \"COMM\", \"BEAC\"")
+		if com not in ["LOGIN", "REG", "COMM", "BEAC", "LOGOUT"]:
+			print("Please enter a valid command: \"LOGIN\", \"REG\", \"COMM\", \"BEAC\", \"LOGOUT\"")
 		if com == "LOGIN":
 			login()
 		elif com == "REG":
@@ -24,6 +24,8 @@ def main():
 			command()
 		elif com == "BEAC":
 			beacon()
+		elif com == "LOGOUT":
+			logout()
 
 def login():
 	global baseurl
@@ -57,26 +59,25 @@ def beacon():
 	global baseurl
 	global jwt
 	global login
+
 	url = baseurl + "/beacon/register"
 	headers = {
 		"Content-Type": "application/json; charset=utf-8",
 		"Authorization": "Bearer " + jwt,
 	}
 
-	if not login:
-		print("Please login first") 
+	response = requests.post(url, headers=headers)
+	if response.status_code == 200:
+		print("Success 200")
+		print("New Beacon Registered with token:")
+		print(response.json())
 	else:
-		response = requests.post(url, headers=headers)
-		if response.status_code == 200:
-			print("Success 200")
-			print("New Beacon Registered with token:")
-			print(response.json())
-		else:
-			print(response.status_code)
-			print("login failed")
+		print(response.status_code)
+		print("login failed")
 
 def register():
 	global baseurl
+
 	headers = {"Content-Type": "application/json; charset=utf-8"}
 	url = baseurl + "/register"
 	
@@ -103,29 +104,39 @@ def command():
 		"Authorization": "Bearer " + jwt,
 	}
 
-	if not login:
-		print("Please login first") 
+	beaconid = input("Beacon ID: ")
+	command_type = input("Command: ")
+	command_contents = input("Args:")
+
+	data = [{
+		"beaconid": beaconid,
+		"commandType": command_type,
+		"content": command_contents,
+	}]
+	
+	response = requests.post(url, headers=headers, json=data)
+
+	if response.status_code == 200:
+		print("Success 200")
+		print("Command received")
+		print(response.text)
 	else:
-		beaconid = input("Beacon ID: ")
-		command_type = input("Command: ")
-		command_contents = input("Args:")
+		print(response.status_code)
+		print(response.text)
+		print("Failure")
 
-		data = [{
-			"beaconid": int(beaconid),
-			"commandType": command_type,
-			"content": command_contents,
-		}]
-		
-		response = requests.post(url, headers=headers, json=data)
+def logout():
+	global jwt
+	global login
+	global username
 
-		if response.status_code == 200:
-			print("Success 200")
-			print("Command received")
-			print(response.text)
-		else:
-			print(response.status_code)
-			print(response.text)
-			print("Failure")
+	if login:
+		jwt = ""
+		login = False
+		username = ""
+		print("Log out successful")
+	else:
+		print("Must log in before logging out")
 
 if __name__ == "__main__":
     main()
