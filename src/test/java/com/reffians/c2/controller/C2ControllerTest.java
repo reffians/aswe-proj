@@ -15,7 +15,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -298,16 +297,5 @@ public class C2ControllerTest {
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
         .andExpect(status().isBadRequest());
-  }
-
-  @Test
-  @WithMockUser
-  public void testSubmitCommands() throws Exception {
-    String testCommandContents = "[\"command1\", \"command2\"]\"";
-    mockMvc.perform(MockMvcRequestBuilders.post("/user/command")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(testCommandContents)
-        .queryParam("beaconid", "123456789"))
-        .andExpect(status().isOk());
   }
 }

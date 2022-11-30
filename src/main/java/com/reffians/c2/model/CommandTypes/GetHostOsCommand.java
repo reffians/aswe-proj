@@ -1,5 +1,6 @@
 package com.reffians.c2.model.CommandTypes;
 
+import javax.persistence.Entity;
 import com.reffians.c2.exception.CommandContentMismatchException;
 import com.reffians.c2.model.Command;
 

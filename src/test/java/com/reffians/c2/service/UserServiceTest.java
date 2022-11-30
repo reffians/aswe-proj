@@ -13,7 +13,6 @@ import com.reffians.c2.exception.UserExistsException;
 import com.reffians.c2.exception.UserMissingException;
 import com.reffians.c2.model.User;
 import com.reffians.c2.repository.UserRepository;
-
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

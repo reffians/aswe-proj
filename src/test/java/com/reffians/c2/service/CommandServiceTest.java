@@ -3,6 +3,7 @@ package com.reffians.c2.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.reffians.c2.exception.CommandContentMismatchException;
 import com.reffians.c2.model.Command;
 import com.reffians.c2.model.Command.Status;
 import com.reffians.c2.model.CommandTypes.CommandFactory;
@@ -33,7 +34,7 @@ public class CommandServiceTest {
   static List<Command> threeCommandsOneExecuted;
 
   @BeforeAll
-  static void beforeClass() {
+  static void beforeClass() throws CommandContentMismatchException {
     command0 = CommandFactory.getCommand(0, "STOP", "");
     command1 = CommandFactory.getCommand(1, "SLEEP", "15");
     command2 = CommandFactory.getCommand(2, "SLEEP", "300");
@@ -53,7 +54,7 @@ public class CommandServiceTest {
   }
 
   @Test
-  public void getCommandsBeaconIdTest() {
+  public void getCommandsBeaconIdTest() throws CommandContentMismatchException {
     Command command = CommandFactory.getCommand(beaconid, "STOP", "");
     List<Command> commands = List.of(command);
     Mockito.when(commandRepository.findByBeaconid(beaconid)).thenReturn(commands);
