@@ -23,6 +23,7 @@ public class UploadCommand extends Command{
     * @param content a user-defined string containing the command content to be
     *     executed by the beacon.
     */
+  @Entity
   public UploadCommand(Integer beaconid, String commandType, String content) {
     super(beaconid);
     setType(commandType);
@@ -30,7 +31,7 @@ public class UploadCommand extends Command{
   }
   @Override
   public void checkTypeContent(String content) throws IllegalArgumentException{
-    if (content.length() < 1 || content.length() > 10 || !content.matches("^[a-zA-Z0-9.]*$")){ // TODO: this (. vs \.) might cause small problems
+    if (content.length() < 1 || content.length() > 10 || !content.matches("^[a-zA-Z0-9[.]]*$")){ // TODO: this (. vs \.) might cause small problems
         throw new IllegalArgumentException("The content you are trying to add does not match the command type. Please change the command type or the content.");
     }
   }

@@ -29,4 +29,13 @@ public class BeaconService {
   public boolean beaconExists(Integer beaconid, String token) {
     return !beaconRepository.findByIdAndToken(beaconid, token).isEmpty();
   }
+
+  /** Find the username of the user this beacon is associated with
+   *
+   * @param beaconid id corresponding to the beacon.
+   * @return a string with the username
+   */
+  public String getUserForBeacon(Integer beaconid) {
+    return beaconRepository.findUserForBeacon(beaconid);
+  }
 }

@@ -24,6 +24,7 @@ public class StopCommand extends Command{
     * @param content a user-defined string containing the command content to be
     *     executed by the beacon.
     */
+  @Entity
   public StopCommand(Integer beaconid, String commandType, String content) {
     super(beaconid);
     setType(commandType);

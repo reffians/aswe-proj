@@ -147,13 +147,28 @@ public class C2Controller {
     * @return ResponseEntity with HttpStatus
     */
   @PostMapping(path = "/user/command", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> submitCommands(@NotEmpty @Valid @RequestBody List<CommandRequest>
+  public ResponseEntity<?> submitCommands(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String
+      authorizationHeader, @NotEmpty @Valid @RequestBody List<CommandRequest>
       commandRequests) {
     logger.info("POST commands with commandRequests: {}", commandRequests);
+    String username = "";
+    try {
+      String jwt = JwtUtil.getJwtFromHeader(authorizationHeader);
+      username = JwtUtil.getUsernameFromValidatedJwt(jwt);
+    } catch (Exception e) {
+      logger.error("POST submit command by user: incorrect authentication", e);
+      return ResponseEntity.internalServerError().build();
+    }
     try {
       ArrayList<Command> addedCommands = new ArrayList<Command>();
-      for (CommandRequest comm : commandRequests) { // need to be able to check that the beacon ids correspond to the right user
-        addedCommands.add(commandService.addCommand(comm.getBeaconid(), comm.getCommandType(), comm.getContent()));
+      for (CommandRequest commReq : commandRequests) { // need to be able to check that the beacon ids correspond to the right user
+        int beaconid = commReq.getBeaconid();
+        if (!username.equals(beaconService.getUserForBeacon(beaconid))){
+          logger.error("POST submit command by user: this user is not authorized for this beacon (id " + beaconid + " )");
+          continue;
+        }
+        Command c = commandService.addCommand(beaconid, commReq.getCommandType(), commReq.getContent());
+        addedCommands.add(c);
       }
       return ResponseEntity.ok(addedCommands); 
     } catch (Exception e) {

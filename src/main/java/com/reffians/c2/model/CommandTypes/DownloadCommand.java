@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 /** A stop command data model, representing a command created by a user to be
   * executed by a specific beacon.
   */
-// @NoArgsConstructor
+@Entity
 public class DownloadCommand extends Command{
 
   /** A constructor for the command data model.
@@ -31,7 +31,7 @@ public class DownloadCommand extends Command{
   }
   @Override
   public void checkTypeContent(String content) throws IllegalArgumentException{
-    if (content.length() < 1 || content.length() > 10 || !content.matches("^[a-zA-Z0-9.]*$")){
+    if (content.length() < 1 || content.length() > 10 || !content.matches("^[a-zA-Z0-9[.]]*$")){
         throw new IllegalArgumentException("The content you are trying to add does not match the command type. Please change the command type or the content.");
     }
   }

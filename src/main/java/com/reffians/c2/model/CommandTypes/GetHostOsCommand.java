@@ -5,7 +5,7 @@ import com.reffians.c2.model.Command;
 /** A stop command data model, representing a command created by a user to be
   * executed by a specific beacon.
   */
-// @NoArgsConstructor
+@Entity
 public class GetHostOsCommand extends Command{
 
   /** A constructor for the command data model.
