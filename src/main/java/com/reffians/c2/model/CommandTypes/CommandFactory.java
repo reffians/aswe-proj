@@ -1,5 +1,6 @@
 package com.reffians.c2.model.CommandTypes;
 
+import com.reffians.c2.exception.CommandContentMismatchException;
 import com.reffians.c2.model.Command;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -16,7 +17,7 @@ public class CommandFactory {
     * @return the correct Command object.
     */
   public static Command getCommand(@NotNull Integer beaconid, @NotEmpty String commandType,
-      String content) {
+      String content) throws CommandContentMismatchException, IllegalArgumentException {
     switch (commandType) {
       case "STOP":
         return new StopCommand(beaconid, commandType, content);
@@ -31,6 +32,6 @@ public class CommandFactory {
       case "GETHOSTOSNAME":
         return new GetHostOsCommand(beaconid, commandType, content);
     }
-    return null;
+    throw new IllegalArgumentException(String.format("Unknown commandType %s", commandType));
   }
 }

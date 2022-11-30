@@ -1,16 +1,8 @@
 package com.reffians.c2.model.CommandTypes;
 
-import static org.apache.commons.lang3.EnumUtils.isValidEnum;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.reffians.c2.model.Command;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.reffians.c2.exception.CommandContentMismatchException;
+import com.reffians.c2.model.Command;
 
 /** A stop command data model, representing a command created by a user to be
   * executed by a specific beacon.
@@ -24,21 +16,21 @@ public class SleepCommand extends Command{
     * @param content a user-defined string containing the command content to be
     *     executed by the beacon.
     */
-  public SleepCommand(Integer beaconid, String commandType, String content) {
+  public SleepCommand(Integer beaconid, String commandType, String content) throws
+      CommandContentMismatchException {
     super(beaconid);
     setType(commandType);
     setCommandContent(content);
   }
+
   @Override
-  public void checkTypeContent(String content) throws IllegalArgumentException{
-    int time;
-    try{
-      time = Integer.parseInt(content);
-      if (time <= 0){
-        throw new Exception();
+  public void checkTypeContent(String content) throws CommandContentMismatchException {
+    try {
+      if (Integer.parseInt(content) <= 0) {
+        throw new CommandContentMismatchException("SLEEP", content);
       }
-    } catch (Exception E){
-      throw new IllegalArgumentException("The content you are trying to add does not match the command type. Please change the command type or the content.");
+    } catch (NumberFormatException e) {
+      throw new CommandContentMismatchException("SLEEP", content);
     }
   }
 }
