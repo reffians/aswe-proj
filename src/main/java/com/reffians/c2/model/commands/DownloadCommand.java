@@ -2,7 +2,7 @@ package com.reffians.c2.model.commands;
 
 import javax.persistence.Entity;
 import com.reffians.c2.exception.CommandContentMismatchException;
-import com.reffians.c2.model.Command;
+//import com.reffians.c2.model.Command;
 import javax.persistence.Entity;
 
 /** A stop command data model, representing a command created by a user to be

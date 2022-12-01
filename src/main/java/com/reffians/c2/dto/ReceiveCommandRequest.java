@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.Generated;
 import org.springframework.validation.annotation.Validated;
 
-import com.reffians.c2.model.commands.Command.Status;
+//import com.reffians.c2.model.commands.Command.Status;
 
 /** Receive Command Request DTO. */
 @Generated

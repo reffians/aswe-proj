@@ -7,14 +7,10 @@ import com.reffians.c2.dto.UserRequest;
 import com.reffians.c2.exception.CommandContentMismatchException;
 import com.reffians.c2.exception.UserExistsException;
 import com.reffians.c2.model.Beacon;
-<<<<<<< HEAD
-=======
-import com.reffians.c2.model.Command;
-import com.reffians.c2.model.Result;
->>>>>>> 9c77782 (refactored all the status stuff + and added the {beacon/user}/result endpoints)
 import com.reffians.c2.model.User;
 import com.reffians.c2.model.commands.Command;
-import com.reffians.c2.model.commands.Command.Status;
+import com.reffians.c2.model.Result;
+//import com.reffians.c2.model.commands.Command.Status;
 import com.reffians.c2.service.BeaconService;
 import com.reffians.c2.service.CommandService;
 import com.reffians.c2.service.ResultService;
