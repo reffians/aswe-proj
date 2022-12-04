@@ -22,12 +22,11 @@ def main(argv):
 
 		data = {
 			"beacon": {
-				"id": bid,
+				"id": bid, 
 				"token": btoken,
 			},
-			"status": "all",
+			"status": "pending",
 		}
-		data =  {"beacon": {"id": bid, "token": btoken},"status": "pending"}
 
 		headers = {"Content-Type": "application/json; charset=utf-8"}
 		response = requests.post(url, headers=headers, json=data)
@@ -43,24 +42,51 @@ def main(argv):
 
 		for com in commands:
 			print(com)
+
 			command_type = com["type"]
 			content = com["content"]
+
 			print(command_type)
 			print(content)
-			com["received_time"] = recv_time_str
+
+			result = {}
+			result["commandid"] = com["id"]
+
 			if command_type == "SLEEP":
 				time.sleep(int(content))
+				result["content"] = "sleep success"
 			elif command_type == "STOP":
 				print("quitting")
 				quit()
 			elif command_type == "GETHOSTNAME":
-				print(os.popen("hostname").read())
+				result["content"] = print(os.popen("hostname").read())
 			elif command_type == "GETHOSTOSNAME":
-				print(os.popen("sw_vers -productVersion").read())
+				result["content"] = print(os.popen("sw_vers -productVersion").read())
 			elif command_type == "DOWNLOAD":
-				print("pending")
+				result["content"] = "pending"
 			elif command_type == "UPLOAD":
-				print("pending")
-			executed.append(com)
+				result["content"] = "pending"
+			
+			exec_time = datetime.now()
+			exec_time_str = recv_time.strftime("%d/%m/%Y %H:%M:%S")
+			result["exec_time"] = exec_time_str
+			executed.append(result)
+
+		print(executed)
+		
+		return_data = {
+			"beacon": {
+				"id": bid,
+				"token": btoken,
+			},
+			"results": executed,
+		}
+
+		return_url = baseurl + "/beacon/result"
+		print(return_data)
+		headers = {"Content-Type": "application/json; charset=utf-8"}
+		response = requests.post(return_url, headers=headers, json=return_data)
+		print(response.status_code)
+
 if __name__ == "__main__":
     main(sys.argv)
