@@ -2,6 +2,8 @@ package com.reffians.c2.model.commands;
 
 import com.reffians.c2.exception.CommandContentMismatchException;
 
+import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -9,6 +11,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Class to create the necessary Command classes (as part of a factory pattern).
  */
+@NoArgsConstructor
 public class CommandFactory {
   /** Initializes a command class given the command type (i.e. STOP, SLEEP, UPLOAD)
     *

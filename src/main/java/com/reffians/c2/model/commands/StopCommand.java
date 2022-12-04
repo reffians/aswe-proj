@@ -3,10 +3,13 @@ package com.reffians.c2.model.commands;
 import javax.persistence.Entity;
 import com.reffians.c2.exception.CommandContentMismatchException;
 
+import lombok.NoArgsConstructor;
+
 /** A stop command data model, representing a command created by a user to be
   * executed by a specific beacon.
   */
 @Entity
+@NoArgsConstructor
 public class StopCommand extends Command {
 
   /** A constructor for the command data model.

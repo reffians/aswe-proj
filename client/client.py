@@ -15,8 +15,8 @@ def main():
 	global jwt
 	while True:
 		com = input(">>> ")
-		if com not in ["LOGIN", "REG", "COMM", "BEAC", "LOGOUT"]:
-			print("Please enter a valid command: \"LOGIN\", \"REG\", \"COMM\", \"BEAC\", \"LOGOUT\"")
+		if com not in ["LOGIN", "REG", "COMM", "BEAC", "LOGOUT", "RESULT"]:
+			print("Please enter a valid command: \"LOGIN\", \"REG\", \"COMM\", \"BEAC\", \"LOGOUT\", \"RESULT\"")
 		if com == "LOGIN":
 			login()
 		elif com == "REG":
@@ -27,6 +27,8 @@ def main():
 			beacon()
 		elif com == "LOGOUT":
 			logout()
+		elif com == "RESULT":
+			result()
 
 def login():
 	global baseurl
@@ -138,6 +140,29 @@ def logout():
 		print("Log out successful")
 	else:
 		print("Must log in before logging out")
+
+def result():
+	global jwt
+	global baseurl
+
+	url = baseurl + "/user/result"
+	headers = {
+		"Content-Type": "application/json; charset=utf-8",
+		"Authorization": "Bearer " + jwt,
+	}
+	data = {}
+
+	response = requests.post(url, headers=headers, json=data)
+
+	if response.status_code == 200:
+		print("Success 200")
+		print("Command received")
+		print(response.text)
+	else:
+		print(response.status_code)
+		print(response.text)
+		print("Failure")
+	
 
 if __name__ == "__main__":
     main()

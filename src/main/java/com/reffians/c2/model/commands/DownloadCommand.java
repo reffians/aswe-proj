@@ -2,6 +2,9 @@ package com.reffians.c2.model.commands;
 
 import javax.persistence.Entity;
 import com.reffians.c2.exception.CommandContentMismatchException;
+
+import lombok.NoArgsConstructor;
+
 //import com.reffians.c2.model.Command;
 import javax.persistence.Entity;
 
@@ -9,6 +12,7 @@ import javax.persistence.Entity;
   * executed by a specific beacon.
   */
 @Entity
+@NoArgsConstructor
 public class DownloadCommand extends Command{
 
   /** A constructor for the command data model.
