@@ -25,7 +25,6 @@ def main(argv):
 				"id": bid, 
 				"token": btoken,
 			},
-			"status": "pending",
 		}
 
 		headers = {"Content-Type": "application/json; charset=utf-8"}

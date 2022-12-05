@@ -18,7 +18,7 @@ def main():
 		if com not in ["LOGIN", "REG", "COMM", "BEAC", "LOGOUT", "RESULT"]:
 			print("Please enter a valid command: \"LOGIN\", \"REG\", \"COMM\", \"BEAC\", \"LOGOUT\", \"RESULT\"")
 		if com == "LOGIN":
-			login()
+			log()
 		elif com == "REG":
 			register()
 		elif com == "COMM":
@@ -30,7 +30,7 @@ def main():
 		elif com == "RESULT":
 			result()
 
-def login():
+def log():
 	global baseurl
 	global username
 	global jwt
