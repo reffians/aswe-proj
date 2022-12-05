@@ -152,7 +152,7 @@ class C2ControllerTest {
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
-        .andExpect(status().isOk());
+        .andExpect(status().isBadRequest());
     JSONObject obj2 = new JSONObject();
     obj2.put("username", "Nikhil3");
     obj2.put("password", "pword");
