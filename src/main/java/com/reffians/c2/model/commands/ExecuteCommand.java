@@ -26,7 +26,7 @@ public class ExecuteCommand extends Command {
 
   @Override
   public void checkTypeContent(String content) throws CommandContentMismatchException {
-    if (!content.matches("^[a-zA-Z0-9[-][.][/]]*$")) {
+    if (!content.matches("^[a-zA-Z0-9/[-][.]]*$")) {
       throw new CommandContentMismatchException("EXECUTE", content);
     }
   }
