@@ -41,13 +41,9 @@ def main(argv):
 		recv_time_str = recv_time.strftime("%d/%m/%Y %H:%M:%S")
 
 		for com in commands:
-			print(com)
 
 			command_type = com["type"]
 			content = com["content"]
-
-			print(command_type)
-			print(content)
 
 			result = {}
 			result["commandid"] = com["id"]
@@ -68,7 +64,7 @@ def main(argv):
 				result["content"] = "pending"
 			
 			exec_time = datetime.now()
-			exec_time_str = recv_time.strftime("%d/%m/%Y %H:%M:%S")
+			exec_time_str = recv_time.strftime("%Y-%m-%dT%H:%M:%S")
 			result["exec_time"] = exec_time_str
 			executed.append(result)
 
@@ -79,14 +75,15 @@ def main(argv):
 				"id": bid,
 				"token": btoken,
 			},
-			"results": executed,
+			"results": executed
 		}
 
 		return_url = baseurl + "/beacon/result"
 		print(return_data)
 		headers = {"Content-Type": "application/json; charset=utf-8"}
-		response = requests.post(return_url, headers=headers, json=return_data)
-		print(response.status_code)
+		response2 = requests.post(return_url, headers=headers, json=return_data)
+		print(response2.status_code)
+		print(response2.text)
 
 if __name__ == "__main__":
     main(sys.argv)

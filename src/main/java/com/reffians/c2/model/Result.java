@@ -46,7 +46,7 @@ public class Result {
 
   /** A constructor for the result data model.
     *
-    * @param command an integer representing the associated comand.
+    * @param commandid an integer representing the associated comand.
     * @param content a string containing the content of the result received from the beacon.
     * @param exec_time a Timestamp containing the time that the command was executed (by the beacon)
     */
