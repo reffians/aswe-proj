@@ -17,7 +17,6 @@
 		<java.version>17</java.version>
 		<sonar.organization>reffians</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.coverage.exclusions>com/reffians/c2/controller/C2Controller.java</sonar.coverage.exclusions>
 	</properties>
 	<dependencies>
 		<dependency>
