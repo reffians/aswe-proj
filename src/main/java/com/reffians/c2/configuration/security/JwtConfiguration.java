@@ -23,7 +23,8 @@ public class JwtConfiguration {
 
   /** Security Filter Chain that adds the JWT authentication. */
   @Bean
-  public SecurityFilterChain securityFilterChain(JwtFilter jwtFilter, HttpSecurity http) throws Exception {
+  public SecurityFilterChain securityFilterChain(JwtFilter jwtFilter, HttpSecurity http) 
+      throws Exception {
     http.csrf().disable()
         .authorizeHttpRequests()
         .antMatchers("/register", "/login", "/beacon/command", "/beacon/result").permitAll()

@@ -1,12 +1,12 @@
 package com.reffians.c2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.sql.Timestamp;  
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.sql.Timestamp;  
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,23 +39,22 @@ public class Result {
   public boolean hasBeenRead;
 
   @JsonProperty("exec_time")
-  public Timestamp exec_time;
+  public Timestamp execTime;
 
   @JsonProperty("result_received_time")
-  public Timestamp result_received_time;
+  public Timestamp resultReceivedTime;
 
   /** A constructor for the result data model.
-    *
-    * @param commandid an integer representing the associated comand.
-    * @param content a string containing the content of the result received from the beacon.
-    * @param exec_time a Timestamp containing the time that the command was executed (by the beacon)
-    */
+
+   * @param commandid an integer representing the associated comand.
+   * @param content a string containing the content of the result received from the beacon.
+  **/
   public Result(Integer commandid, String username, String content) {
     this.id = null;
     this.commandid = commandid;
     this.username = username;
     this.content = content;
-    this.result_received_time = new Timestamp(System.currentTimeMillis());
+    this.resultReceivedTime = new Timestamp(System.currentTimeMillis());
     this.hasBeenRead = false;
   }
 

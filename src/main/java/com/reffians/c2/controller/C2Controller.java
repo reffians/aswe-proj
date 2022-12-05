@@ -7,10 +7,9 @@ import com.reffians.c2.dto.UserRequest;
 import com.reffians.c2.exception.CommandContentMismatchException;
 import com.reffians.c2.exception.UserExistsException;
 import com.reffians.c2.model.Beacon;
+import com.reffians.c2.model.Result;
 import com.reffians.c2.model.User;
 import com.reffians.c2.model.commands.Command;
-import com.reffians.c2.model.Result;
-//import com.reffians.c2.model.commands.Command.Status;
 import com.reffians.c2.service.BeaconService;
 import com.reffians.c2.service.CommandService;
 import com.reffians.c2.service.ResultService;
@@ -72,6 +71,7 @@ public class C2Controller {
 
   /** 
    * POST mapping to register a new user.
+
    * @param userRequest is contains two strings:
    *     username is a non-null non-empty string
    *     password is a non-null non-empty plaintext password
@@ -118,9 +118,8 @@ public class C2Controller {
   /**
     * POST User Commands. Returns 300 Created on success, and 400 Bad Request
     * on failure.
-    *
-    * @param beaconid a non-negative integer representing the beaconid.
-    * @param commandContents a list of strings representing the command contents.
+
+    * @param commandRequests a list of strings representing the command contents.
     * @return ResponseEntity with HttpStatus
     */
   @PostMapping(path = "/user/command", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -140,11 +139,12 @@ public class C2Controller {
       ArrayList<Command> addedCommands = new ArrayList<Command>();
       for (CommandRequest commReq : commandRequests) { 
         int beaconid = commReq.getBeaconid();
-        if (!username.equals(beaconService.getUserForBeacon(beaconid))){
+        if (!username.equals(beaconService.getUserForBeacon(beaconid))) {
           logger.error("POST submit command by user: user is not authorized for this beacon");
           continue;
         }
-        Command c = commandService.addCommand(beaconid, commReq.getCommandType(), commReq.getContent());
+        Command c = commandService.addCommand(beaconid, commReq.getCommandType(),
+            commReq.getContent());
         addedCommands.add(c);
       }
       return ResponseEntity.ok(addedCommands); 
@@ -157,14 +157,15 @@ public class C2Controller {
     }
   }
 
-    /** POST receive commands for a beacon. Returns 200 OK and an array of Command objects on success,
-    * 400 Bad Request with an error message on failure.
-    *
-    * @param request A request object consisting of beacon id, beacon token, and command status that
-    *     can be one of "pending", "sent", "executed", "finished", or "all".
-    * @return A list of command objects. A command object contains integer "id", integer "beaconid"
-    *     of the corresponding beacon, user-defined string "content", and string "status".
-    */
+  /** POST receive commands for a beacon. Returns 200 OK and an array of Command objects on 
+   * success,
+   * 400 Bad Request with an error message on failure.
+
+   * @param request A request object consisting of beacon id, beacon token, and command status that
+   *     can be one of "pending", "sent", "executed", "finished", or "all".
+   * @return A list of command objects. A command object contains integer "id", integer "beaconid"
+   *     of the corresponding beacon, user-defined string "content", and string "status".
+  **/
   @PostMapping(path = "/beacon/command", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> receiveCommand(@NotEmpty @Valid @RequestBody ReceiveCommandRequest
       request) {
@@ -176,7 +177,7 @@ public class C2Controller {
     try { 
       Integer id = request.getBeacon().getId();
       List<Command> commands = commandService.getNotSentCommands(id);
-      for (Command command: commands){
+      for (Command command : commands) {
         command.setCommandSent();
       }
       return ResponseEntity.ok(commands);
@@ -186,14 +187,14 @@ public class C2Controller {
     }
   }
 
-    /** POST send results for a beacon. Returns 200 OK and an array of Command objects on success,
-    * 400 Bad Request with an error message on failure.
-    *
-    * @param request A request object consisting of beacon id, beacon token, and command status that
-    *     can be one of "pending", "sent", "executed", "finished", or "all".
-    * @return A list of command objects. A command object contains integer "id", integer "beaconid"
-    *     of the corresponding beacon, user-defined string "content", and string "status".
-    */
+  /** POST send results for a beacon. Returns 200 OK and an array of Command objects on success,
+   * 400 Bad Request with an error message on failure.
+   *
+   * @param request A request object consisting of beacon id, beacon token, and command status that
+   *     can be one of "pending", "sent", "executed", "finished", or "all".
+   * @return A list of command objects. A command object contains integer "id", integer "beaconid"
+   *     of the corresponding beacon, user-defined string "content", and string "status".
+  **/
   @PostMapping(path = "/beacon/result", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> beaconSendResult(@NotEmpty @Valid @RequestBody SendResultRequest
       request) {
@@ -206,10 +207,11 @@ public class C2Controller {
       int beaconid = request.getBeacon().getId();
       ArrayList<Result> addedResults = new ArrayList<Result>();
       List<Result> results = request.getResults();
-      for (Result result: results){
+      for (Result result : results) {
         int commandid = result.getCommandid();
-        if (beaconid != commandService.getBeaconForCommand(commandid)){
-          logger.error("POST submit result by beacon: this beacon is not authorized for this command (id " + beaconid + " )");
+        if (beaconid != commandService.getBeaconForCommand(commandid)) {
+          logger.error("POST submit result by beacon: beacon not authorized for this command (id "
+              + beaconid + " )");
           continue;
         }
         String username = beaconService.getUserForBeacon(beaconid);
@@ -222,17 +224,15 @@ public class C2Controller {
     }
   }
 
-    /**
-    * POST User receive results. Returns 300 Created on success, and 400 Bad Request
-    * on failure.
-    *
-    * @param beaconid a non-negative integer representing the beaconid.
-    * @param commandContents a list of strings representing the command contents.
-    * @return ResponseEntity with HttpStatus
-    */
+  /**
+   * POST User receive results. Returns 300 Created on success, and 400 Bad Request
+   * on failure.
+
+   * @return ResponseEntity with HttpStatus
+   */
   @PostMapping(path = "/user/result", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> userReceiveResults(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String
-      authorizationHeader) {
+  public ResponseEntity<?> userReceiveResults(@RequestHeader(name = HttpHeaders.AUTHORIZATION)
+      String authorizationHeader) {
     String username = "";
     try {
       String jwt = JwtUtil.getJwtFromHeader(authorizationHeader);
@@ -245,7 +245,7 @@ public class C2Controller {
     try {
       List<Result> retrievedResults = resultService.getNotReceivedResults(username);
       for (Result result : retrievedResults) {
-          result.setResultRead();
+        result.setResultRead();
       }
       return ResponseEntity.ok(retrievedResults);
     } catch (Exception e) {
