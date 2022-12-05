@@ -36,54 +36,28 @@ public class Command {
   @JsonProperty("content")
   private String content;
 
+  @Getter
   @JsonProperty("has_been_sent")
-  public boolean hasBeenSent;
+  private boolean hasBeenSent;
 
+  @Getter
   @JsonProperty("type")
-  public String type;
+  private String type;
 
-  @JsonProperty("received_time")
-  public Timestamp receivedTime;
-
-  @JsonProperty("time_sent")
-  public Timestamp timeSent;
-
- 
-  // The enum of valid command status. /
-  // public static enum Status {
-  // pending,
-  // sent,
-  // executed,
-  // finished;
-
-  // /** Checks whether the provided string represents a valid command status.
-  // *
-  // * @param status the status string under question.
-  // * @return a boolean indicating whether the provided string represents a valid
-  // * command status.
-  // */
-  // public static boolean isValid(String status) {
-  // return isValidEnum(Status.class, status);
-  // }
-  // }
-
-  /** A constructor for the command data model.
-    *
-    * @param beaconid an integer representing the associated beacon.
-    */
+  /**
+   * A constructor for the command data model.
+   *
+   * @param beaconid an integer representing the associated beacon.
+   */
   public Command(Integer beaconid) {
     this.id = null;
     this.beaconid = beaconid;
     this.hasBeenSent = false;
   }
 
-  // /** Retrieves command status.
-  // *
-  // * @return an enum representing a valid status.
-  // */
-  // public Status getStatus() {
-  // return Status.valueOf(this.status);
-  // }
+  public boolean getHasBeenSent(){
+    return hasBeenSent;
+  }
 
   /**
    * Sets command to have been sent.

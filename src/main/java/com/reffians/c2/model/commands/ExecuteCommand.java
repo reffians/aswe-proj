@@ -4,7 +4,7 @@ import com.reffians.c2.exception.CommandContentMismatchException;
 import javax.persistence.Entity;
 import lombok.NoArgsConstructor;
 
-/** A stop command data model, representing a command created by a user to be
+/** An execute command data model, representing a command created by a user to be
   * executed by a specific beacon.
   */
 @Entity
@@ -26,7 +26,7 @@ public class ExecuteCommand extends Command {
 
   @Override
   public void checkTypeContent(String content) throws CommandContentMismatchException {
-    if (!content.matches("^[a-zA-Z0-9[.]\\\\]*$")) {
+    if (!content.matches("^[a-zA-Z0-9[-][.][/]]*$")) {
       throw new CommandContentMismatchException("EXECUTE", content);
     }
   }
