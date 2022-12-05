@@ -25,7 +25,7 @@ public class Result {
 
   @Getter
   @JsonProperty("commandid")
-  public Integer commandid;
+  public int commandid;
 
   @Getter
   @JsonProperty("username")
@@ -35,29 +35,26 @@ public class Result {
   @JsonProperty("content")
   public String content;
 
+  @Getter
   @JsonProperty("has_been_read")
   public boolean hasBeenRead;
-
-  @JsonProperty("exec_time")
-  public Timestamp execTime;
-
-  @JsonProperty("result_received_time")
-  public Timestamp resultReceivedTime;
 
   /** A constructor for the result data model.
 
    * @param commandid an integer representing the associated comand.
    * @param content a string containing the content of the result received from the beacon.
   **/
-  public Result(Integer commandid, String username, String content) {
+  public Result(int commandid, String username, String content) {
     this.id = null;
     this.commandid = commandid;
     this.username = username;
     this.content = content;
-    this.resultReceivedTime = new Timestamp(System.currentTimeMillis());
     this.hasBeenRead = false;
   }
 
+  public boolean getHasBeenRead() {
+    return hasBeenRead;
+  }
 
   /** Sets result to have been read.
     */
