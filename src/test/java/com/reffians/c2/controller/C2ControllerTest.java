@@ -145,6 +145,24 @@ class C2ControllerTest {
   }
 
   @Test
+  void testRegisterUserExists() throws Exception {
+    JSONObject obj = new JSONObject();
+    obj.put("username", "Nikhil3");
+    obj.put("password", "pword");
+    String testUser = obj.toString();
+    mockMvc.perform(MockMvcRequestBuilders.post("/register")
+        .contentType(MediaType.APPLICATION_JSON).content(testUser))
+        .andExpect(status().isOk());
+    JSONObject obj2 = new JSONObject();
+    obj2.put("username", "Nikhil3");
+    obj2.put("password", "pword");
+    String testUser2 = obj2.toString();
+    mockMvc.perform(MockMvcRequestBuilders.post("/register")
+        .contentType(MediaType.APPLICATION_JSON).content(testUser2))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
   void testRegisterOutofOrder() throws Exception {
     JSONObject obj = new JSONObject();
     obj.put("password", "pword");
