@@ -14,14 +14,14 @@ class BeaconTest {
   void testBeaconConstructorUsernameNonEmpty() {
     String username = "username";
     Beacon beacon = new Beacon(username);
-    assertEquals(beacon.getUsername(), username);
+    assertEquals(username, beacon.getUsername());
   }
 
   @Test
   void testBeaconConstructorUsernameEmpty() {
     String username = "";
     Beacon beacon = new Beacon(username);
-    assertEquals(beacon.getUsername(), username);
+    assertEquals(username, beacon.getUsername());
   }
 
   @Test

@@ -29,7 +29,7 @@ class BeaconServiceTest {
     String username = "username";
     Beacon beacon = new Beacon(username);
     Mockito.when(beaconRepository.save(any(Beacon.class))).thenReturn(beacon);
-    assertEquals(beaconService.registerBeacon(username), beacon);
+    assertEquals(beacon, beaconService.registerBeacon(username));
   }
 
   @Test
@@ -55,6 +55,6 @@ class BeaconServiceTest {
     Integer beaconid = 1;
     String username = "username";
     Mockito.when(beaconRepository.findUserForBeacon(beaconid)).thenReturn(username);
-    assertEquals(beaconService.getUserForBeacon(beaconid), "username");
+    assertEquals(username, beaconService.getUserForBeacon(beaconid));
   }
 }
