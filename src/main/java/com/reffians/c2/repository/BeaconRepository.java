@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
 
 /** Beacon Repository to query beacons table. */
+@Repository
 public interface BeaconRepository extends CrudRepository<Beacon, Integer> {
   List<Beacon> findByIdAndToken(Integer id, String token);
 

@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 /** User Repository. Queries the User table in the database. **/
 public interface UserRepository extends CrudRepository<User, String> {
   /** findByUsername

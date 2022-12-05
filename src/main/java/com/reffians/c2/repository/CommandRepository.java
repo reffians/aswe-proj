@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 /** A Command Repository representing the table of commands. **/
 public interface CommandRepository extends CrudRepository<Command, Integer> {
   @Query(value = "select * from commands where beaconid = :beaconid", nativeQuery = true)
