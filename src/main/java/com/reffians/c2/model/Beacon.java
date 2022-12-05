@@ -26,14 +26,17 @@ public class Beacon {
   @JsonProperty("id")
   private Integer id;
 
+  @Getter
   @JsonProperty("username")
   private String username;
 
   @Getter
   @JsonProperty("token")
   private String token;
- 
-  /** Constructor for a Beacon. It takes in the username of the user that this beacon belongs to.
+
+  /**
+   * Constructor for a Beacon. It takes in the username of the user that this
+   * beacon belongs to.
    *
    * @param username username of the user that 'owns' this beacon
    */
@@ -43,11 +46,12 @@ public class Beacon {
     this.token = generateToken();
   }
 
-  /** Generates a token using a secure random generator.
+  /**
+   * Generates a token using a secure random generator.
    *
    * @return a new token of size TOKEN_LEN.
    */
-  public String generateToken() {
+  public static String generateToken() {
     byte[] bytes = new byte[TOKEN_LEN];
     new SecureRandom().nextBytes(bytes);
     return Base64.encodeBase64URLSafeString(bytes);
