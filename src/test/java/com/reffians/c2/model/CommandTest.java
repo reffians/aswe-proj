@@ -1,12 +1,12 @@
 package com.reffians.c2.model;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import com.reffians.c2.model.commands.*;
 import com.reffians.c2.exception.*;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test;
 
 @SpringBootTest
 class CommandTest {

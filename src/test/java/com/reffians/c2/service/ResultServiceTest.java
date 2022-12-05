@@ -1,19 +1,8 @@
 package com.reffians.c2.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-
-import java.util.Collections;
-import java.util.List;
-
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import com.reffians.c2.model.Result;
 import com.reffians.c2.repository.ResultRepository;
 
 @SpringBootTest

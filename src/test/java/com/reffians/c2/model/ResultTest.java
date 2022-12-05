@@ -1,10 +1,9 @@
 package com.reffians.c2.model;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.reffians.c2.model.Result;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test;
 
 @SpringBootTest
 class ResultTest {
