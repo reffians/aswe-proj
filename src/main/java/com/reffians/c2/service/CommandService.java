@@ -43,7 +43,7 @@ public class CommandService {
     return commandRepository.save(CommandFactory.getCommand(beaconid, type, content));
   }
 
-  /** Find the beaconid of the beacon this command is associated with
+  /** Find the beaconid of the beacon this command is associated with.
    *
    * @param commandid id corresponding to the command.
    * @return a int with the beacon id

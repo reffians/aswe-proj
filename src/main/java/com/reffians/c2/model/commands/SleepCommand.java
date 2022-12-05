@@ -1,8 +1,7 @@
 package com.reffians.c2.model.commands;
 
-import javax.persistence.Entity;
 import com.reffians.c2.exception.CommandContentMismatchException;
-
+import javax.persistence.Entity;
 import lombok.NoArgsConstructor;
 
 /** A stop command data model, representing a command created by a user to be
@@ -10,7 +9,7 @@ import lombok.NoArgsConstructor;
   */
 @Entity
 @NoArgsConstructor
-public class SleepCommand extends Command{
+public class SleepCommand extends Command {
 
   /** A constructor for the command data model.
     *

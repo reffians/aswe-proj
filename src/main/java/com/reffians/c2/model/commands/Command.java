@@ -4,7 +4,7 @@ import static org.apache.commons.lang3.EnumUtils.isValidEnum;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.reffians.c2.exception.CommandContentMismatchException;
-
+import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -45,13 +44,13 @@ public class Command {
   public String type;
   
   @JsonProperty("received_time")
-  public Timestamp received_time;
+  public Timestamp receivedTime;
 
   @JsonProperty("time_sent")
-  public Timestamp time_sent;
+  public Timestamp timeSent;
 
  
-  /** The enum of valid command status. **/
+  // The enum of valid command status. /
   // public static enum Status {
   //   pending,
   //   sent,
@@ -72,8 +71,6 @@ public class Command {
   /** A constructor for the command data model.
     *
     * @param beaconid an integer representing the associated beacon.
-    * @param content a user-defined string containing the command content to be
-    *     executed by the beacon.
     */
   public Command(Integer beaconid) {
     this.id = null;
@@ -105,7 +102,7 @@ public class Command {
 
   /** Sets command content.
     *
-    * @param type an String with command content.
+    * @param content an String with command content.
     */
   public void setCommandContent(String content) throws CommandContentMismatchException {
     checkTypeContent(content);
@@ -113,5 +110,5 @@ public class Command {
   }
 
   public void checkTypeContent(String content) throws CommandContentMismatchException {
-  };
+  }
 }

@@ -19,9 +19,8 @@ public class ResultService {
   }
 
   /** Get a list of results by username and has_been_read=false.
-    *
-    * @param beaconid an integer used to identify a beacon.
-    * @param status a status type of the command
+
+    * @param username String username
     * @return list of command objects associated with the specified beaconid and
     *     status.
     */

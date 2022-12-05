@@ -1,8 +1,7 @@
 package com.reffians.c2.model.commands;
 
-import javax.persistence.Entity;
 import com.reffians.c2.exception.CommandContentMismatchException;
-
+import javax.persistence.Entity;
 import lombok.NoArgsConstructor;
 
 /** A stop command data model, representing a command created by a user to be
@@ -27,7 +26,8 @@ public class UploadCommand extends Command {
 
   @Override
   public void checkTypeContent(String content) throws CommandContentMismatchException {
-    if (content.length() < 1 || content.length() > 10 || !content.matches("^[a-zA-Z0-9[.]]*$")) { // TODO: this (. vs \.) might cause small problems
+    if (content.length() < 1 || content.length() > 10 || !content.matches("^[a-zA-Z0-9[.]]*$")) { 
+      // TODO: this (. vs \.) might cause small problems
       throw new CommandContentMismatchException("UPLOAD", content);
     }
   }

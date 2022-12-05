@@ -1,11 +1,9 @@
 package com.reffians.c2.model.commands;
 
 import com.reffians.c2.exception.CommandContentMismatchException;
-
-import lombok.NoArgsConstructor;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -14,11 +12,11 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class CommandFactory {
   /** Initializes a command class given the command type (i.e. STOP, SLEEP, EXECUTE)
-    *
-    * @param commandType String indicating from which alert service this JSON payload came from.
-    * @param 
-    * @return the correct Command object.
-    */
+   *
+   * @param commandType String indicating from which alert service this JSON payload came from.
+   * @param beaconid Int id for beac
+   * @return the correct Command object.
+   */
   public static Command getCommand(@NotNull Integer beaconid, @NotEmpty String commandType,
       String content) throws CommandContentMismatchException, IllegalArgumentException {
     switch (commandType) {

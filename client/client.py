@@ -4,6 +4,7 @@ https://www.geeksforgeeks.org/python-requests-post-request-with-headers-and-body
 """
 
 import requests
+import sys
 
 jwt = ""
 login = False
@@ -11,8 +12,13 @@ username = ""
 baseurl = "http://localhost:8080"
 
 
-def main():
+def main(argv):
 	global jwt
+	global baseurl
+
+	if len(argv) == 2:
+		baseurl = argv[1]
+		print("baserul: "+ baseurl)
 	while True:
 		com = input(">>> ")
 		if com not in ["LOGIN", "REG", "COMM", "BEAC", "LOGOUT", "RESULT"]:
@@ -29,6 +35,7 @@ def main():
 			logout()
 		elif com == "RESULT":
 			result()
+		
 
 def log():
 	global baseurl
@@ -165,4 +172,4 @@ def result():
 	
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)

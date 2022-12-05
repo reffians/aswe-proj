@@ -30,7 +30,7 @@ public class BeaconService {
     return !beaconRepository.findByIdAndToken(beaconid, token).isEmpty();
   }
 
-  /** Find the username of the user this beacon is associated with
+  /** Find the username of the user this beacon is associated with.
    *
    * @param beaconid id corresponding to the beacon.
    * @return a string with the username

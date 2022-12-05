@@ -1,19 +1,15 @@
 package com.reffians.c2.model.commands;
 
-import javax.persistence.Entity;
 import com.reffians.c2.exception.CommandContentMismatchException;
-
-import lombok.NoArgsConstructor;
-
-//import com.reffians.c2.model.Command;
 import javax.persistence.Entity;
+import lombok.NoArgsConstructor;
 
 /** A stop command data model, representing a command created by a user to be
   * executed by a specific beacon.
   */
 @Entity
 @NoArgsConstructor
-public class GetHostOsCommand extends Command{
+public class GetHostOsCommand extends Command {
 
   /** A constructor for the command data model.
     *
@@ -30,7 +26,7 @@ public class GetHostOsCommand extends Command{
 
   @Override
   public void checkTypeContent(String content) throws CommandContentMismatchException {
-    if (!content.isEmpty()){
+    if (!content.isEmpty()) {
       throw new CommandContentMismatchException("GETHOSTOS", content);
     }
   }
