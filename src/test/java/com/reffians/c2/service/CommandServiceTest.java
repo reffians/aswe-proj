@@ -1,12 +1,9 @@
 package com.reffians.c2.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.reffians.c2.exception.CommandContentMismatchException;
 import com.reffians.c2.model.commands.Command;
 import com.reffians.c2.model.commands.CommandFactory;
-//import com.reffians.c2.model.commands.Command.Status;
 import com.reffians.c2.repository.CommandRepository;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
@@ -22,7 +19,7 @@ class CommandServiceTest {
   @Autowired
   private CommandService commandService;
   @MockBean
-  private CommandRepository commandRepository;  
+  private CommandRepository commandRepository;
 
   static final int beaconid = 0;
   static Command command0;
@@ -68,26 +65,30 @@ class CommandServiceTest {
 
   @Test
   public void testGetCommandsBeaconIdStatus() {
-    // Mockito.when(commandRepository.findByBeaconidStatus(beaconid, Status.pending.name()))
-    //     .thenReturn(oneCommandPending);
-    // assertEquals(oneCommandPending, commandService.getCommands(beaconid, Status.pending));
+    // Mockito.when(commandRepository.findByBeaconidStatus(beaconid,
+    // Status.pending.name()))
+    // .thenReturn(oneCommandPending);
+    // assertEquals(oneCommandPending, commandService.getCommands(beaconid,
+    // Status.pending));
   }
 
   @Test
   public void testUpdateCommandStatusSingleUpdate() {
     // Mockito.when(commandRepository.save(command0)).thenReturn(command0);
-    // List<Command> updatedCommands = commandService.updateCommandStatus(oneCommandPending,
-    //     Status.sent);
+    // List<Command> updatedCommands =
+    // commandService.updateCommandStatus(oneCommandPending,
+    // Status.sent);
     // assertEquals(1, updatedCommands.size());
     // for (Command updatedCommand : updatedCommands) {
-    //   assertEquals(Status.sent, updatedCommand.getStatus());
+    // assertEquals(Status.sent, updatedCommand.getStatus());
     // }
   }
 
   @Test
   public void testUpdateCommandStatusSingleNoUpdate() {
-    // assertTrue(commandService.updateCommandStatus(oneCommandPending, Status.pending)
-    //     .isEmpty());
+    // assertTrue(commandService.updateCommandStatus(oneCommandPending,
+    // Status.pending)
+    // .isEmpty());
   }
 
   @Test
@@ -96,17 +97,18 @@ class CommandServiceTest {
     // Mockito.when(commandRepository.save(command1)).thenReturn(command1);
     // Mockito.when(commandRepository.save(command2)).thenReturn(command2);
     // List<Command> updatedCommands = commandService.updateCommandStatus(
-    //     threeCommandsAllPending, Status.finished);
+    // threeCommandsAllPending, Status.finished);
     // assertEquals(3, updatedCommands.size());
     // for (Command updatedCommand : updatedCommands) {
-    //   assertEquals(Status.finished, updatedCommand.getStatus());
+    // assertEquals(Status.finished, updatedCommand.getStatus());
     // }
   }
 
   @Test
   public void testUpdateCommandStatusMultipleSameNoneUpdate() {
-    // assertTrue(commandService.updateCommandStatus(threeCommandsAllPending, Status.pending)
-    //     .isEmpty());
+    // assertTrue(commandService.updateCommandStatus(threeCommandsAllPending,
+    // Status.pending)
+    // .isEmpty());
   }
 
   @Test
@@ -114,10 +116,10 @@ class CommandServiceTest {
     // Mockito.when(commandRepository.save(command0)).thenReturn(command0);
     // Mockito.when(commandRepository.save(command1)).thenReturn(command1);
     // List<Command> updatedCommands = commandService.updateCommandStatus(
-    //   threeCommandsOneExecuted, Status.sent);
+    // threeCommandsOneExecuted, Status.sent);
     // assertEquals(2, updatedCommands.size());
     // for (Command updatedCommand : updatedCommands) {
-    //   assertEquals(Status.sent, updatedCommand.getStatus());
+    // assertEquals(Status.sent, updatedCommand.getStatus());
     // }
   }
 }

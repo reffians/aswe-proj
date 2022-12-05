@@ -3,7 +3,6 @@ package com.reffians.c2.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.reffians.c2.model.commands.Command;
 import com.reffians.c2.service.BeaconService;
 import com.reffians.c2.service.CommandService;
 import java.util.Collections;
@@ -28,14 +27,13 @@ class C2ControllerTest {
   @MockBean
   private CommandService commandService;
 
-
   @Test
   void testReceiveCommandValidBeaconExistsStatusAll() throws Exception {
     Integer beaconid = 1;
     Mockito.when(beaconService.beaconExists(beaconid, "token")).thenReturn(true);
     Mockito.when(commandService.getCommands(beaconid)).thenReturn(Collections.emptyList());
     // Mockito.when(commandService.updateCommandStatus(Mockito.anyList(),
-    //     Mockito.any(Command.Status.class))).thenReturn(Collections.emptyList());
+    // Mockito.any(Command.Status.class))).thenReturn(Collections.emptyList());
     mockMvc.perform(post("/beacon/command")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"beacon\": {\"id\": 1, \"token\": \"token\"},\"status\": \"all\"}")
@@ -43,21 +41,19 @@ class C2ControllerTest {
         .andExpect(status().isOk());
   }
 
-
   @Test
   void testReceiveCommandValidBeaconExistsStatusPending() throws Exception {
     Integer beaconid = 1;
     Mockito.when(beaconService.beaconExists(beaconid, "token")).thenReturn(true);
     Mockito.when(commandService.getCommands(beaconid)).thenReturn(Collections.emptyList());
     // Mockito.when(commandService.updateCommandStatus(Mockito.anyList(),
-    //     Mockito.any(Command.Status.class))).thenReturn(Collections.emptyList());
+    // Mockito.any(Command.Status.class))).thenReturn(Collections.emptyList());
     mockMvc.perform(post("/beacon/command")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"beacon\": {\"id\": 1, \"token\": \"token\"},\"status\": \"pending\"}")
         .queryParam("beaconid", "5"))
         .andExpect(status().isOk());
   }
-
 
   @Test
   void testReceiveCommandValidBeaconNExists() throws Exception {
@@ -69,7 +65,6 @@ class C2ControllerTest {
         .andExpect(status().isBadRequest());
   }
 
-
   @Test
   void testReceiveCommandInvalidStatus() throws Exception {
     mockMvc.perform(post("/beacon/command")
@@ -78,7 +73,6 @@ class C2ControllerTest {
         .queryParam("beaconid", "5"))
         .andExpect(status().isBadRequest());
   }
-
 
   @Test
   void testReceiveCommandEmptyStatus() throws Exception {
@@ -89,7 +83,6 @@ class C2ControllerTest {
         .andExpect(status().isBadRequest());
   }
 
-
   @Test
   void testReceiveCommandMissingStatus() throws Exception {
     mockMvc.perform(post("/beacon/command")
@@ -98,7 +91,6 @@ class C2ControllerTest {
         .queryParam("beaconid", "5"))
         .andExpect(status().isBadRequest());
   }
-
 
   @Test
   void testReceiveCommandEmptyToken() throws Exception {
@@ -110,7 +102,6 @@ class C2ControllerTest {
         .andExpect(status().isBadRequest());
   }
 
-
   @Test
   void testReceiveCommandMissingToken() throws Exception {
     Integer beaconid = 1;
@@ -120,7 +111,6 @@ class C2ControllerTest {
         .content("{\"beacon\": {\"id\": 1},\"status\": \"all\"}"))
         .andExpect(status().isBadRequest());
   }
-
 
   @Test
   void testReceiveCommandMissingBeaconId() throws Exception {
@@ -132,7 +122,6 @@ class C2ControllerTest {
         .andExpect(status().isBadRequest());
   }
 
-
   @Test
   void testReceiveCommandMissingBeacon() throws Exception {
     Integer beaconid = 1;
@@ -143,23 +132,22 @@ class C2ControllerTest {
         .andExpect(status().isBadRequest());
   }
 
-
-  //Test registration
+  // Test registration
   @Test
   void testRegister() throws Exception {
     JSONObject obj = new JSONObject();
     obj.put("username", "Nikhil1");
-	  obj.put("password", "pword");
+    obj.put("password", "pword");
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
         .andExpect(status().isOk());
   }
- 
+
   @Test
   void testRegisterOutofOrder() throws Exception {
     JSONObject obj = new JSONObject();
-	  obj.put("password", "pword");
+    obj.put("password", "pword");
     obj.put("username", "Nikhil2");
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
@@ -170,7 +158,7 @@ class C2ControllerTest {
   @Test
   void testRegisterNoUsername() throws Exception {
     JSONObject obj = new JSONObject();
-	  obj.put("password", "pword");
+    obj.put("password", "pword");
     String testUser = obj.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/register")
         .contentType(MediaType.APPLICATION_JSON).content(testUser))
@@ -206,7 +194,7 @@ class C2ControllerTest {
         .andExpect(status().isBadRequest());
   }
 
-  //login tests
+  // login tests
   @Test
   void testLogin() throws Exception {
     JSONObject obj = new JSONObject();
@@ -246,7 +234,7 @@ class C2ControllerTest {
     obj2.put("password", "pword1");
     String testUser2 = obj2.toString();
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
-    .contentType(MediaType.APPLICATION_JSON).content(testUser2))
+        .contentType(MediaType.APPLICATION_JSON).content(testUser2))
         .andExpect(status().isUnauthorized());
   }
 

@@ -1,9 +1,7 @@
 package com.reffians.c2.dto;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.Generated;
 import org.springframework.validation.annotation.Validated;
