@@ -1,11 +1,9 @@
 package com.reffians.c2.model.commands;
 
 import com.reffians.c2.exception.CommandContentMismatchException;
-
-import lombok.NoArgsConstructor;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -13,7 +11,7 @@ import javax.validation.constraints.NotNull;
  */
 @NoArgsConstructor
 public class CommandFactory {
-  /** Initializes a command class given the command type (i.e. STOP, SLEEP, UPLOAD)
+  /** Initializes a command class given the command type (i.e. STOP, SLEEP, EXECUTE)
     *
     * @param commandType String indicating from which alert service this JSON payload came from.
     * @param 
@@ -23,17 +21,17 @@ public class CommandFactory {
       String content) throws CommandContentMismatchException, IllegalArgumentException {
     switch (commandType) {
       case "STOP":
-        return new StopCommand(beaconid, commandType, content);
+        return new StopCommand(beaconid, content);
       case "SLEEP":
-        return new SleepCommand(beaconid, commandType, content);
-      case "UPLOAD":
-        return new UploadCommand(beaconid, commandType, content);
+        return new SleepCommand(beaconid, content);
+      case "EXECUTE":
+        return new ExecuteCommand(beaconid, content);
       case "DOWNLOAD":
-        return new DownloadCommand(beaconid, commandType, content);
+        return new DownloadCommand(beaconid, content);
       case "GETHOSTNAME":
-        return new GetHostNameCommand(beaconid, commandType, content);
+        return new GetHostNameCommand(beaconid, content);
       case "GETHOSTOSNAME":
-        return new GetHostOsCommand(beaconid, commandType, content);
+        return new GetHostOsCommand(beaconid, content);
       default:
         throw new IllegalArgumentException(String.format("Unknown commandType %s", commandType));
     }

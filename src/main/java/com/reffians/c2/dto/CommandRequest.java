@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 public class CommandRequest {
   @NotNull
   private Integer beaconid;
-  @Pattern(regexp = "STOP|SLEEP|UPLOAD|DOWNLOAD|GETHOSTNAME|GETHOSTOS")
+  @Pattern(regexp = "STOP|SLEEP|EXECUTE|DOWNLOAD|GETHOSTNAME|GETHOSTOS")
   private String commandType;
   @NotNull
   private String content;

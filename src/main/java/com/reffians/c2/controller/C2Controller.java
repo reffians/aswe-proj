@@ -139,7 +139,11 @@ public class C2Controller {
       ArrayList<Command> addedCommands = new ArrayList<Command>();
       for (CommandRequest commReq : commandRequests) { 
         int beaconid = commReq.getBeaconid();
-        if (!username.equals(beaconService.getUserForBeacon(beaconid))) {
+        String dbUsername = beaconService.getUserForBeacon(beaconid);
+        if (dbUsername.equals("")){
+          logger.error("POST submit command by user: beacon does not exist");
+          continue;
+        } else if (!username.equals(dbUsername)){
           logger.error("POST submit command by user: user is not authorized for this beacon");
           continue;
         }

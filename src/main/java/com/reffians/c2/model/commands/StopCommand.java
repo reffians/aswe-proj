@@ -1,8 +1,7 @@
 package com.reffians.c2.model.commands;
 
-import javax.persistence.Entity;
 import com.reffians.c2.exception.CommandContentMismatchException;
-
+import javax.persistence.Entity;
 import lombok.NoArgsConstructor;
 
 /** A stop command data model, representing a command created by a user to be
@@ -18,10 +17,10 @@ public class StopCommand extends Command {
     * @param content a user-defined string containing the command content to be
     *     executed by the beacon.
     */
-  public StopCommand(Integer beaconid, String commandType, String content) throws
+  public StopCommand(Integer beaconid, String content) throws
       CommandContentMismatchException {
     super(beaconid);
-    setType(commandType);
+    setType("STOP");
     setCommandContent(content);
   }
 
