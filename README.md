@@ -39,60 +39,90 @@
     - POST
     - Description: Login with user credentials consisting of a username and password
     - Fields:
+        A JSON containing the following.
         - Username (Type: String)
         - Password (Type: String)
-    - Sample body request { “username”: “John Smith”, “password”: ”12345678”}
+    - Sample body: { “username”: “John Smith”, “password”: ”12345678”}
 
 - /register
     - POST
     - Description: Register a user by sending new login credentials consisting of a username and password
     - Fields:
+        A JSON containing the following.  
         - Username (Type: String)
         - Password (Type: String)
-    - Sample body request { “username” : “John Smith”, “password”: “12345678”}
+    - Sample body: { “username” : “John Smith”, “password”: “12345678”}
 
 - /beacon/register
     - POST
     - Description: Requires JWT token. Register a beacon associated with that username and auto-generates a beaconid.
     - Fields
         - None. <implicit in token authorization header>
-    - Example: curl -X POST localhost:8080/beacon -H "Content-Type: application/json" -d'
+    - Sample header: headers = {
+		"Content-Type": "application/json; charset=utf-8",
+		"Authorization": "Bearer " + jwt,
+	}
         - Registers a beacon associated with JWT token username
 
 - /beacon/command
-    - GET
+    - POST
     - Description: Receive a list of command objects from a beacon identified by a beaconid with a given status (optional).
-    - Returns a list of commands objects and a 200 OK on success, 400 Bad Request on failure. A command object contains an integer identifier "id", an integer "beaconid" of the corresponding beacon, a user-defined string "content", and string "status" that is one of "pending", "sent", "executed", or "finished".
+    - Returns a list of commands objects and a 200 OK on success, 400 Bad Request on failure. A command object contains an integer identifier "id", an integer "beaconid" of the corresponding beacon, a user-defined string "content", a "type" (STOP|SLEEP|EXECUTE|DOWNLOAD|GETHOSTNAME|GETHOSTOS) which corresponds to commandType, boolean "has_been_sent" which marks if the command has been sent, and "time_sent" which has a timestamp of when the command was sent to the server.
     - Fields
-        - beaconid: a non-negative integer used to identify the beacon.
-        - status: An optional argument specifying the status of the command. Can be one of "pending", "sent", "executed", or "finished". If no status is supplied, commands of any status are retrieved.
-    - Example:
-        - localhost:8080/beacon/command?beaconid=123456789
-        - localhost:8080/beacon/command?beaconid=123456789&status=pending
+        - A JSON containing a beacon object: <beaconid, token> consists of a non-negative integer used to identify the beacon, a btoken.
+    - Sample body:
+       {
+			"beacon": {
+				"id": bid, 
+				"token": btoken,
+			},
+		}
 
 - /beacon/result
     - POST
     - Description:  send results for a beacon. Returns 200 OK and an array of Command objects on success, 400 Bad Request with an error message on failure.
-    - Returns a list of command objects. A command object contains integer "id", integer "beaconid" of the corresponding beacon, user-defined string "content", and string "status".
+    - Returns a list of command objects. A command object contains integer "id" which corresponds to commandid, integer "beaconid" of the corresponding beacon, beacon-defined string "content" which corresponds to command output, boolean "has_been_sent" which marks if the command has been sent, and "time_sent" which has a timestamp of when the command was sent.
     - Fields
-        - A request object consisting of beacon id, beacon token, and command status that can be one of "pending", "sent", "executed", "finished", or "all".
+        - A JSON containing a request object consisting of a beacon and a list of results which include exec_time, commandid, content.
+    - Sample body: 
+    {'beacon': {'id': '1', 'token': 'IlQk6xa5DlfqWlHdOf_lU_lZ-Gv6doyBEyWt3qM9gXArkExFMFEwx2aNE8caUmlDCilYWMfWi7vzyI0Zq7Sy5g'}, 'results': [{'commandid': 3, 'content': 'asheets-mbp-2.lan\n', 'exec_time': '2022-12-05T00:39:33'}, {'commandid': 6, 'content': '', 'exec_time': '2022-12-05T00:39:33'}]}
 
 - /user/result
     - POST
-    - Description: confirms user received results
+    - Description: Requires JWT authentication. Confirms user received results.
     - Returns ResponseEntity with HttpStatus 300 Created on success, and 400 Bad Request on failure.
     - Fields:
-        - A JSON containing the username of the user in question 
+        - None. <implicit in token authorization header> 
+    - Sample header: 
+        {
+		"Content-Type": "application/json; charset=utf-8",
+		"Authorization": "Bearer " + jwt,
+	    }
 
 - /user/command
     - POST
     - Description: send a list of command strings to a beacon
     - Returns an error message (string) and a 400 Bad Request on invalid input, 201 Created and validation message on valid input.
     - Fields
+        A list of JSON objects containing the following.
         - beaconid: a non-negative integer used to identify the beacon.
-        - command contents: a non-empty list of string commands to be sent to the beacon.
-    - Example:
-        - Sample body request: curl -X POST localhost:8080/beacon/command -H "Content-Type: application/json" -d '["command1", "command2"]'
+        - content: a string used to represent command arguments.
+        - commandType: a type from (STOP|SLEEP|EXECUTE|DOWNLOAD|GETHOSTNAME|GETHOSTOS)
+    - Sample body:
+        data = [{
+		"beaconid": 1,
+		"commandType": DOWNLOAD,
+		"content": http://abc.com/x.sh,
+	}]
+    
+### CLIENT INSTRUCTIONS
+    Note: Beacon runs on Mac
+    
+    Beacon
+        Usage: $ python3 beacon.py <id> <beacon token> <baseurl>
+    
+    Client
+        Usage: $ python3 client.py <baseurl>
 
 ### CI Reports
 CI is implemented through CircleCI. Reports are located here (https://app.circleci.com/pipelines/github/reffians/aswe-proj) and include branch coverage reports.   
