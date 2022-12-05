@@ -55,7 +55,7 @@ public class Command {
     this.hasBeenSent = false;
   }
 
-  public boolean getHasBeenSent(){
+  public boolean getHasBeenSent() {
     return hasBeenSent;
   }
 
