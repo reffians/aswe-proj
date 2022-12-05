@@ -57,7 +57,7 @@
     - POST
     - Description: Requires JWT token. Register a beacon associated with that username and auto-generates a beaconid.
     - Fields
-        - None. <implicit in token authorization header>
+        - None. Implicit in token authorization header.
     - Sample header: headers = {
 		"Content-Type": "application/json; charset=utf-8",
 		"Authorization": "Bearer " + jwt,
@@ -92,7 +92,7 @@
     - Description: Requires JWT authentication. Confirms user received results.
     - Returns ResponseEntity with HttpStatus 300 Created on success, and 400 Bad Request on failure.
     - Fields:
-        - None. <implicit in token authorization header> 
+        - None. Implicit in token authorization header.
     - Sample header: 
         {
 		"Content-Type": "application/json; charset=utf-8",
