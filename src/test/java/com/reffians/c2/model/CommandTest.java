@@ -163,7 +163,7 @@ class CommandTest {
     try{
       GetHostOsCommand comm = new GetHostOsCommand(beaconid, content);
       assertEquals(beaconid, comm.getBeaconid());
-      assertEquals("GETHOSTOSNAME", comm.getType());
+      assertEquals("GETHOSTOS", comm.getType());
       assertEquals(content, comm.getContent());
     } catch (Exception e){
       fail("Exception should not have been thrown: " + e.getMessage());
@@ -177,7 +177,7 @@ class CommandTest {
     try{
       GetHostOsCommand comm = new GetHostOsCommand(beaconid, content);
     } catch (CommandContentMismatchException e){
-      assertEquals(e.getMessage(), String.format("Content %s does not match command type %s.", content, "GETHOSTOSNAME"));
+      assertEquals(e.getMessage(), String.format("Content %s does not match command type %s.", content, "GETHOSTOS"));
     }
   }
 
@@ -361,9 +361,9 @@ class CommandTest {
     int beaconid = 0;
     String content = "";
     try{
-      Command comm = CommandFactory.getCommand(beaconid, "GETHOSTOSNAME", content);
+      Command comm = CommandFactory.getCommand(beaconid, "GETHOSTOS", content);
       assertEquals(beaconid, comm.getBeaconid());
-      assertEquals("GETHOSTOSNAME", comm.getType());
+      assertEquals("GETHOSTOS", comm.getType());
       assertEquals(content, comm.getContent());
     } catch (Exception e){
       fail("Exception should not have been thrown: " + e.getMessage());

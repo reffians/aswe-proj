@@ -30,7 +30,7 @@ public class CommandFactory {
         return new DownloadCommand(beaconid, content);
       case "GETHOSTNAME":
         return new GetHostNameCommand(beaconid, content);
-      case "GETHOSTOSNAME":
+      case "GETHOSTOS":
         return new GetHostOsCommand(beaconid, content);
       default:
         throw new IllegalArgumentException(String.format("Unknown commandType %s", commandType));
