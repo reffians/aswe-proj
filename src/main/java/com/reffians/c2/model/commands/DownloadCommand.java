@@ -5,8 +5,9 @@ import com.reffians.c2.exception.CommandContentMismatchException;
 
 import lombok.NoArgsConstructor;
 
-//import com.reffians.c2.model.Command;
+import java.net.URL;
 import javax.persistence.Entity;
+
 
 /** A stop command data model, representing a command created by a user to be
   * executed by a specific beacon.
@@ -21,16 +22,18 @@ public class DownloadCommand extends Command{
     * @param content a user-defined string containing the command content to be
     *     executed by the beacon.
     */
-  public DownloadCommand(Integer beaconid, String commandType, String content) throws
+  public DownloadCommand(Integer beaconid, String content) throws
       CommandContentMismatchException {
     super(beaconid);
-    setType(commandType);
+    setType("DOWNLOAD");
     setCommandContent(content);
   }
 
   @Override
   public void checkTypeContent(String content) throws CommandContentMismatchException {
-    if (content.length() < 1 || content.length() > 10 || !content.matches("^[a-zA-Z0-9[.]]*$")) {
+    try {
+      URL url = new URL(content);
+    } catch (Exception e){
       throw new CommandContentMismatchException("DOWNLOAD", content);
     }
   }

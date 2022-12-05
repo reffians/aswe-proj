@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
   */
 @Entity
 @NoArgsConstructor
-public class GetHostNameCommand extends Command{
+public class ExecuteCommand extends Command {
 
   /** A constructor for the command data model.
     *
@@ -18,17 +18,17 @@ public class GetHostNameCommand extends Command{
     * @param content a user-defined string containing the command content to be
     *     executed by the beacon.
     */
-  public GetHostNameCommand(Integer beaconid, String content) throws 
+  public ExecuteCommand(Integer beaconid, String content) throws
       CommandContentMismatchException {
     super(beaconid);
-    setType("GETHOSTNAME");
+    setType("EXECUTE");
     setCommandContent(content);
   }
 
   @Override
   public void checkTypeContent(String content) throws CommandContentMismatchException {
-    if (!content.isEmpty()){
-      throw new CommandContentMismatchException("GETHOSTNAME", content);
+    if (!content.matches("^[a-zA-Z0-9[.]\\\\]*$")) {
+      throw new CommandContentMismatchException("EXECUTE", content);
     }
   }
 }
