@@ -69,7 +69,21 @@
     - Example:
         - localhost:8080/beacon/command?beaconid=123456789
         - localhost:8080/beacon/command?beaconid=123456789&status=pending
-        
+
+- /beacon/result
+    - POST
+    - Description:  send results for a beacon. Returns 200 OK and an array of Command objects on success, 400 Bad Request with an error message on failure.
+    - Returns a list of command objects. A command object contains integer "id", integer "beaconid" of the corresponding beacon, user-defined string "content", and string "status".
+    - Fields
+        - A request object consisting of beacon id, beacon token, and command status that can be one of "pending", "sent", "executed", "finished", or "all".
+
+- /user/result
+    - POST
+    - Description: confirms user received results
+    - Returns ResponseEntity with HttpStatus 300 Created on success, and 400 Bad Request on failure.
+    - Fields:
+        - A JSON containing the username of the user in question 
+
 - /user/command
     - POST
     - Description: send a list of command strings to a beacon
