@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import com.reffians.c2.model.commands.*;
 import com.reffians.c2.exception.*;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class CommandTest {
@@ -28,7 +28,7 @@ class CommandTest {
     assertEquals(true, comm.getHasBeenSent());
     comm.setType("TYPE");
     assertEquals("TYPE", comm.getType());
-    try{
+    try {
       comm.setCommandContent("content");
       assertEquals("content", comm.getContent());
     } catch (Exception e){
@@ -41,7 +41,7 @@ class CommandTest {
   void testDownloadCommandConstructor(){
     int beaconid = 0;
     String content = "https://www.google.com/";
-    try{
+    try {
       DownloadCommand comm = new DownloadCommand(beaconid, content);
       assertEquals(beaconid, comm.getBeaconid());
       assertEquals("DOWNLOAD", comm.getType());
@@ -55,8 +55,8 @@ class CommandTest {
   void testDownloadCommandConstructorBadContent(){
     int beaconid = 0;
     String content = "badurl";
-    try{
-      DownloadCommand comm = new DownloadCommand(beaconid, content);
+    try {
+      new DownloadCommand(beaconid, content);
     } catch (CommandContentMismatchException e){
       assertEquals(e.getMessage(), String.format("Content %s does not match command type %s.", content, "DOWNLOAD"));
     }
@@ -66,8 +66,8 @@ class CommandTest {
   void testDownloadCommandConstructorBadContent2(){
     int beaconid = 0;
     String content = "https://www.googl/";
-    try{
-      DownloadCommand comm = new DownloadCommand(beaconid, content);
+    try {
+      new DownloadCommand(beaconid, content);
     } catch (CommandContentMismatchException e){
       assertEquals(e.getMessage(), String.format("Content %s does not match command type %s.", content, "DOWNLOAD"));
     }
@@ -78,7 +78,7 @@ class CommandTest {
   void testExecuteCommandConstructor(){
     int beaconid = 0;
     String content = "filename.txt";
-    try{
+    try {
       ExecuteCommand comm = new ExecuteCommand(beaconid, content);
       assertEquals(beaconid, comm.getBeaconid());
       assertEquals("EXECUTE", comm.getType());
@@ -92,7 +92,7 @@ class CommandTest {
   void testExecuteCommandConstructor2(){
     int beaconid = 0;
     String content = "filename";
-    try{
+    try {
       ExecuteCommand comm = new ExecuteCommand(beaconid, content);
       assertEquals(beaconid, comm.getBeaconid());
       assertEquals("EXECUTE", comm.getType());
@@ -106,7 +106,7 @@ class CommandTest {
   void testExecuteCommandConstructor3(){
     int beaconid = 0;
     String content = "/file/path/to/file.txt";
-    try{
+    try {
       ExecuteCommand comm = new ExecuteCommand(beaconid, content);
       assertEquals(beaconid, comm.getBeaconid());
       assertEquals("EXECUTE", comm.getType());
@@ -120,8 +120,8 @@ class CommandTest {
   void testExecuteCommandConstructorBadContent(){
     int beaconid = 0;
     String content = "badfilename''^*";
-    try{
-      ExecuteCommand comm = new ExecuteCommand(beaconid, content);
+    try {
+      new ExecuteCommand(beaconid, content);
     } catch (CommandContentMismatchException e){
       assertEquals(e.getMessage(), String.format("Content %s does not match command type %s.", content, "EXECUTE"));
     }
@@ -133,7 +133,7 @@ class CommandTest {
   void testGetHostNameCommandConstructor(){
     int beaconid = 0;
     String content = "";
-    try{
+    try {
       GetHostNameCommand comm = new GetHostNameCommand(beaconid, content);
       assertEquals(beaconid, comm.getBeaconid());
       assertEquals("GETHOSTNAME", comm.getType());
@@ -147,8 +147,8 @@ class CommandTest {
   void testGetHostNameCommandConstructorBadContent(){
     int beaconid = 0;
     String content = "anycontentisbadcontent";
-    try{
-      GetHostNameCommand comm = new GetHostNameCommand(beaconid, content);
+    try {
+      new GetHostNameCommand(beaconid, content);
     } catch (CommandContentMismatchException e){
       assertEquals(e.getMessage(), String.format("Content %s does not match command type %s.", content, "GETHOSTNAME"));
     }
@@ -160,7 +160,7 @@ class CommandTest {
   void testGetHostOsCommandConstructor(){
     int beaconid = 0;
     String content = "";
-    try{
+    try {
       GetHostOsCommand comm = new GetHostOsCommand(beaconid, content);
       assertEquals(beaconid, comm.getBeaconid());
       assertEquals("GETHOSTOS", comm.getType());
@@ -174,8 +174,8 @@ class CommandTest {
   void testGetHostOsCommandConstructorBadContent(){
     int beaconid = 0;
     String content = "anycontentisbadcontent";
-    try{
-      GetHostOsCommand comm = new GetHostOsCommand(beaconid, content);
+    try {
+      new GetHostOsCommand(beaconid, content);
     } catch (CommandContentMismatchException e){
       assertEquals(e.getMessage(), String.format("Content %s does not match command type %s.", content, "GETHOSTOS"));
     }
@@ -187,7 +187,7 @@ class CommandTest {
   void testSleepCommandConstructor(){
     int beaconid = 0;
     String content = "300";
-    try{
+    try {
       SleepCommand comm = new SleepCommand(beaconid, content);
       assertEquals(beaconid, comm.getBeaconid());
       assertEquals("SLEEP", comm.getType());
@@ -201,8 +201,8 @@ class CommandTest {
   void testSleepCommandConstructorBadContent(){
     int beaconid = 0;
     String content = "-100";
-    try{
-      SleepCommand comm = new SleepCommand(beaconid, content);
+    try {
+      new SleepCommand(beaconid, content);
     } catch (CommandContentMismatchException e){
       assertEquals(e.getMessage(), String.format("Content %s does not match command type %s.", content, "SLEEP"));
     }
@@ -212,8 +212,8 @@ class CommandTest {
   void testSleepCommandConstructorBadContent2(){
     int beaconid = 0;
     String content = "stringcontent";
-    try{
-      SleepCommand comm = new SleepCommand(beaconid, content);
+    try {
+      new SleepCommand(beaconid, content);
     } catch (CommandContentMismatchException e){
       assertEquals(e.getMessage(), String.format("Content %s does not match command type %s.", content, "SLEEP"));
     }
@@ -225,7 +225,7 @@ class CommandTest {
   void testStopCommandConstructor(){
     int beaconid = 0;
     String content = "";
-    try{
+    try {
       StopCommand comm = new StopCommand(beaconid, content);
       assertEquals(beaconid, comm.getBeaconid());
       assertEquals("STOP", comm.getType());
@@ -239,8 +239,8 @@ class CommandTest {
   void testStopCommandConstructorBadContent(){
     int beaconid = 0;
     String content = "anycontentisbadcontent";
-    try{
-      StopCommand comm = new StopCommand(beaconid, content);
+    try {
+      new StopCommand(beaconid, content);
     } catch (CommandContentMismatchException e){
       assertEquals(e.getMessage(), String.format("Content %s does not match command type %s.", content, "STOP"));
     }
@@ -250,8 +250,8 @@ class CommandTest {
 
   @Test
   void testCommandFactoryNullID(){
-    try{
-      Command comm = CommandFactory.getCommand(null, "type", "content");
+    try {
+      CommandFactory.getCommand(null, "type", "content");
     } catch(Exception e){
       assertEquals(e.getClass().getName(), "java.lang.IllegalArgumentException");
     }
@@ -259,8 +259,8 @@ class CommandTest {
   @Test
   void testCommandFactoryEmptyType(){
     int beaconid=0;
-    try{
-      Command comm = CommandFactory.getCommand(beaconid, "", "content");
+    try {
+      CommandFactory.getCommand(beaconid, "", "content");
     } catch(Exception e){
       assertEquals(e.getClass().getName(), "java.lang.IllegalArgumentException");
     }
@@ -268,8 +268,8 @@ class CommandTest {
   @Test
   void testCommandFactoryBadType(){
     int beaconid=0;
-    try{
-      Command comm = CommandFactory.getCommand(beaconid, "BADTYPE", "content");
+    try {
+      CommandFactory.getCommand(beaconid, "BADTYPE", "content");
     } catch(Exception e){
       assertEquals(e.getClass().getName(), "java.lang.IllegalArgumentException");
     }
@@ -279,7 +279,7 @@ class CommandTest {
   void testCommandFactoryStop(){
     int beaconid = 0;
     String content = "";
-    try{
+    try {
       Command comm = CommandFactory.getCommand(beaconid, "STOP", content);
       assertEquals(beaconid, comm.getBeaconid());
       assertEquals("STOP", comm.getType());
@@ -293,8 +293,8 @@ class CommandTest {
   void testCommandFactoryStopBad(){
     int beaconid = 0;
     String content = "anycontentisbadcontent";
-    try{
-      Command comm = CommandFactory.getCommand(beaconid, "STOP", content);
+    try {
+      CommandFactory.getCommand(beaconid, "STOP", content);
     } catch (CommandContentMismatchException e){
       assertEquals(e.getMessage(), String.format("Content %s does not match command type %s.", content, "STOP"));
     }
@@ -304,7 +304,7 @@ class CommandTest {
   void testCommandFactorySleep(){
     int beaconid = 0;
     String content = "300";
-    try{
+    try {
       Command comm = CommandFactory.getCommand(beaconid, "SLEEP", content);
       assertEquals(beaconid, comm.getBeaconid());
       assertEquals("SLEEP", comm.getType());
@@ -318,7 +318,7 @@ class CommandTest {
   void testCommandFactoryExecute(){
     int beaconid = 0;
     String content = "filename.txt";
-    try{
+    try {
       Command comm = CommandFactory.getCommand(beaconid, "EXECUTE", content);
       assertEquals(beaconid, comm.getBeaconid());
       assertEquals("EXECUTE", comm.getType());
@@ -332,7 +332,7 @@ class CommandTest {
   void testCommandFactoryDownload(){
     int beaconid = 0;
     String content = "https://www.google.com/";
-    try{
+    try {
       Command comm = CommandFactory.getCommand(beaconid, "DOWNLOAD", content);
       assertEquals(beaconid, comm.getBeaconid());
       assertEquals("DOWNLOAD", comm.getType());
@@ -346,7 +346,7 @@ class CommandTest {
   void testCommandFactoryGetHostName(){
     int beaconid = 0;
     String content = "";
-    try{
+    try {
       Command comm = CommandFactory.getCommand(beaconid, "GETHOSTNAME", content);
       assertEquals(beaconid, comm.getBeaconid());
       assertEquals("GETHOSTNAME", comm.getType());
@@ -360,7 +360,7 @@ class CommandTest {
   void testCommandFactoryGetHostOs(){
     int beaconid = 0;
     String content = "";
-    try{
+    try {
       Command comm = CommandFactory.getCommand(beaconid, "GETHOSTOS", content);
       assertEquals(beaconid, comm.getBeaconid());
       assertEquals("GETHOSTOS", comm.getType());

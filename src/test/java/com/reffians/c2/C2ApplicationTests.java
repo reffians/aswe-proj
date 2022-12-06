@@ -9,5 +9,4 @@ class C2ApplicationTests {
   @Test
   void contextLoads() {
   }
-
 }
