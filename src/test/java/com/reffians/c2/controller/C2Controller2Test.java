@@ -3,6 +3,7 @@ package com.reffians.c2.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.reffians.c2.dto.UserRequest;
 import com.reffians.c2.service.BeaconService;
 import com.reffians.c2.service.CommandService;
 import com.reffians.c2.service.ResultService;
@@ -16,12 +17,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class C2ControllerTest2 {
+class C2Controller2Test {
   @Autowired
   private MockMvc mockMvc;
   @MockBean
@@ -32,9 +34,23 @@ class C2ControllerTest2 {
   private ResultService resultService;
   @MockBean
   private UserService usrService;
+  @MockBean
+  private UserRequest userRequest;
 
   @Test
-  void testRegisterGetFail() throws Exception {
+  void testLoginException() throws Exception {
+    JSONObject obj = new JSONObject();
+    obj.put("username", "nikhil9");
+    obj.put("password", "pw");
+    String testUser = obj.toString();
+    Mockito.when(userRequest.getAuthenticationToken()).thenThrow(new RuntimeException("runtime exception"));
+    mockMvc.perform(MockMvcRequestBuilders.post("/register")
+        .contentType(MediaType.APPLICATION_JSON).content(testUser))
+        .andExpect(status().isInternalServerError());
+  }
+
+  @Test
+  void testRegisterFail() throws Exception {
     JSONObject obj = new JSONObject();
     obj.put("username", "nikhil9");
     obj.put("password", "pw");
@@ -76,5 +92,21 @@ class C2ControllerTest2 {
         .queryParam("beaconid", "5"))
         .andExpect(status().isBadRequest());
   }
+
+  @Test
+  @WithMockUser
+  void userResultsNotValid() throws Exception {
+    mockMvc.perform(post("/user/result")
+      .contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isBadRequest());
+  }
+
+  // @Test
+  // @WithMockUser
+  // void userResultsValid() throws Exception {
+  //   mockMvc.perform(post("/user/result")
+  //     .contentType(MediaType.APPLICATION_JSON))
+  //     .andExpect(status().isBadRequest());
+  // }
 
 }
