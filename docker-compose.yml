@@ -3,7 +3,9 @@ version: '3.8'
 services:
   app:
     build: .
-    image: asweproj.azurecr.io/c2
+    image: c2
+    ports:
+      - 80:8080
     deploy:
       restart_policy:
         condition: on-failure
@@ -34,21 +36,8 @@ services:
       - source: mysql_root_password
         target: /mnt/secrets/mysql_root_password
 
-  reverse-proxy:
-    build: ./caddy
-    image: asweproj.azurecr.io/reverse-proxy
-    ports:
-      - 80:80
-    deploy:
-      restart_policy:
-        condition: on-failure
-
 volumes:
   mysql-data:
-    driver: azure_file
-    driver_opts:
-      share_name: acishare
-      storage_account_name: asweprojstorage
 
 secrets:
   mysql_password:
