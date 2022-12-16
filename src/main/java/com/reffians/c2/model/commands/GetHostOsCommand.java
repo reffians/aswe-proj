@@ -20,14 +20,14 @@ public class GetHostOsCommand extends Command {
   public GetHostOsCommand(Integer beaconid, String content) throws
       CommandContentMismatchException {
     super(beaconid);
-    setType("GETHOSTOSNAME");
+    setType("GETHOSTOS");
     setCommandContent(content);
   }
 
   @Override
   public void checkTypeContent(String content) throws CommandContentMismatchException {
     if (!content.isEmpty()) {
-      throw new CommandContentMismatchException("GETHOSTOSNAME", content);
+      throw new CommandContentMismatchException("GETHOSTOS", content);
     }
   }
 }

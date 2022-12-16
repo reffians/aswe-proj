@@ -2,7 +2,6 @@ package com.reffians.c2.model.commands;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.reffians.c2.exception.CommandContentMismatchException;
-import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,7 +35,6 @@ public class Command {
   @JsonProperty("content")
   private String content;
 
-  @Getter
   @JsonProperty("has_been_sent")
   private boolean hasBeenSent;
 

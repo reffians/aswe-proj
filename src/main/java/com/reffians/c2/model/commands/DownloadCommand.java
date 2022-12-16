@@ -29,7 +29,7 @@ public class DownloadCommand extends Command {
   @Override
   public void checkTypeContent(String content) throws CommandContentMismatchException {
     try {
-      URL url = new URL(content);
+      new URL(content);
     } catch (Exception e) {
       throw new CommandContentMismatchException("DOWNLOAD", content);
     }

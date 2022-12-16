@@ -7,8 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+/** A Command Repository representing the table of commands. */
 @Repository
-/** A Command Repository representing the table of commands. **/
 public interface CommandRepository extends CrudRepository<Command, Integer> {
   @Query(value = "select * from commands where beaconid = :beaconid", nativeQuery = true)
   List<Command> findByBeaconid(@Param("beaconid") Integer beaconid);
@@ -19,10 +19,6 @@ public interface CommandRepository extends CrudRepository<Command, Integer> {
   List<Command> findByBeaconidStatus(@Param("beaconid") Integer beaconid,
       @Param("hasBeenSent") boolean hasBeenSent);
 
-  /*
-   * find beacon id by commandid
-   * get password given username
-   */
   @Query(value = "select beaconid from commands where id = :commandid",
       nativeQuery = true)
   int findBeaconForCommand(@Param("commandid") int commandid);

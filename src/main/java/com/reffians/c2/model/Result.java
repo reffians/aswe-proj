@@ -1,7 +1,6 @@
 package com.reffians.c2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.sql.Timestamp;  
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,7 +34,6 @@ public class Result {
   @JsonProperty("content")
   public String content;
 
-  @Getter
   @JsonProperty("has_been_read")
   public boolean hasBeenRead;
 
