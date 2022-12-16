@@ -33,12 +33,12 @@ jobs:
           name: Analyze on SonarCloud
           command: mvn verify sonar:sonar -Dsonar.projectKey=reffians_aswe-proj
   deploy:
-    machine:
-      enabled: true
+    docker:
+      - image: arvindr226/alpine-ssh
     steps:
       - run:
-        name: Deploy Over SSH
-        command: ssh $USER@$HOST "./deploy.sh"
+          name: Deploy Over SSH
+          command: ssh $USER@$HOST "./deploy.sh"
 
 
 workflows:
@@ -48,7 +48,7 @@ workflows:
           context: SonarCloud
       - deploy:
           requires:
-            - build
+            - build-and-test
           filters:
             branches:
               only:
