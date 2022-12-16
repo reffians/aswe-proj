@@ -33,8 +33,6 @@ jobs:
           name: Analyze on SonarCloud
           command: mvn verify sonar:sonar -Dsonar.projectKey=reffians_aswe-proj
   deploy:
-    machine:
-      - enabled: true
     - steps:
       - run:
         - name: Deploy Over SSH
