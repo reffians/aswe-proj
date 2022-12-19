@@ -1,6 +1,7 @@
 package com.reffians.c2.model.commands;
 
 import com.reffians.c2.exception.CommandContentMismatchException;
+import com.reffians.c2.exception.InvalidCommandTypeException;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class CommandFactory {
    * @return the correct Command object.
    */
   public static Command getCommand(@NotNull Integer beaconid, @NotEmpty String commandType,
-      String content) throws CommandContentMismatchException, IllegalArgumentException {
+      String content) throws CommandContentMismatchException, InvalidCommandTypeException {
     switch (commandType) {
       case "STOP":
         return new StopCommand(beaconid, content);
@@ -33,7 +34,7 @@ public class CommandFactory {
       case "GETHOSTOS":
         return new GetHostOsCommand(beaconid, content);
       default:
-        throw new IllegalArgumentException(String.format("Unknown commandType %s", commandType));
+        throw new InvalidCommandTypeException(commandType);
     }
   }
 }

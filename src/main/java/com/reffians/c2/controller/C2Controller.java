@@ -5,6 +5,7 @@ import com.reffians.c2.dto.ReceiveCommandRequest;
 import com.reffians.c2.dto.SendResultRequest;
 import com.reffians.c2.dto.UserRequest;
 import com.reffians.c2.exception.CommandContentMismatchException;
+import com.reffians.c2.exception.InvalidCommandTypeException;
 import com.reffians.c2.exception.UserExistsException;
 import com.reffians.c2.model.Beacon;
 import com.reffians.c2.model.Result;
@@ -152,7 +153,7 @@ public class C2Controller {
         addedCommands.add(c);
       }
       return ResponseEntity.ok(addedCommands); 
-    } catch (CommandContentMismatchException e) {
+    } catch (CommandContentMismatchException | InvalidCommandTypeException e) {
       logger.error("POST commands to beacon: ", e.toString());
       return ResponseEntity.badRequest().body(e.toString());
     } catch (Exception e) {

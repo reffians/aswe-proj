@@ -1,6 +1,7 @@
 package com.reffians.c2.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import com.reffians.c2.model.commands.*;
@@ -250,29 +251,21 @@ class CommandTest {
 
   @Test
   void testCommandFactoryNullID(){
-    try {
-      CommandFactory.getCommand(null, "type", "content");
-    } catch(Exception e){
-      assertEquals(e.getClass().getName(), "java.lang.IllegalArgumentException");
-    }
+    assertThrows(InvalidCommandTypeException.class, () ->
+      CommandFactory.getCommand(null, "type", "content")
+    );
   }
   @Test
   void testCommandFactoryEmptyType(){
-    int beaconid=0;
-    try {
-      CommandFactory.getCommand(beaconid, "", "content");
-    } catch(Exception e){
-      assertEquals(e.getClass().getName(), "java.lang.IllegalArgumentException");
-    }
+    assertThrows(InvalidCommandTypeException.class, () ->
+      CommandFactory.getCommand(0, "", "content")
+    );
   }
   @Test
   void testCommandFactoryBadType(){
-    int beaconid=0;
-    try {
-      CommandFactory.getCommand(beaconid, "BADTYPE", "content");
-    } catch(Exception e){
-      assertEquals(e.getClass().getName(), "java.lang.IllegalArgumentException");
-    }
+    assertThrows(InvalidCommandTypeException.class, () ->
+      CommandFactory.getCommand(0, "BADTYPE", "content")
+    );
   }
 
  @Test
@@ -293,11 +286,9 @@ class CommandTest {
   void testCommandFactoryStopBad(){
     int beaconid = 0;
     String content = "anycontentisbadcontent";
-    try {
-      CommandFactory.getCommand(beaconid, "STOP", content);
-    } catch (CommandContentMismatchException e){
-      assertEquals(e.getMessage(), String.format("Content %s does not match command type %s.", content, "STOP"));
-    }
+    assertThrows(CommandContentMismatchException.class, () ->
+      CommandFactory.getCommand(beaconid, "STOP", content)
+    );
   }
 
   @Test
